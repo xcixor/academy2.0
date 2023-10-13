@@ -1,0 +1,4 @@
+Todos
+move all component files to components folder > https://stackoverflow.com/questions/73560312/nextjs-what-are-the-implications-of-putting-other-files-into-pages#:~:text=Every%20file%20in%20pages%2F%20is,components%20outside%20of%20the%20folder.
+decide whether to use postgres, mongodb or sql
+rename all teacher references to coach
