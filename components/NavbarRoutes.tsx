@@ -26,9 +26,14 @@ export default function NavbarRoutes() {
             <Link href="/">
               <Logo />
             </Link>
+            {isSearchPage && (
+              <div className="hidden md:block">
+                <SearchInput />
+              </div>
+            )}
             <ul className="flex items-center">
               <li className="mr-4">
-                <Link href="/home/search">
+                <Link href="/search">
                   <p className="text-blue-500 hover:text-blue-800 cursor-pointer">
                     Browse
                   </p>
@@ -55,7 +60,7 @@ export default function NavbarRoutes() {
           </div>
         </div>
       )}
-      {isSearchPage && (
+      {isSearchPage && userId && (
         <div className="hidden md:block">
           <SearchInput />
         </div>
