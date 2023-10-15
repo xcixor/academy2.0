@@ -9,6 +9,8 @@ import { Preview } from "@/components/Preview";
 
 import { VideoPlayer } from "./_components/VideoPlayer";
 import CourseEnrollButton from "./_components/CourseEnrollButton";
+import { CourseProgress } from "@/components/CourseProgress";
+import CourseProgressButton from "./_components/CourseProgressButton";
 
 const ChapterIdPage = async ({
   params,
@@ -70,7 +72,12 @@ const ChapterIdPage = async ({
             <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
 
             {purchase ? (
-              <div>course progress</div>
+              <CourseProgressButton
+                chapterId={params.chapterId}
+                courseId={params.courseId}
+                nextChapterId={nextChapter?.id}
+                isCompleted={!!userProgress?.isCompleted}
+              />
             ) : (
               <CourseEnrollButton
                 courseId={params.courseId}

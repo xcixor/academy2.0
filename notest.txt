@@ -4,3 +4,7 @@ decide whether to use postgres, mongodb or sql
 rename all teacher references to coach
 
 remove uploadthing, mux, clerk basically all paid for services
+
+
+command for running stripe locally
+stripe listen --forward-to localhost:3000/api/webhook
