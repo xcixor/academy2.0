@@ -12,7 +12,7 @@ interface CourseCardProps {
   imageUrl: string;
   chaptersLength: number;
   price: number;
-  progress: number | null;
+  progress?: number | null;
   category: string;
 }
 
@@ -44,7 +44,7 @@ export default function CourseCard({
               </span>
             </div>
           </div>
-          {progress !== null ? (
+          {progress && progress !== null ? (
             <CourseProgress
               size="sm"
               value={progress}
