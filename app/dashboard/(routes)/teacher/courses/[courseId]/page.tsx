@@ -17,6 +17,7 @@ import CategoryForm from "./_components/CategoryForm";
 import PriceForm from "./_components/PriceForm";
 import AttachmentForm from "./_components/AttachmentForm";
 import ChaptersForm from "./_components/ChapterForm";
+import PlanForm from "./_components/PlanForm";
 import { Banner } from "@/components/Banner";
 import { Actions } from "./_components/Actions";
 
@@ -51,6 +52,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
       name: "asc",
     },
   });
+
+  const plans = await db.plan.findMany();
 
   if (!course) {
     return redirect("/");
@@ -109,6 +112,14 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               options={categories.map((category) => ({
                 label: category.name,
                 value: category.id,
+              }))}
+            />
+            <PlanForm
+              initialData={course}
+              courseId={course.id}
+              options={plans.map((plan) => ({
+                label: plan.name,
+                value: plan.id,
               }))}
             />
           </div>
