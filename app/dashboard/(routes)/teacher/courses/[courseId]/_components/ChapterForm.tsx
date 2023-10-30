@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Ban, Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,7 @@ import ChaptersList from "./ChaptersList";
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
   courseId: string;
+  isDeleting: boolean;
 }
 
 const formSchema = z.object({
@@ -35,6 +36,7 @@ const formSchema = z.object({
 export default function ChaptersForm({
   initialData,
   courseId,
+  isDeleting,
 }: ChaptersFormProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -86,7 +88,7 @@ export default function ChaptersForm({
   };
 
   return (
-    <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="relative mt-6 border bg-slate-100 rounded-md p-4 z-0">
       {isUpdating && (
         <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-m flex items-center justify-center cursor-not-allowed">
           <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
@@ -94,16 +96,20 @@ export default function ChaptersForm({
       )}
       <div className="font-medium flex items-center justify-between">
         Course chapters
-        <Button onClick={toggleCreating} variant="ghost">
-          {isCreating ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a chapter
-            </>
-          )}
-        </Button>
+        {isDeleting ? (
+          <Ban className="h-4 w-4" />
+        ) : (
+          <Button onClick={toggleCreating} variant="ghost">
+            {isCreating ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add a chapter
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {isCreating && (
         <Form {...form}>

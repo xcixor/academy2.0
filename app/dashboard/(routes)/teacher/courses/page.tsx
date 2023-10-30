@@ -1,32 +1,12 @@
-import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { TeacherCoursesPageSkeleton } from "./_components/TeacherCoursesPageSkeleton";
+import dynamic from "next/dynamic";
 
-import { db } from "@/lib/db";
+const SearchPageCustomLoading = dynamic(() => import("./CoursePage"), {
+  loading: () => <TeacherCoursesPageSkeleton />,
+});
 
-import { DataTable } from "./_components/DataTable";
-import { columns } from "./_components/Columns";
-
-const CoursesPage = async () => {
-  const { userId } = auth();
-
-  if (!userId) {
-    return redirect("/");
-  }
-
-  const courses = await db.course.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return (
-    <div className="p-6">
-      <DataTable columns={columns} data={courses} />
-    </div>
-  );
+const Page = async () => {
+  return <SearchPageCustomLoading />;
 };
 
-export default CoursesPage;
+export default Page;
