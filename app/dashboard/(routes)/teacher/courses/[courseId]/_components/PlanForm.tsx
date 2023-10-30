@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
+import { Ban, Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ interface PlanFormProps {
   initialData: Course;
   courseId: string;
   options: { label: string; value: string }[];
+  isDeleting: boolean;
 }
 
 const formSchema = z.object({
@@ -35,6 +36,7 @@ export default function PlanForm({
   initialData,
   courseId,
   options,
+  isDeleting,
 }: PlanFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -70,16 +72,20 @@ export default function PlanForm({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Add to plan
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit plan
-            </>
-          )}
-        </Button>
+        {isDeleting ? (
+          <Ban className="h-4 w-4" />
+        ) : (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit plan
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <p

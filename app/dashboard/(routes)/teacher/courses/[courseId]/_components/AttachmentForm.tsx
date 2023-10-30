@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { PlusCircle, File, Loader2, X } from "lucide-react";
+import { PlusCircle, File, Loader2, X, Ban } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ import { FileUpload } from "@/components/FileUpload";
 interface AttachmentFormProps {
   initialData: Course & { attachments: Attachment[] };
   courseId: string;
+  isDeleting: boolean;
 }
 
 const formSchema = z.object({
@@ -23,6 +24,7 @@ const formSchema = z.object({
 export default function AttachmentForm({
   initialData,
   courseId,
+  isDeleting,
 }: AttachmentFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -59,15 +61,19 @@ export default function AttachmentForm({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course attachments
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && <>Cancel</>}
-          {!isEditing && (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a file
-            </>
-          )}
-        </Button>
+        {isDeleting ? (
+          <Ban className="h-4 w-4" />
+        ) : (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing && <>Cancel</>}
+            {!isEditing && (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add a file
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <>

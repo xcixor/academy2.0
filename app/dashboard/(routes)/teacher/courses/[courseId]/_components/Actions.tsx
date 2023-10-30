@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -14,9 +14,15 @@ interface ActionsProps {
   disabled: boolean;
   courseId: string;
   isPublished: boolean;
+  toggleDeleting: () => void;
 }
 
-export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
+export const Actions = ({
+  disabled,
+  courseId,
+  isPublished,
+  toggleDeleting,
+}: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +30,6 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
   const onClick = async () => {
     try {
       setIsLoading(true);
-
       if (isPublished) {
         await axios.patch(`/api/courses/${courseId}/unpublish`);
         toast.success("Course unpublished");
@@ -46,6 +51,8 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
     try {
       setIsLoading(true);
 
+      toggleDeleting();
+
       await axios.delete(`/api/courses/${courseId}`);
 
       toast.success("Course deleted");
@@ -55,6 +62,7 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
+      toggleDeleting();
     }
   };
 
@@ -70,7 +78,11 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
       </Button>
       <ConfirmModal onConfirm={onDelete}>
         <Button size="sm" disabled={isLoading}>
-          <Trash className="h-4 w-4" />
+          {isLoading ? (
+            <Loader2 className="h-8 w-8 animate-spin text-secondary" />
+          ) : (
+            <Trash className="h-4 w-4" />
+          )}
         </Button>
       </ConfirmModal>
     </div>
