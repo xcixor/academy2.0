@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { File } from "lucide-react";
+import { File, MessageCircle } from "lucide-react";
 
 import { getChapter } from "@/actions/get-chapter";
 import { Banner } from "@/components/Banner";
@@ -10,6 +10,16 @@ import { Preview } from "@/components/Preview";
 import { VideoPlayer } from "./_components/VideoPlayer";
 import CourseEnrollButton from "./_components/CourseEnrollButton";
 import CourseProgressButton from "./_components/CourseProgressButton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import CommentSection from "@/components/courses/courseId/discussion/CommentSection";
 
 const ChapterIdPage = async ({
   params,
@@ -54,8 +64,8 @@ const ChapterIdPage = async ({
           label="You need to purchase this course to watch this chapter."
         />
       )}
-      <div className="flex flex-col max-w-4xl mx-auto pb-20">
-        <div className="p-4">
+      <div className="flex flex-col justify-center items-center mx-auto pb-20">
+        <div className="p-4 w-full">
           <VideoPlayer
             chapterId={params.chapterId}
             title={chapter.title}
@@ -66,17 +76,27 @@ const ChapterIdPage = async ({
             completeOnEnd={completeOnEnd}
           />
         </div>
-        <div>
+        <div className="max-w-4xl min-w-[80%]">
           <div className="p-4 flex flex-col md:flex-row items-center justify-between">
             <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
 
             {purchase ? (
-              <CourseProgressButton
-                chapterId={params.chapterId}
-                courseId={params.courseId}
-                nextChapterId={nextChapter?.id}
-                isCompleted={!!userProgress?.isCompleted}
-              />
+              <div className="flex align-middle gap-4">
+                <CourseProgressButton
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
+                  nextChapterId={nextChapter?.id}
+                  isCompleted={!!userProgress?.isCompleted}
+                />
+                <Link
+                  href={`/courses/${params.courseId}/discussion`}
+                  target="_blank"
+                >
+                  <Button type="button" className="w-full md:w-auto">
+                    <MessageCircle className="h-4 w-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
             ) : (
               <CourseEnrollButton
                 courseId={params.courseId}
@@ -88,24 +108,41 @@ const ChapterIdPage = async ({
           <div>
             <Preview value={chapter.description!} />
           </div>
-          {!!attachments.length && (
-            <>
-              <Separator />
-              <div className="p-4">
-                {attachments.map((attachment) => (
-                  <a
-                    href={attachment.url}
-                    target="_blank"
-                    key={attachment.id}
-                    className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
-                  >
-                    <File />
-                    <p className="line-clamp-1">{attachment.name}</p>
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
+
+          <Accordion type="single" collapsible className="p-4">
+            {!!attachments.length && (
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Materials</AccordionTrigger>
+                <AccordionContent>
+                  <div className="p-4">
+                    {attachments.map((attachment) => (
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        key={attachment.id}
+                        className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                      >
+                        <File />
+                        <p className="line-clamp-1">{attachment.name}</p>
+                      </a>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+
+            <AccordionItem value="item-2">
+              <AccordionTrigger>
+                <span className="flex">
+                  Discussion
+                  <MessageCircle className="ms-2" />
+                </span>
+              </AccordionTrigger>
+              <AccordionContent>
+                <CommentSection />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
     </div>
