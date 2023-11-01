@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 
-import { DataTable } from "./_components/DataTable";
-import { columns } from "./_components/Columns";
+import { DataTable } from "./DataTable";
+import { columns } from "./Columns";
 
 const CoursesPage = async () => {
   const { userId } = auth();

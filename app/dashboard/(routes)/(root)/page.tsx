@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import { CheckCircle, Clock } from "lucide-react";
 import { getDashboardCourses } from "@/actions/get-dashboard-courses";
 import CoursesList from "@/components/CoursesList";
-import InfoCard from "./_components/InfoCard";
+import InfoCard from "../../../../components/dashboard/root/InfoCard";
 import { Suspense, lazy } from "react";
-import DashboardSkeleton from "./_components/DashboardSkeleton";
+import DashboardSkeleton from "../../../../components/dashboard/root/DashboardSkeleton";
 
 const LoadingFallback = () => <DashboardSkeleton />;
 

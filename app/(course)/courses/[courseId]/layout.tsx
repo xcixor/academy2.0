@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getProgress } from "@/actions/get-progress";
 
-import CourseSidebar from "./_components/CourseSidebar";
-import CourseNavbar from "./_components/CourseNavbar";
+import CourseSidebar from "@/components/courses/courseId/CourseSidebar";
+import CourseNavbar from "@/components/courses/courseId/CourseNavbar";
 
 const CourseLayout = async ({
   children,

@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
-import CoursePageSkeleton from "./_components/CoursePageSkeleton";
+import CoursePageSkeleton from "@/components/courses/courseId/chapters/chapterId/CoursePageSkeleton";
 
 const CoursePageWithSkeleton = dynamic(
-  () => import("./CourseChapter").then((mod) => mod.default),
+  () =>
+    import("@/components/courses/courseId/CourseChapter").then(
+      (mod) => mod.default
+    ),
   {
     loading: () => <CoursePageSkeleton />,
   }

@@ -9,31 +9,57 @@ import {
 
 import { IconBadge } from "@/components/IconBadge";
 
-import TitleForm from "./_components/TitleForm";
-import DescriptionForm from "./_components/DescriptionForm";
-import ImageForm from "./_components/ImageForm";
-import CategoryForm from "./_components/CategoryForm";
-import PriceForm from "./_components/PriceForm";
-import AttachmentForm from "./_components/AttachmentForm";
-import ChaptersForm from "./_components/ChapterForm";
-import PlanForm from "./_components/PlanForm";
+import TitleForm from "../TitleForm";
+import DescriptionForm from "../DescriptionForm";
+import ImageForm from "../ImageForm";
+import CategoryForm from "../CategoryForm";
+import PriceForm from "../PriceForm";
+import AttachmentForm from "../AttachmentForm";
+import ChaptersForm from "../ChapterForm";
+import PlanForm from "../PlanForm";
 import { Banner } from "@/components/Banner";
-import { Actions } from "./_components/Actions";
+import { Actions } from "../Actions";
 import { Attachment, Category, Chapter, Course, Plan } from "@prisma/client";
+import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
 import { useState } from "react";
-// import { useState } from "react";
 
-interface PageProps {
+import { useCategories } from "@/actions/swr/useCategories";
+import { usePlans } from "@/actions/swr/usePlans";
+import useCoachCourse from "@/actions/swr/useCoachCourses";
+
+interface CourseType {
   course: Course & {
     chapters: Chapter[];
     attachments: Attachment[];
   };
-  categories: Category[];
-  plans: Plan[];
 }
-const CourseIdPage = ({ course, categories, plans }: PageProps) => {
+
+interface PageProps {
+  // course: Course & {
+  //   chapters: Chapter[];
+  //   attachments: Attachment[];
+  // };
+  // categories: Category[];
+  // plans: Plan[];
+  courseId: string;
+  userId: string;
+}
+
+const CourseIdPage = ({ courseId, userId }: PageProps) => {
   const [deleting, setIsDeleting] = useState(false);
   const toggleDeleting = () => setIsDeleting((current) => !current);
+
+  const { course, isCoachLoading, isCoachError } = useCoachCourse(courseId);
+
+  const { categories, isCategoriesError, isCategoriesLoading } =
+    useCategories();
+
+  const { plans, isplansLoading, isplansError } = usePlans();
+
+  // if (!course) {
+  //   return redirect("/");
+  // }
 
   const requiredFields = [
     course.title,
@@ -55,7 +81,10 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
     <div className="relative">
       {deleting && (
         <div className="absolute inset-0 flex items-center justify-center bg-white z-10 opacity-60">
-          <Loader2 strokeWidth="50px" className="h-10 w-10 animate-spin text-red-600" />
+          <Loader2
+            strokeWidth="50px"
+            className="h-10 w-10 animate-spin text-red-600"
+          />
         </div>
       )}
       {!course.isPublished && (
@@ -100,24 +129,32 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
               courseId={course.id}
               isDeleting={deleting}
             />
-            <CategoryForm
-              initialData={course}
-              courseId={course.id}
-              options={categories.map((category) => ({
-                label: category.name,
-                value: category.id,
-              }))}
-              isDeleting={deleting}
-            />
-            <PlanForm
-              initialData={course}
-              courseId={course.id}
-              options={plans.map((plan) => ({
-                label: plan.name,
-                value: plan.id,
-              }))}
-              isDeleting={deleting}
-            />
+            {isCategoriesLoading ? (
+              "categories loading"
+            ) : (
+              <CategoryForm
+                initialData={course}
+                courseId={course.id}
+                options={categories.map((category) => ({
+                  label: category.name,
+                  value: category.id,
+                }))}
+                isDeleting={deleting}
+              />
+            )}
+            {isplansLoading ? (
+              "plans loadign"
+            ) : (
+              <PlanForm
+                initialData={course}
+                courseId={course.id}
+                options={plans.map((plan) => ({
+                  label: plan.name,
+                  value: plan.id,
+                }))}
+                isDeleting={deleting}
+              />
+            )}
           </div>
           <div className="space-y-6">
             <div>

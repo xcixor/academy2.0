@@ -1,12 +1,15 @@
 import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import CourseIdSkeleton from "@/components/dashboard/teacher/courseId/CourseIdSkeleton";
+import CourseIdSkeleton from "@/components/dashboard/teacher/courses/courseId/CourseIdSkeleton";
 import dynamic from "next/dynamic";
 
-const CourseIdPageWithCustomLoading = dynamic(() => import("./CourseIdPage"), {
-  loading: () => <CourseIdSkeleton />,
-});
+const CourseIdPageWithCustomLoading = dynamic(
+  () => import("@/components/dashboard/teacher/courses/courseId/CourseIdPage"),
+  {
+    loading: () => <CourseIdSkeleton />,
+  }
+);
 
 const page = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
