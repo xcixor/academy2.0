@@ -7,9 +7,9 @@ import { Banner } from "@/components/Banner";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/Preview";
 
-import { VideoPlayer } from "./_components/VideoPlayer";
-import CourseEnrollButton from "./_components/CourseEnrollButton";
-import CourseProgressButton from "./_components/CourseProgressButton";
+import { VideoPlayer } from "./chapters/chapterId/VideoPlayer";
+import CourseEnrollButton from "./chapters/chapterId/CourseEnrollButton";
+import CourseProgressButton from "./chapters/chapterId/CourseProgressButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

@@ -6,12 +6,12 @@ import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/IconBadge";
 
-import ChapterTitleForm from "./_components/ChapterTitleForm";
-import ChapterDescriptionForm from "./_components/ChapterDescriptionForm";
-import ChapterAccessForm from "./_components/ChapterAccessForm";
-import ChapterVideoForm from "./_components/ChapterVideoForm";
+import ChapterTitleForm from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterTitleForm";
+import ChapterDescriptionForm from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterDescriptionForm";
+import ChapterAccessForm from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterAccessForm";
+import ChapterVideoForm from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterVideoForm";
 import { Banner } from "@/components/Banner";
-import { ChapterActions } from "./_components/ChapterActions";
+import { ChapterActions } from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterActions";
 
 const ChapterIdPage = async ({
   params,

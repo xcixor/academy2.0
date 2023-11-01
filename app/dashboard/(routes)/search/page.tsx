@@ -1,4 +1,4 @@
-import SearchPageSkeleton from "./_components/SearchPageSkeleton";
+import SearchPageSkeleton from "../../../../components/dashboard/search/SearchPageSkeleton";
 import dynamic from "next/dynamic";
 
 interface SearchPageProps {
@@ -8,9 +8,12 @@ interface SearchPageProps {
   };
 }
 
-const SearchPageWithLoading = dynamic(() => import("./SearchPage"), {
-  loading: () => <SearchPageSkeleton />,
-});
+const SearchPageWithLoading = dynamic(
+  () => import("../../../../components/dashboard/search/SearchPage"),
+  {
+    loading: () => <SearchPageSkeleton />,
+  }
+);
 
 export default function Page({ searchParams }: SearchPageProps) {
   return <SearchPageWithLoading searchParams={searchParams} />;
