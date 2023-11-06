@@ -1,7 +1,6 @@
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -89,7 +88,6 @@ model Course {
 
   @@index([categoryId])
   @@index([planId])
-  @@fulltext([title])
 }
 
 model Category {
@@ -193,11 +191,11 @@ model Comment {
   createdAt DateTime @default(now())
   message   String
 
-  courseId  String
-  course    Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  userEmail String
-  user      User   @relation(fields: [userEmail], references: [email])
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([courseId])
-  @@index([userEmail])
+  @@index([userId])
 }
