@@ -12,13 +12,11 @@ export async function POST(
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const { message, userEmail } = await req.json();
+    const { message } = await req.json();
     const { courseId } = params;
-    const emailAddress = userEmail[0].emailAddress;
-    console.log(message, emailAddress, courseId, "*************8");
 
     const comment = await db.comment.create({
-      data: { message: message, userEmail: emailAddress, courseId },
+      data: { message: message, userId, courseId },
     });
 
     return NextResponse.json(comment);

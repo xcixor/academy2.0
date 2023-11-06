@@ -51,9 +51,9 @@ async function clearDB() {
 }
 
 async function main() {
-  // createCategories();
-  // createPlans();
-  clearDB();
+  createCategories();
+  createPlans();
+  // clearDB();
 }
 
 main();
