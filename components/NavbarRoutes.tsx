@@ -16,7 +16,7 @@ export default function NavbarRoutes() {
 
   const isTeacherPage = pathname?.startsWith("/teacher");
   const isCoursePage = pathname?.includes("/courses");
-  const isSearchPage = pathname === "/search";
+  const isBrowsePage = pathname === "/browse";
 
   return (
     <>
@@ -26,14 +26,14 @@ export default function NavbarRoutes() {
             <Link href="/">
               <Logo />
             </Link>
-            {isSearchPage && (
+            {isBrowsePage && (
               <div className="hidden md:block">
                 <SearchInput />
               </div>
             )}
             <ul className="flex items-center">
               <li className="mr-4">
-                <Link href="/search">
+                <Link href="/browse">
                   <p className="text-blue-500 hover:text-blue-800 cursor-pointer">
                     Browse
                   </p>
@@ -60,7 +60,7 @@ export default function NavbarRoutes() {
           </div>
         </div>
       )}
-      {isSearchPage && userId && (
+      {isBrowsePage && userId && (
         <div className="hidden md:block">
           <SearchInput />
         </div>
