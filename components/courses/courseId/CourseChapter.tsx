@@ -139,7 +139,7 @@ const ChapterIdPage = async ({
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <CommentSection />
+                <CommentSection courseId={params.courseId} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

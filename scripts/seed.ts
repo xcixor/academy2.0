@@ -38,9 +38,22 @@ async function createPlans() {
   }
 }
 
+async function clearDB() {
+  try {
+    await database.comment.deleteMany({});
+
+    console.log("Success");
+  } catch (error) {
+    console.log("Error seeding the database plans", error);
+  } finally {
+    await database.$disconnect();
+  }
+}
+
 async function main() {
-  createCategories()
-  createPlans()
+  // createCategories();
+  // createPlans();
+  clearDB();
 }
 
 main();
