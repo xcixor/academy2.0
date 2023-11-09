@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import axios from "axios";
@@ -37,15 +36,10 @@ export default function CommentForm({ courseId }: FormProps) {
     },
   });
   const { isSubmitting, isValid } = form.formState;
-  const { user } = useUser();
-  const userEmail = user?.emailAddresses;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/comment/${courseId}`, {
-        ...values,
-        userEmail: userEmail,
-      });
+      await axios.post(`/api/comment/${courseId}`, values);
       toast.success("Success");
       router.refresh();
       form.reset();

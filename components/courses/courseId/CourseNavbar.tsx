@@ -1,8 +1,9 @@
 import { Chapter, Course, UserProgress } from "@prisma/client";
 
-import NavbarRoutes from "@/components/NavbarRoutes";
+import NavbarRoutes from "@/components/navbar/NavbarRoutes";
 
 import CourseMobileSidebar from "./CourseMobileSidebar";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 interface CourseNavbarProps {
   course: Course & {
@@ -13,14 +14,15 @@ interface CourseNavbarProps {
   progressCount: number;
 }
 
-export default function CourseNavbar({
+export default async function CourseNavbar({
   course,
   progressCount,
 }: CourseNavbarProps) {
+  const user = await getLoggedInUser();
   return (
     <div className="p-4 border-b h-full flex items-center bg-white shadow-sm">
       <CourseMobileSidebar course={course} progressCount={progressCount} />
-      <NavbarRoutes />
+      <NavbarRoutes user={user} />
     </div>
   );
 }

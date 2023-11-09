@@ -1,8 +1,8 @@
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import CourseIdSkeleton from "@/components/dashboard/teacher/courses/courseId/CourseIdSkeleton";
 import dynamic from "next/dynamic";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const CourseIdPageWithCustomLoading = dynamic(
   () =>
@@ -15,7 +15,8 @@ const CourseIdPageWithCustomLoading = dynamic(
 );
 
 const page = async ({ params }: { params: { courseId: string } }) => {
-  const { userId } = auth();
+  const user = await getLoggedInUser();
+  const userId = user?.userId;
 
   if (!userId) {
     return redirect("/");

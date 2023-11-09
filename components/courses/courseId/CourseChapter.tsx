@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { File, MessageCircle } from "lucide-react";
 
@@ -20,17 +19,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CommentSection from "@/components/courses/courseId/discussion/CommentSection";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const ChapterIdPage = async ({
   params,
 }: {
   params: { courseId: string; chapterId: string };
 }) => {
-  const { userId } = auth();
+  const user = await getLoggedInUser();
 
-  if (!userId) {
+  if (!user) {
     return redirect("/");
   }
+
+  const { userId } = user;
 
   const {
     chapter,

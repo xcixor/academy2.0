@@ -1,7 +1,7 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import DashboardSkeleton from "@/components/dashboard/root/DashboardSkeleton";
 import dynamic from "next/dynamic";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const DashboardPageCustomLoading = dynamic(
   () => import("@/components/dashboard/root/DashboardPageWrapper"),
@@ -10,8 +10,9 @@ const DashboardPageCustomLoading = dynamic(
   }
 );
 
-export default function Dashboard() {
-  const { userId } = auth();
+export default async function Dashboard() {
+  const user = await getLoggedInUser();
+  const userId = user?.userId;
 
   if (!userId) {
     redirect("/");

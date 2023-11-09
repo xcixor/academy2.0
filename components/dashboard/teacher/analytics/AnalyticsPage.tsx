@@ -1,13 +1,14 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { getAnalytics } from "@/actions/get-analytics";
 
 import DataCard from "./DataCard";
 import Chart from "./Chart";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const AnalyticsPage = async () => {
-  const { userId } = auth();
+  const user = await getLoggedInUser();
+  const userId = user?.userId;
 
   if (!userId) {
     return redirect("/");
@@ -21,7 +22,7 @@ const AnalyticsPage = async () => {
         <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
         <DataCard label="Total Sales" value={totalSales} />
       </div>
-      <Chart data={data} />
+      {data.length > 0 ? <Chart data={data} /> : <p>No data here.</p>}
     </div>
   );
 };
