@@ -32,7 +32,7 @@ const ChapterIdPage = async ({
     return redirect("/");
   }
 
-  const { userId } = user;
+  const userId = user.userId;
 
   const {
     chapter,
