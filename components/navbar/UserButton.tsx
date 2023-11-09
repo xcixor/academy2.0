@@ -21,6 +21,7 @@ interface UserMenuButtonProps {
 }
 
 export default function UserMenuButton({ user }: UserMenuButtonProps) {
+  console.log(user);
   return (
     <>
       {user ? (
