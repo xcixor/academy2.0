@@ -14,8 +14,9 @@ const CommentList = async ({ courseId }: Props) => {
     orderBy: {
       createdAt: "desc",
     },
+    include: { user: true },
   });
-  // console.log(comments[0].user);
+
   return (
     <div className="flex flex-col gap-6">
       {comments.map((comment) => (
