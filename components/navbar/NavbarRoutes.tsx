@@ -22,11 +22,12 @@ export default function NavbarRoutes({ user }: Props) {
   const isTeacherPage = pathname?.startsWith("/teacher");
   const isCoursePage = pathname?.includes("/courses");
   const isBrowsePage = pathname === "/browse";
+  const isDashboard = pathname?.includes("/dashboard");
 
   return (
     <>
-      {!userId && (
-        <div className="hidden md:block w-full">
+      {!isDashboard && (
+        <div className="hidden md:block flex-1">
           <div className="w-full flex align-middle justify-between gap-x-2">
             <Link href="/">
               <Logo />
@@ -55,12 +56,13 @@ export default function NavbarRoutes({ user }: Props) {
           </div>
         </div>
       )}
+
       {isBrowsePage && userId && (
         <div className="hidden md:block">
           <SearchInput />
         </div>
       )}
-      <div className="flex gap-x-2 ml-auto">
+      <div className="flex gap-x-2 ml-auto items-center">
         {isTeacherPage || isCoursePage ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
@@ -70,7 +72,7 @@ export default function NavbarRoutes({ user }: Props) {
           </Link>
         ) : isTeacher(userId) ? (
           <Link href="/dashboard/teacher/courses">
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="ghost" className="h-auto py-2">
               Teacher mode
             </Button>
           </Link>
