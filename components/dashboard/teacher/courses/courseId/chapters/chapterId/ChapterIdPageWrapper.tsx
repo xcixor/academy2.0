@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
@@ -12,6 +11,7 @@ import ChapterAccessForm from "./ChapterAccessForm";
 import ChapterVideoForm from "./ChapterVideoForm";
 import { Banner } from "@/components/Banner";
 import { ChapterActions } from "./ChapterActions";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 interface Props {
   courseId: string;
@@ -19,7 +19,8 @@ interface Props {
 }
 
 const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
-  const { userId } = auth();
+  const user = await getLoggedInUser();
+  const userId = user?.userId;
 
   if (!userId) {
     return redirect("/");

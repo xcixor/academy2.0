@@ -40,7 +40,7 @@ async function createPlans() {
 
 async function clearDB() {
   try {
-    await database.comment.deleteMany({});
+    await database.user.deleteMany({});
 
     console.log("Success");
   } catch (error) {
@@ -51,8 +51,8 @@ async function clearDB() {
 }
 
 async function main() {
-  createCategories();
-  createPlans();
+  // createCategories();
+  // createPlans();
   // clearDB();
 }
 

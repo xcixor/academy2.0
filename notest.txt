@@ -13,3 +13,6 @@ stripe listen --forward-to localhost:3000/api/webhook
 1. Add analytics page to show a coach's courses purchased
 2. Show course progress as student progresses through the course
 3. Sort user courses
+
+
+

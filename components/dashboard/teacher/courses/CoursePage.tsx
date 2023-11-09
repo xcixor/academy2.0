@@ -1,13 +1,14 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const CoursesPage = async () => {
-  const { userId } = auth();
+  const user = await getLoggedInUser();
+  const userId = user?.userId;
 
   if (!userId) {
     return redirect("/");

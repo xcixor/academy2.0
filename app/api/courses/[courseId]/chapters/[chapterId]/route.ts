@@ -1,7 +1,8 @@
 import Mux from "@mux/mux-node";
-import { auth } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getLoggedInUser } from "@/lib/auth/utils";
 
 const { Video } = new Mux(
   process.env.MUX_TOKEN_ID!,
@@ -13,7 +14,8 @@ export async function PATCH(
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const user = await getLoggedInUser();
+    const userId = user?.userId;
     const { isPublished, ...values } = await req.json();
 
     if (!userId) {

@@ -1,18 +1,23 @@
 "use client";
-
-import { UserButton, useAuth } from "@clerk/nextjs";
+import UserButton from "./UserButton";
 import { usePathname } from "next/navigation";
 import { LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { SearchInput } from "./SearchInput";
+import { SearchInput } from "../SearchInput";
 import { isTeacher } from "@/lib/teacher";
-import { Logo } from "./Logo";
+import { Logo } from "../Logo";
+import { SessionUser } from "@/lib/auth/utils";
 
-export default function NavbarRoutes() {
+interface Props {
+  user: SessionUser | null;
+}
+
+export default function NavbarRoutes({ user }: Props) {
   const pathname = usePathname();
-  const { userId } = useAuth();
+
+  const userId = user?.userId;
 
   const isTeacherPage = pathname?.startsWith("/teacher");
   const isCoursePage = pathname?.includes("/courses");
@@ -46,16 +51,6 @@ export default function NavbarRoutes() {
                   </p>
                 </Link>
               </li>
-              <li className="mr-4">
-                {!userId && (
-                  <Link href="/sign-in">
-                    <Button size="sm" variant="default">
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Login
-                    </Button>
-                  </Link>
-                )}
-              </li>
             </ul>
           </div>
         </div>
@@ -81,7 +76,7 @@ export default function NavbarRoutes() {
           </Link>
         ) : null}
 
-        <UserButton afterSignOutUrl="/" />
+        <UserButton user={user} />
       </div>
     </>
   );
