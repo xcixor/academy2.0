@@ -53,7 +53,7 @@ async function clearDB() {
 async function main() {
   // createCategories();
   // createPlans();
-  // clearDB();
+  clearDB();
 }
 
 main();

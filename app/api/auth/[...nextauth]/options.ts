@@ -51,14 +51,6 @@ export const options = {
               foundUser["role"] = "Unverified Email";
               return foundUser;
             }
-          } else {
-            await db.user.create({
-              data: {
-                email: credentials.email,
-                image: credentials.picture,
-                name: credentials.name,
-              },
-            });
           }
         } catch (error) {
           console.log(error);
@@ -84,16 +76,16 @@ export const options = {
       try {
         // check if user already exists
         const userExists = await db.user.findUnique({
-          where: { email: profile.email },
+          where: { email: user.email },
         });
 
         // if not, create a new document and save user in MongoDB
         if (!userExists) {
           await db.user.create({
             data: {
-              email: profile.email,
-              name: profile.name.replace(" ", "").toLowerCase(),
-              image: profile.picture,
+              email: user.email,
+              name: user.name.replace(" ", "").toLowerCase(),
+              image: user.picture,
             },
           });
         }
