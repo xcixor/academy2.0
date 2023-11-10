@@ -86,7 +86,8 @@ export async function DELETE(
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const user = await getLoggedInUser();
+    const userId = user?.userId;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

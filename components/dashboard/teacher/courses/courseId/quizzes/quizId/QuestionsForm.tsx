@@ -8,7 +8,7 @@ import { Ban, Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Course, Quiz } from "@prisma/client";
+import { Question, Quiz } from "@prisma/client";
 
 import {
   Form,
@@ -21,10 +21,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-import QuizList from "./QuizList";
+import QuestionsList from "./QuestionsList";
 
-interface QuizzesFormProps {
-  initialData: Course & { quizzes: Quiz[] };
+interface QuestionsFormProps {
+  initialData: Quiz & { questions: Question[] };
   courseId: string;
   isDeleting: boolean;
 }
@@ -33,11 +33,11 @@ const formSchema = z.object({
   title: z.string().min(1),
 });
 
-export default function QuizForm({
+export default function QuestionsForm({
   initialData,
   courseId,
   isDeleting,
-}: QuizzesFormProps) {
+}: QuestionsFormProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -58,8 +58,11 @@ export default function QuizForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/courses/${courseId}/quizzes`, values);
-      toast.success("Quiz created");
+      await axios.post(
+        `/api/courses/${courseId}/quizzes/${initialData?.id}/questions`,
+        values
+      );
+      toast.success("Question created");
       toggleCreating();
       router.refresh();
     } catch {
@@ -71,10 +74,13 @@ export default function QuizForm({
     try {
       setIsUpdating(true);
 
-      await axios.put(`/api/courses/${courseId}/quizzes/reorder`, {
-        list: updateData,
-      });
-      toast.success("Quizzes reordered");
+      await axios.put(
+        `/api/courses/${courseId}/quizzes/${initialData?.id}/questions/reorder`,
+        {
+          list: updateData,
+        }
+      );
+      toast.success("Questions reordered");
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -84,7 +90,9 @@ export default function QuizForm({
   };
 
   const onEdit = (id: string) => {
-    router.push(`/dashboard/teacher/courses/${courseId}/quizzes/${id}`);
+    router.push(
+      `/dashboard/teacher/courses/${courseId}/quizzes/${initialData?.id}/questions/${id}`
+    );
   };
 
   return (
@@ -95,7 +103,7 @@ export default function QuizForm({
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        Course Quizzes
+        Course questions
         {isDeleting ? (
           <Ban className="h-4 w-4" />
         ) : (
@@ -105,7 +113,7 @@ export default function QuizForm({
             ) : (
               <>
                 <PlusCircle className="h-4 w-4 mr-2" />
-                Add a quiz
+                Add a question
               </>
             )}
           </Button>
@@ -125,7 +133,7 @@ export default function QuizForm({
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'Marketing basics quiz.'"
+                      placeholder="e.g. 'Who was the first man to land on the moon?'"
                       {...field}
                     />
                   </FormControl>
@@ -143,20 +151,20 @@ export default function QuizForm({
         <div
           className={cn(
             "text-sm mt-2",
-            !initialData.quizzes.length && "text-slate-500 italic"
+            !initialData.questions.length && "text-slate-500 italic"
           )}
         >
-          {!initialData.quizzes.length && "No quizzes"}
-          <QuizList
+          {!initialData.questions.length && "No questions"}
+          <QuestionsList
             onEdit={onEdit}
             onReorder={onReorder}
-            items={initialData.quizzes || []}
+            items={initialData.questions || []}
           />
         </div>
       )}
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
-          Drag and drop to reorder the quizzes
+          Drag and drop to reorder the questions
         </p>
       )}
     </div>
