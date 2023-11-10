@@ -25,6 +25,11 @@ const CourseIdPageWrapper = async ({ courseId, userId }: Props) => {
           position: "asc",
         },
       },
+      quizzes: {
+        orderBy: {
+          position: "asc",
+        },
+      },
     },
   });
 

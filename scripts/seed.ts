@@ -6,13 +6,12 @@ async function createCategories() {
   try {
     await database.category.createMany({
       data: [
-        { name: "Computer Science" },
-        { name: "Music" },
-        { name: "Fitness" },
-        { name: "Photography" },
+        { name: "Finance" },
+        { name: "Information Technology" },
+        { name: "Business Management" },
+        { name: "Marketing" },
         { name: "Accounting" },
-        { name: "Engineering" },
-        { name: "Filming" },
+        { name: "Business Development" },
       ],
     });
 
@@ -51,9 +50,9 @@ async function clearDB() {
 }
 
 async function main() {
-  // createCategories();
-  // createPlans();
-  clearDB();
+  createCategories();
+  createPlans();
+  // clearDB();
 }
 
 main();

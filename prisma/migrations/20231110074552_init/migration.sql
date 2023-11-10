@@ -1,50 +1,15 @@
 -- CreateTable
-CREATE TABLE "accounts" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "provider" TEXT NOT NULL,
-    "providerAccountId" TEXT NOT NULL,
-    "refresh_token" TEXT,
-    "access_token" TEXT,
-    "expires_at" INTEGER,
-    "token_type" TEXT,
-    "scope" TEXT,
-    "id_token" TEXT,
-    "session_state" TEXT,
-
-    CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "sessions" (
-    "id" TEXT NOT NULL,
-    "sessionToken" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "expires" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "password" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "verificationtokens" (
-    "id" TEXT NOT NULL,
-    "identifier" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
-    "expires" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "verificationtokens_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -154,35 +119,49 @@ CREATE TABLE "Plan" (
 
 -- CreateTable
 CREATE TABLE "Comment" (
-    "_id" TEXT NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "message" TEXT NOT NULL,
     "courseId" TEXT NOT NULL,
-    "userEmail" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
 
-    CONSTRAINT "Comment_pkey" PRIMARY KEY ("_id")
+    CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "quizzes" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "passingPercentage" INTEGER NOT NULL,
+    "description" TEXT,
+    "courseId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "quizzes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "questions" (
+    "id" TEXT NOT NULL,
+    "description" TEXT,
+    "title" TEXT NOT NULL,
+    "quizId" TEXT NOT NULL,
+
+    CONSTRAINT "questions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "options" (
+    "id" TEXT NOT NULL,
+    "description" TEXT,
+    "title" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+
+    CONSTRAINT "options_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE INDEX "accounts_userId_idx" ON "accounts"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "accounts_provider_providerAccountId_key" ON "accounts"("provider", "providerAccountId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "sessions_sessionToken_key" ON "sessions"("sessionToken");
-
--- CreateIndex
-CREATE INDEX "sessions_userId_idx" ON "sessions"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "verificationtokens_token_key" ON "verificationtokens"("token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "verificationtokens_identifier_token_key" ON "verificationtokens"("identifier", "token");
 
 -- CreateIndex
 CREATE INDEX "Course_categoryId_idx" ON "Course"("categoryId");
@@ -227,13 +206,7 @@ CREATE UNIQUE INDEX "Plan_name_key" ON "Plan"("name");
 CREATE INDEX "Comment_courseId_idx" ON "Comment"("courseId");
 
 -- CreateIndex
-CREATE INDEX "Comment_userEmail_idx" ON "Comment"("userEmail");
-
--- AddForeignKey
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE INDEX "Comment_userId_idx" ON "Comment"("userId");
 
 -- AddForeignKey
 ALTER TABLE "Course" ADD CONSTRAINT "Course_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -260,4 +233,16 @@ ALTER TABLE "Purchase" ADD CONSTRAINT "Purchase_courseId_fkey" FOREIGN KEY ("cou
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "users"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "questions" ADD CONSTRAINT "questions_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "quizzes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "options" ADD CONSTRAINT "options_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "questions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
