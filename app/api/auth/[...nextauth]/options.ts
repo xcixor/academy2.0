@@ -69,6 +69,7 @@ export const options = {
       const sessionUser = await db.user.findUnique({
         where: { email: session.user.email },
       });
+
       session.user.id = sessionUser?.id;
       return session;
     },

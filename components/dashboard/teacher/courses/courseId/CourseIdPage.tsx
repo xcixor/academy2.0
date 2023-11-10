@@ -1,6 +1,7 @@
 "use client";
 import {
   CircleDollarSign,
+  ClipboardList,
   File,
   LayoutDashboard,
   ListChecks,
@@ -19,14 +20,22 @@ import ChaptersForm from "./ChapterForm";
 import PlanForm from "./PlanForm";
 import { Banner } from "@/components/Banner";
 import { Actions } from "./Actions";
-import { Attachment, Category, Chapter, Course, Plan } from "@prisma/client";
+import {
+  Attachment,
+  Category,
+  Chapter,
+  Course,
+  Plan,
+  Quiz,
+} from "@prisma/client";
 import { useState } from "react";
-// import { useState } from "react";
+import QuizForm from "./QuizForm";
 
 interface PageProps {
   course: Course & {
     chapters: Chapter[];
     attachments: Attachment[];
+    quizzes: Quiz[];
   };
   categories: Category[];
   plans: Plan[];
@@ -125,17 +134,6 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
           <div className="space-y-6">
             <div>
               <div className="flex items-center gap-x-2">
-                <IconBadge icon={ListChecks} />
-                <h2 className="text-xl">Course chapters</h2>
-              </div>
-              <ChaptersForm
-                initialData={course}
-                courseId={course.id}
-                isDeleting={deleting}
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-x-2">
                 <IconBadge icon={CircleDollarSign} />
                 <h2 className="text-xl">Sell your course</h2>
               </div>
@@ -151,6 +149,28 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
                 <h2 className="text-xl">Resources & Attachments</h2>
               </div>
               <AttachmentForm
+                initialData={course}
+                courseId={course.id}
+                isDeleting={deleting}
+              />
+            </div>
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={ListChecks} />
+                <h2 className="text-xl">Course chapters</h2>
+              </div>
+              <ChaptersForm
+                initialData={course}
+                courseId={course.id}
+                isDeleting={deleting}
+              />
+            </div>
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={ClipboardList} />
+                <h2 className="text-xl">Quizes</h2>
+              </div>
+              <QuizForm
                 initialData={course}
                 courseId={course.id}
                 isDeleting={deleting}
