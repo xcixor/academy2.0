@@ -90,7 +90,7 @@ const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize your quiz</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 ">
+          <div className="md:w-1/2 gap-6 mt-16 ">
             <QuizTitleForm
               initialData={quiz}
               courseId={courseId}
