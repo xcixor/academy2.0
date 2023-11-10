@@ -185,9 +185,9 @@ model Question {
   position    Int
   isPublished Boolean @default(false)
 
-  quizId String
-  quiz   Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  Option Option[]
+  quizId  String
+  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options Option[]
 
   @@map("questions")
 }
