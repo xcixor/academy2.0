@@ -33,12 +33,12 @@ export const QuestionActions = ({
 
       if (isPublished) {
         await axios.patch(
-          `/api/courses/${courseId}/quizzes/${quizId}/questions/unpublish`
+          `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/unpublish`
         );
         toast.success("Quiz unpublished");
       } else {
         await axios.patch(
-          `/api/courses/${courseId}/quizzes/${quizId}/questions/publish`
+          `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/publish`
         );
         toast.success("Quiz published");
       }
