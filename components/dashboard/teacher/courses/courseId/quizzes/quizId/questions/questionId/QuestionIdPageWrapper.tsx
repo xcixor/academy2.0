@@ -113,6 +113,7 @@ const QuestionIdPageWrapper = async ({
               initialData={question}
               courseId={courseId}
               isDeleting={false}
+              quizId={quizId}
             />
           </div>
         </div>

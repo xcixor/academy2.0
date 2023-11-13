@@ -196,6 +196,8 @@ model Option {
   id          String  @id @default(uuid())
   description String?
   title       String
+  isAnswer    Boolean @default(false)
+  position    Int
 
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
