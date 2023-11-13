@@ -64,7 +64,7 @@ export default function OptionsForm({
         `/api/courses/${courseId}/quizzes/${quizId}/questions/${initialData?.id}/options`,
         values
       );
-      toast.success("Question created");
+      toast.success("Option created");
       toggleCreating();
       router.refresh();
     } catch {
@@ -91,10 +91,17 @@ export default function OptionsForm({
     }
   };
 
+  const [isEditingOptionTitle, setIsEditingOptionTitle] =
+    useState<boolean>(false);
+  const [editingTitleId, setEditingTitleId] = useState<string>("");
+
   const onEdit = (id: string) => {
-    router.push(
-      `/dashboard/teacher/courses/${courseId}/quizzes/${quizId}/questions/${initialData?.id}/`
-    );
+    // router.push(
+    //   `/dashboard/teacher/courses/${courseId}/quizzes/${quizId}/questions/${initialData?.id}/`
+    // );
+    console.log(id, "...................editing id");
+    setIsEditingOptionTitle(true);
+    setEditingTitleId(id);
   };
 
   return (
@@ -158,7 +165,10 @@ export default function OptionsForm({
         >
           {!initialData.options.length && "No options"}
           <OptionList
-            onEdit={onEdit}
+            // onEdit={onEdit}
+            courseId={courseId}
+            quizId={quizId}
+            questionId={initialData.id}
             onReorder={onReorder}
             items={initialData.options || []}
           />
