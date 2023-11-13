@@ -11,6 +11,7 @@ import QuestionTitleForm from "./QuestionTitleForm";
 import { QuestionActions } from "./QuestionActions";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import OptionsForm from "./OptionsForm";
+import AnswerForm from "./AnswerForm";
 
 interface Props {
   courseId: string;
@@ -93,17 +94,33 @@ const QuestionIdPageWrapper = async ({
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize Your Question</h2>
           </div>
-          <div className="md:w-1/2 gap-6 mt-16 ">
-            <QuestionTitleForm
-              initialData={question}
-              courseId={courseId}
-              questionId={questionId}
-              quizId={quizId}
-            />
+          <div className="md:flex gap-4 mt-16">
+            <div className="md:w-1/2 gap-6">
+              <QuestionTitleForm
+                initialData={question}
+                courseId={courseId}
+                questionId={questionId}
+                quizId={quizId}
+              />
+            </div>
+            <div className="md:w-1/2 gap-6">
+              <AnswerForm
+                initialData={question}
+                courseId={courseId}
+                questionId={questionId}
+                quizId={quizId}
+                options={question.options.map((option) => ({
+                  label: option.title,
+                  value: option.id,
+                  isAnswer: option.isAnswer,
+                }))}
+                isDeleting={false}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="mt-4 space-x-4">
+        <div className="mt-16 space-x-4">
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={Option} />

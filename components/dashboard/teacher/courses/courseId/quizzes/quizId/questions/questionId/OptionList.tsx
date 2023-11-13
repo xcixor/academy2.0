@@ -8,24 +8,60 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { Grip, Pencil } from "lucide-react";
+import { Grip, Pencil, Trash2Icon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import OptionTitleForm from "./OptionTitleForm";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface OptionsListProps {
   items: Option[];
   onReorder: (updateData: { id: string; position: number }[]) => void;
-  onEdit: (id: string) => void;
+  courseId: string;
+  quizId: string;
+  questionId: string;
+  // onEdit: (id: string) => void;
 }
 
 export default function OptionsList({
   items,
   onReorder,
-  onEdit,
+  courseId,
+  quizId,
+  questionId,
 }: OptionsListProps) {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [options, setOptions] = useState(items);
+
+  const [isEditingOptionTitle, setIsEditingOptionTitle] =
+    useState<boolean>(false);
+  const [editingTitleId, setEditingTitleId] = useState<string>("");
+
+  const handleEdit = (id: string) => {
+    setIsEditingOptionTitle(true);
+    setEditingTitleId(id);
+  };
+  const toggleEditingOptionTitle = () =>
+    setIsEditingOptionTitle((current) => !current);
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(
+        `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/options/${id}`
+      );
+
+      toast.success("Option deleted");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      toggleEditingOptionTitle();
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -87,7 +123,26 @@ export default function OptionsList({
                     >
                       <Grip className="h-5 w-5" />
                     </div>
-                    {option.title}
+                    {isEditingOptionTitle && editingTitleId === option.id ? (
+                      <OptionTitleForm
+                        courseId={courseId}
+                        questionId={questionId}
+                        quizId={quizId}
+                        initialData={{
+                          title: option.title,
+                        }}
+                        optionId={editingTitleId}
+                        toggleEditingOptionTitle={toggleEditingOptionTitle}
+                      />
+                    ) : (
+                      <>
+                        {option.title}
+                        <Pencil
+                          onClick={() => handleEdit(option.id)}
+                          className="w-4 h-4 cursor-pointer hover:opacity-75 transition ml-5"
+                        />
+                      </>
+                    )}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
                       <Badge
                         className={cn(
@@ -97,10 +152,12 @@ export default function OptionsList({
                       >
                         {option.isAnswer ? "Correct Answer" : "Incorrect"}
                       </Badge>
-                      <Pencil
-                        onClick={() => onEdit(option.id)}
-                        className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
-                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleDelete(option.id)}
+                      >
+                        <Trash2Icon />
+                      </Button>
                     </div>
                   </div>
                 )}
