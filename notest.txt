@@ -19,4 +19,11 @@ stripe listen --forward-to localhost:3000/api/webhook
 ensure model consistence i.e, is it _id or id?
 is it cuid or uuid?
 
-lets use courseOwner instead of object owner
+lets use courseOwner instead of object owner. And then, since undefined ids can be passed in the path and the route is still hit
+ensure you check that the objects associated with those ids are truthy
+
+quiz 
+- responses
+  - user
+  - question
+  - option
