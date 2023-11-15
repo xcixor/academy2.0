@@ -107,3 +107,37 @@ export async function DELETE(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { courseId: string; quizId: string } }
+) {
+  try {
+    const user = await getLoggedInUser();
+    const userId = user?.userId;
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const courseOwner = await db.course.findUnique({
+      where: {
+        id: params.courseId,
+        userId,
+      },
+    });
+
+    const quiz = await db.quiz.findUnique({
+      where: {
+        id: params.quizId,
+        courseId: params.courseId,
+      },
+      include: { questions: true },
+    });
+
+    return NextResponse.json(quiz);
+  } catch (error) {
+    console.log("[QUIZ_ID_GET]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

@@ -14,11 +14,11 @@ const CourseLayout = async ({
   params: { courseId: string };
 }) => {
   const user = await getLoggedInUser();
+  const userId = user?.userId;
 
-  if (!user) {
+  if (!userId) {
     return redirect("/");
   }
-  const { userId } = user;
 
   const course = await db.course.findUnique({
     where: {

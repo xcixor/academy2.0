@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { File, MessageCircle } from "lucide-react";
+import { File, FileQuestion, Files, MessageCircle } from "lucide-react";
 
 import { getChapter } from "@/actions/get-chapter";
 import { Banner } from "@/components/Banner";
@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/accordion";
 import CommentSection from "@/components/courses/courseId/discussion/CommentSection";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { IconBadge } from "@/components/IconBadge";
+import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 
 const ChapterIdPage = async ({
   params,
@@ -27,12 +29,11 @@ const ChapterIdPage = async ({
   params: { courseId: string; chapterId: string };
 }) => {
   const user = await getLoggedInUser();
+  const userId = user?.userId;
 
-  if (!user) {
+  if (!userId) {
     return redirect("/");
   }
-
-  const userId = user.userId;
 
   const {
     chapter,
@@ -114,7 +115,12 @@ const ChapterIdPage = async ({
           <Accordion type="single" collapsible className="p-4">
             {!!attachments.length && (
               <AccordionItem value="item-1">
-                <AccordionTrigger>Materials</AccordionTrigger>
+                <AccordionTrigger>
+                  <span className="flex items-center gap-4">
+                    <IconBadge icon={Files} />
+                    Materials
+                  </span>
+                </AccordionTrigger>
                 <AccordionContent>
                   <div className="p-4">
                     {attachments.map((attachment) => (
@@ -132,18 +138,32 @@ const ChapterIdPage = async ({
                 </AccordionContent>
               </AccordionItem>
             )}
-
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                <span className="flex">
-                  Discussion
-                  <MessageCircle className="ms-2" />
-                </span>
-              </AccordionTrigger>
-              <AccordionContent>
-                <CommentSection courseId={params.courseId} />
-              </AccordionContent>
-            </AccordionItem>
+            {purchase && (
+              <AccordionItem value="item-2">
+                <AccordionTrigger>
+                  <span className="flex items-center gap-4">
+                    <IconBadge icon={MessageCircle} />
+                    Discussion
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <CommentSection courseId={params.courseId} />
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {purchase && (
+              <AccordionItem value="item-3">
+                <AccordionTrigger>
+                  <span className="flex items-center gap-4">
+                    <IconBadge icon={FileQuestion} />
+                    Quizes
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <QuizList courseId={params.courseId} />
+                </AccordionContent>
+              </AccordionItem>
+            )}
           </Accordion>
         </div>
       </div>
