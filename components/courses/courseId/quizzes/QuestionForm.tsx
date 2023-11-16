@@ -85,7 +85,6 @@ const QuestionForm = ({
               <FormControl onChange={handleChange}>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  value={field.value}
                   defaultValue={submittedResponse?.optionId}
                   className="flex flex-col space-y-1"
                 >
