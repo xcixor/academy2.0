@@ -86,7 +86,7 @@ const QuestionForm = ({
                 <RadioGroup
                   onValueChange={field.onChange}
                   value={field.value}
-                  defaultValue={currentResponse?.optionId}
+                  defaultValue={submittedResponse?.optionId}
                   className="flex flex-col space-y-1"
                 >
                   {options.map((option) => (
