@@ -40,7 +40,9 @@ const QuestionComponent = ({
 
   const url = `http://localhost:3000/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}`;
 
-  const { data, isLoading, error } = useSWR(url, fetcher);
+  const { data, isLoading, error } = useSWR(url, fetcher, {
+    revalidateOnMount: true,
+  });
 
   const question = data as QuestionWithOptionsAndResponses;
 
