@@ -88,7 +88,8 @@ const QuestionForm = ({
       <FormItem
         className={cn(
           "flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300",
-          submittedResponse && submittedResponse.optionId === option.id &&
+          submittedResponse &&
+            submittedResponse.optionId === option.id &&
             "border-sky-300 bg-sky-200/30"
         )}
         key={option.id}
@@ -100,8 +101,6 @@ const QuestionForm = ({
       </FormItem>
     );
   });
-
-  console.log(isChanging, "is changing");
 
   const submitSection = () => {
     return (

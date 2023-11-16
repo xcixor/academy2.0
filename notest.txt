@@ -27,3 +27,5 @@ quiz
   - user
   - question
   - option
+
+think whether response - option relation is one to one

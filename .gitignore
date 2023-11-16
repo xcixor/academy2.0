@@ -37,3 +37,4 @@ next-env.d.ts
 notest.txt
 .http
 prisma/migrations/
+notes.txt
