@@ -16,10 +16,8 @@ import {
 } from "@/components/ui/form";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
 import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
-import { useRouter } from "next/navigation";
 
 type Props = {
   options: Option[];
@@ -110,8 +108,6 @@ const QuestionForm = ({
       </div>
     );
   };
-
-  console.log(submitSection);
 
   if (isLoading) {
     return (
