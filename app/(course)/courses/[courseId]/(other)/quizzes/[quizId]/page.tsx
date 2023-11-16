@@ -1,12 +1,11 @@
 "use client";
 
 import QuestionList from "@/components/courses/courseId/quizzes/QuestionList";
-import QuizList from "@/components/dashboard/teacher/courses/courseId/QuizList";
-
-import { db } from "@/lib/db";
 import { fetcher } from "@/lib/utils";
-import { Question, Quiz } from "@prisma/client";
+import { Question, Quiz, Submission } from "@prisma/client";
 import { AlertTriangle, Loader2 } from "lucide-react";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 
 type Props = {
@@ -16,19 +15,16 @@ type Props = {
   };
 };
 
-type QuizWithQuestion = Quiz & {
+type QuizWithQuestionsAndSubmissions = Quiz & {
   questions: Question[];
+  submissions: Submission[];
 };
 
 const QuestionPage = ({ params }: Props) => {
-  // const quiz = await db.quiz.findUnique({
-  //   where: { id: params.quizId },
-  //   include: { questions: true },
-  // });
   const url = `http://localhost:3000/api/courses/${params.courseId}/quizzes/${params.quizId}/`;
 
-  const { data, mutate, isLoading, error } = useSWR(url, fetcher);
-  const quiz = data as QuizWithQuestion;
+  const { data, isLoading, error } = useSWR(url, fetcher);
+  const quiz = data as QuizWithQuestionsAndSubmissions;
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center">
@@ -45,6 +41,12 @@ const QuestionPage = ({ params }: Props) => {
         <p className="text-red-400">Something went wrong...</p>
       </div>
     );
+  }
+  console.log(quiz.submissions, "*******");
+
+  if (quiz.submissions.length > 0) {
+    toast.success("You have already taken that quiz");
+    redirect(`/courses/${params.courseId}/`);
   }
 
   return (

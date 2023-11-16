@@ -9,16 +9,17 @@ generator client {
 }
 
 model User {
-  id            String     @id @default(uuid())
+  id            String       @id @default(uuid())
   name          String?
-  email         String?    @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   password      String?
   Comment       Comment[]
   Response      Response[]
+  submissions   Submission[]
 
   @@map("users")
 }
@@ -173,8 +174,9 @@ model Quiz {
 
   questions Question[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  submissions Submission[]
 
   @@map("quizzes")
 }
@@ -222,4 +224,16 @@ model Response {
 
   @@unique([userId, questionId])
   @@map("responses")
+}
+
+model Submission {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, quizId])
 }

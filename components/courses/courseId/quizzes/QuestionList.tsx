@@ -1,4 +1,4 @@
-import { Question, Quiz } from "@prisma/client";
+import { Question, Quiz, Submission } from "@prisma/client";
 import useListComponents from "@/hooks/useListComponents";
 import QuestionComponent from "@/components/courses/courseId/quizzes/Question";
 import { useEffect, useState } from "react";
@@ -7,18 +7,29 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useConfettiStore } from "@/hooks/useConfettiStore";
 import { Progress } from "@/components/ui/progress";
+import axios from "axios";
 
-type QuizWithQuestion = Quiz & {
+import { redirect, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+type QuizWithQuestionsAndSubmissions = Quiz & {
   questions: Question[];
+  submissions: Submission[];
 };
 
 type Props = {
   courseId: string;
   quizId: string;
-  quiz: QuizWithQuestion;
+  quiz: QuizWithQuestionsAndSubmissions;
 };
 
 const QuestionList = ({ courseId, quizId, quiz }: Props) => {
+  const router = useRouter();
+
+  if (quiz.submissions.length > 0) {
+    toast.success("You have already taken that quiz");
+    redirect(`/courses/${courseId}/`);
+  }
   const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
   const [confirmSubmissionSuccess, setConfirmSubmissionSuccess] =
     useState<boolean>(false);
@@ -63,8 +74,17 @@ const QuestionList = ({ courseId, quizId, quiz }: Props) => {
   }, [confirmSubmissionSuccess, currentStepIndex, goTo, isLastStep]);
 
   const confetti = useConfettiStore();
-  const finish = () => {
-    confetti.onOpen();
+  const finish = async () => {
+    try {
+      await axios.post(
+        `/api/courses/${courseId}/quizzes/${quizId}/submissions/`
+      );
+      router.push(`/courses/${courseId}`);
+      confetti.onOpen();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
   const progressValue = Math.round(
     ((currentStepIndex + 1) / steps.length) * 100

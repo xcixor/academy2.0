@@ -127,12 +127,21 @@ export async function GET(
       },
     });
 
+    if (!courseOwner) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const quiz = await db.quiz.findUnique({
       where: {
         id: params.quizId,
         courseId: params.courseId,
       },
-      include: { questions: true },
+      include: {
+        questions: true,
+        submissions: {
+          where: { userId: userId, quizId: params.quizId },
+        },
+      },
     });
 
     return NextResponse.json(quiz);
