@@ -77,6 +77,20 @@ const QuestionForm = ({
     toggleHasSubmitted();
   };
 
+  const radioItems = options.map((option) => {
+    return (
+      <FormItem
+        className="flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300"
+        key={option.id}
+      >
+        <FormControl>
+          <RadioGroupItem value={option.id} />
+        </FormControl>
+        <FormLabel className="font-normal">{option.title}</FormLabel>
+      </FormItem>
+    );
+  });
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
@@ -108,19 +122,7 @@ const QuestionForm = ({
                     defaultValue={submittedResponse?.optionId}
                     className="flex flex-col space-y-1"
                   >
-                    {options.map((option) => (
-                      <FormItem
-                        className="flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300"
-                        key={option.id}
-                      >
-                        <FormControl>
-                          <RadioGroupItem value={option.id} />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {option.title}
-                        </FormLabel>
-                      </FormItem>
-                    ))}
+                    {radioItems}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
@@ -157,19 +159,7 @@ const QuestionForm = ({
                     onValueChange={field.onChange}
                     className="flex flex-col space-y-1"
                   >
-                    {options.map((option) => (
-                      <FormItem
-                        className="flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300"
-                        key={option.id}
-                      >
-                        <FormControl>
-                          <RadioGroupItem value={option.id} />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {option.title}
-                        </FormLabel>
-                      </FormItem>
-                    ))}
+                    {radioItems}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
