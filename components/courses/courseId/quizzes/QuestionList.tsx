@@ -66,7 +66,9 @@ const QuestionList = ({ courseId, quizId, quiz }: Props) => {
   const finish = () => {
     confetti.onOpen();
   };
-  const progressValue = Math.round((currentStepIndex / steps.length) * 100);
+  const progressValue = Math.round(
+    ((currentStepIndex + 1) / steps.length) * 100
+  );
 
   const handleNext = () => {
     setHasSubmitted(false);
@@ -92,7 +94,7 @@ const QuestionList = ({ courseId, quizId, quiz }: Props) => {
           <>
             <Progress value={progressValue} className="basis-[70%]" />{" "}
             <div className="flex-1">
-              <p>{steps.length - currentStepIndex} Question Remaining</p>
+              Question {currentStepIndex + 1} of {steps.length}
             </div>
           </>
         )}

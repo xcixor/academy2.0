@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import axios from "axios";
-import { fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { useState } from "react";
 
@@ -86,7 +86,11 @@ const QuestionForm = ({
   const radioItems = options.map((option) => {
     return (
       <FormItem
-        className="flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300"
+        className={cn(
+          "flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300",
+          submittedResponse && submittedResponse.optionId === option.id &&
+            "border-sky-300 bg-sky-200/30"
+        )}
         key={option.id}
       >
         <FormControl>
