@@ -64,13 +64,6 @@ const QuestionComponent = ({
     );
   }
 
-  function findSubmittedResponse(array: Response[]) {
-    return array.find(
-      (obj) => obj.userId === user?.id && obj.questionId === questionId
-    );
-  }
-  const foundResponse = findSubmittedResponse(question.responses);
-
   return (
     <div className="bg-sky-100 p-4 flex-1">
       <div className="shadow-sm bg-sky-200 p-4">
@@ -84,7 +77,6 @@ const QuestionComponent = ({
           courseId={courseId}
           questionId={questionId}
           quizId={quizId}
-          submittedResponse={foundResponse}
           confirmSubmission={confirmSubmission}
         />
       </div>
