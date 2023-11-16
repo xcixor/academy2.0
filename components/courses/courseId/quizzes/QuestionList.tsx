@@ -57,9 +57,9 @@ const QuestionList = ({ courseId, quizId, quiz }: Props) => {
     if (confirmSubmissionSuccess) {
       if (!isLastStep) {
         goTo(currentStepIndex + 1);
-        setConfirmSubmissionSuccess(false);
       }
     }
+    setConfirmSubmissionSuccess(false);
   }, [confirmSubmissionSuccess, currentStepIndex, goTo, isLastStep]);
 
   const confetti = useConfettiStore();

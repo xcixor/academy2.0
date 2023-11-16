@@ -18,6 +18,7 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import axios from "axios";
 import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
+import { useState } from "react";
 
 type Props = {
   options: Option[];
@@ -60,6 +61,8 @@ const QuestionForm = ({
       confirmSubmission();
     } catch (error) {
       toast.error("Something went wrong");
+    } finally {
+      toggleChanging();
     }
   }
 
@@ -71,8 +74,13 @@ const QuestionForm = ({
 
   const submittedResponse = data as Response;
 
+  const [isChanging, setIsChanging] = useState(false);
+
+  const toggleChanging = () => setIsChanging((current) => !current);
+
   const handleChange = () => {
     toggleHasSubmitted();
+    setIsChanging(true);
   };
 
   const radioItems = options.map((option) => {
@@ -89,6 +97,8 @@ const QuestionForm = ({
     );
   });
 
+  console.log(isChanging, "is changing");
+
   const submitSection = () => {
     return (
       <div className="flex gap-4">
@@ -98,7 +108,10 @@ const QuestionForm = ({
             <p className="text-zinc-500">Answer Submitted</p>
           </div>
         )}
-        <Button type="submit" disabled={!isValid || isSubmitting}>
+        <Button
+          type="submit"
+          disabled={!isValid || isSubmitting || !isChanging}
+        >
           {isSubmitting ? (
             <Loader2 className="h-4 w-4 animate-pulse " />
           ) : (
