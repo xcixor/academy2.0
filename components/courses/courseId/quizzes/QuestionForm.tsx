@@ -28,7 +28,6 @@ type Props = {
   courseId: string;
   questionId: string;
   quizId: string;
-  submittedResponse?: Response | null;
   confirmSubmission: () => void;
 };
 
@@ -38,7 +37,6 @@ const QuestionForm = ({
   courseId,
   questionId,
   quizId,
-
   confirmSubmission,
 }: Props) => {
   const ids = options.map((option) => option.id);
@@ -52,23 +50,16 @@ const QuestionForm = ({
     resolver: zodResolver(FormSchema),
   });
 
-  // const [currentResponse, setCurrentResponse] = useState<
-  //   Response | null | undefined
-  // >(submittedResponse);
-
   const { isSubmitting, isValid } = form.formState;
-
-  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/responses/`,
         values
       );
       toggleHasSubmitted();
       confirmSubmission();
-      // router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -82,20 +73,9 @@ const QuestionForm = ({
 
   const submittedResponse = data as Response;
 
-  const [selectedValue, setSelectedValue] = useState<string>("");
-  const firstRender = useRef(true);
-  useEffect(() => {
-    if (firstRender.current) {
-      console.log("First render");
-      firstRender.current = false;
-    }
-    if (submittedResponse) setSelectedValue(submittedResponse.optionId);
-  }, [submittedResponse]);
   const handleChange = (event: any) => {
     toggleHasSubmitted();
-    setSelectedValue(event.target.value);
   };
-  console.log(isValidating, "^^^^^^^^^^^^^");
 
   if (isLoading) {
     return (
