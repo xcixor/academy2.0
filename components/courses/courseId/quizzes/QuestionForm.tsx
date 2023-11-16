@@ -67,13 +67,13 @@ const QuestionForm = ({
 
   const url = `http://localhost:3000/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/responses`;
 
-  const { data, isLoading, error, isValidating } = useSWR(url, fetcher, {
+  const { data, isLoading, isValidating } = useSWR(url, fetcher, {
     revalidateOnMount: true,
   });
 
   const submittedResponse = data as Response;
 
-  const handleChange = (event: any) => {
+  const handleChange = () => {
     toggleHasSubmitted();
   };
 
@@ -90,6 +90,28 @@ const QuestionForm = ({
       </FormItem>
     );
   });
+
+  const submitSection = () => {
+    return (
+      <div className="flex gap-4">
+        {submittedResponse && (
+          <div className="flex items-center ">
+            <CheckCircle2 className="h-4 w-4 text-zinc-500 me-2" />
+            <p className="text-zinc-500">Answer Submitted</p>
+          </div>
+        )}
+        <Button type="submit" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? (
+            <Loader2 className="h-4 w-4 animate-pulse " />
+          ) : (
+            <span>{submittedResponse ? "ReSubmit" : "Submit"}</span>
+          )}
+        </Button>
+      </div>
+    );
+  };
+
+  console.log(submitSection);
 
   if (isLoading) {
     return (
@@ -129,18 +151,7 @@ const QuestionForm = ({
               </FormItem>
             )}
           />
-
-          <div className="flex gap-4">
-            {submittedResponse && (
-              <div className="flex items-center ">
-                <CheckCircle2 className="h-4 w-4 text-zinc-500 me-2" />
-                <p className="text-zinc-500">Answer Submitted</p>
-              </div>
-            )}
-            <Button type="submit" disabled={!isValid || isSubmitting}>
-              {submittedResponse ? "ReSubmit" : "Submit"}
-            </Button>
-          </div>
+          {submitSection()}
         </form>
       </Form>
     );
@@ -166,18 +177,7 @@ const QuestionForm = ({
               </FormItem>
             )}
           />
-
-          <div className="flex gap-4">
-            {submittedResponse && (
-              <div className="flex items-center ">
-                <CheckCircle2 className="h-4 w-4 text-zinc-500 me-2" />
-                <p className="text-zinc-500">Answer Submitted</p>
-              </div>
-            )}
-            <Button type="submit" disabled={!isValid || isSubmitting}>
-              {submittedResponse ? "ReSubmit" : "Submit"}
-            </Button>
-          </div>
+          {submitSection()}
         </form>
       </Form>
     );
