@@ -18,7 +18,7 @@ model User {
   updatedAt     DateTime     @updatedAt
   password      String?
   Comment       Comment[]
-  Response      Response[]
+  responses      Response[]
   submissions   Submission[]
 
   @@map("users")
