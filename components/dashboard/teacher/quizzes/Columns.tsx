@@ -92,7 +92,7 @@ export const columns: ColumnDef<Quiz>[] = [
             <Link href={`/dashboard/teacher/quizzes/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil className="h-4 w-4 mr-2 " />
-                Edit
+                View Submissions
               </DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
