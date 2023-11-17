@@ -25,7 +25,7 @@ async function gradeStudent(
     where: { id: studentId },
     include: { responses: { include: { question: true, option: true } } },
   });
-  //   console.log(user?.responses);
+
   const correctMarks = user?.responses.reduce((acc, curr) => {
     if (curr.option.isAnswer && curr.question.quizId === quizId) {
       return acc + 1;
@@ -34,7 +34,7 @@ async function gradeStudent(
     }
   }, 0);
   if (correctMarks && correctMarks >= 1) {
-    const studentScore = (correctMarks / totalQuestions) * 100;
+    const studentScore = Math.round((correctMarks / totalQuestions) * 100);
     return {
       passed: studentScore > passingPercentage,
       marks: studentScore,
@@ -85,13 +85,19 @@ const SubmissionsTable = async ({ quizId }: Props) => {
     });
   }
 
-  console.log(submissionList);
-
   return (
-    <div>
+    <div className="p-6">
       <div>
-        <p>Quiz {quiz.title}</p>
-        <p>Course: {courseTitle}</p>
+        <p>
+          <span className="font-semibold">{quiz.title}</span>
+        </p>
+        <p>
+          <span className="font-semibold">Course:</span> {courseTitle}
+        </p>
+        <p>
+          <span className="font-semibold">Pass Mark:</span>{" "}
+          {quiz.passingPercentage}%
+        </p>
       </div>
       <DataTable columns={columns} data={submissionList} />
     </div>
