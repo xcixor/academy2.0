@@ -31,7 +31,7 @@ interface AnswerFormProps {
 }
 
 const formSchema = z.object({
-  planId: z.string().min(1),
+  optionId: z.string().min(1),
 });
 
 export default function AnswerForm({
@@ -51,18 +51,18 @@ export default function AnswerForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      planId: options.find((item) => item.isAnswer)?.value || "",
+      optionId: options.find((item) => item.isAnswer)?.value || "",
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { planId } = values;
+    const { optionId } = values;
 
     try {
       await axios.patch(
-        `/api/courses/${courseId}/quizzes/${quizId}/questions/${initialData?.id}/options/${planId}/set-answer`
+        `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/options/${optionId}/set-answer`
       );
       toast.success("Question updated");
       toggleEdit();
@@ -87,7 +87,7 @@ export default function AnswerForm({
             ) : (
               <>
                 <Pencil className="h-4 w-4 mr-2" />
-                Edit plan
+                Set Answer
               </>
             )}
           </Button>
@@ -111,7 +111,7 @@ export default function AnswerForm({
           >
             <FormField
               control={form.control}
-              name="planId"
+              name="optionId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

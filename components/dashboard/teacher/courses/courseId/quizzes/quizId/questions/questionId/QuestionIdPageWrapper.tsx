@@ -45,7 +45,11 @@ const QuestionIdPageWrapper = async ({
     return redirect("/");
   }
 
-  const requiredFields = [question.title, question.options.length > 1];
+  const requiredFields = [
+    question.title,
+    question.options.length > 1,
+    question.options.some((option) => option.isAnswer),
+  ];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;

@@ -36,6 +36,7 @@ export async function PATCH(
 
     await db.option.updateMany({
       where: {
+        questionId: params.questionId,
         NOT: {
           id: params.optionId,
         },
