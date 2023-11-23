@@ -1,0 +1,43 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes left {
+  from {
+    transform: translateX(-5%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.half-underline {
+    /* text-align: center; */
+    display: inline-block;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.half-underline::before {
+  content: "";
+  position: absolute;
+  width: 25%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  border-bottom: 4px solid #ea5629;
+}
+/* 
+.bg-img {
+  background: url("/index/waves.svg");
+} */
