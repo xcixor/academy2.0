@@ -1,12 +1,16 @@
+import Footer from "@/components/Footer";
 import { Navbar } from "@/components/navbar/Navbar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full">
-      <div className="h-[80px] fixed inset-y-0 w-full z-50">
+      <div className="fixed inset-y-0 z-50 h-[80px] w-full">
         <Navbar />
       </div>
-      <main className="pt-[80px] h-full">{children}</main>
+      <main className="h-full pt-[80px]">
+        {children}
+        <Footer />
+      </main>
     </div>
   );
 };
