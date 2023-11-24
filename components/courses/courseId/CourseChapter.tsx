@@ -22,6 +22,7 @@ import CommentSection from "@/components/courses/courseId/discussion/CommentSect
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
+import { db } from "@/lib/db";
 
 const ChapterIdPage = async ({
   params,
@@ -53,6 +54,21 @@ const ChapterIdPage = async ({
     return redirect("/");
   }
 
+  attachments.forEach(async (attachment) => {
+    const currentTimeStamp = Date.now();
+    if (
+      attachment.gcpData &&
+      attachment.gcpData?.urlExpiryDate < currentTimeStamp
+    ) {
+      await db.gCPData.update({
+        where: {
+          id: attachment.gcpData.id,
+        },
+        data: attachment.gcpData.validityDuration,
+      });
+    }
+  });
+
   const isLocked = !chapter.isFree && !purchase;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
@@ -67,8 +83,8 @@ const ChapterIdPage = async ({
           label="You need to purchase this course to watch this chapter."
         />
       )}
-      <div className="flex flex-col justify-center items-center mx-auto pb-20">
-        <div className="p-4 w-full">
+      <div className="mx-auto flex flex-col items-center justify-center pb-20">
+        <div className="w-full p-4">
           <VideoPlayer
             chapterId={params.chapterId}
             title={chapter.title}
@@ -79,12 +95,12 @@ const ChapterIdPage = async ({
             completeOnEnd={completeOnEnd}
           />
         </div>
-        <div className="max-w-4xl min-w-[80%]">
-          <div className="p-4 flex flex-col md:flex-row items-center justify-between">
-            <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
+        <div className="min-w-[80%] max-w-4xl">
+          <div className="flex flex-col items-center justify-between p-4 md:flex-row">
+            <h2 className="mb-2 text-2xl font-semibold">{chapter.title}</h2>
 
             {purchase ? (
-              <div className="flex align-middle gap-4">
+              <div className="flex gap-4 align-middle">
                 <CourseProgressButton
                   chapterId={params.chapterId}
                   courseId={params.courseId}
@@ -96,7 +112,7 @@ const ChapterIdPage = async ({
                   target="_blank"
                 >
                   <Button type="button" className="w-full md:w-auto">
-                    <MessageCircle className="h-4 w-4 ml-2" />
+                    <MessageCircle className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -128,7 +144,7 @@ const ChapterIdPage = async ({
                         href={attachment.url}
                         target="_blank"
                         key={attachment.id}
-                        className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                        className="flex w-full items-center rounded-md border bg-sky-200 p-3 text-sky-700 hover:underline"
                       >
                         <File />
                         <p className="line-clamp-1">{attachment.name}</p>

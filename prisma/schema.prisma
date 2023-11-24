@@ -59,11 +59,12 @@ model Category {
 }
 
 model GCPData {
-  id            String       @id @default(cuid())
-  urlExpiryDate DateTime
-  blobName      String
-  assetId       String
-  Attachment    Attachment[]
+  id               String       @id @default(cuid())
+  urlExpiryDate    DateTime
+  blobName         String
+  assetId          String
+  Attachment       Attachment[]
+  validityDuration Int          @default(7)
 }
 
 model Attachment {

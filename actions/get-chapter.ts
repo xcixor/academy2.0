@@ -1,11 +1,15 @@
 import { db } from "@/lib/db";
-import { Attachment, Chapter } from "@prisma/client";
+import { Attachment, Chapter, GCPData } from "@prisma/client";
 
 interface GetChapterProps {
   userId: string;
   courseId: string;
   chapterId: string;
 }
+
+type AttachmentWithGCPData = Attachment & {
+  gcpData: GCPData | null;
+};
 
 export const getChapter = async ({
   userId,
@@ -44,13 +48,17 @@ export const getChapter = async ({
     }
 
     let muxData = null;
-    let attachments: Attachment[] = [];
+
+    let attachments: AttachmentWithGCPData[] = [];
     let nextChapter: Chapter | null = null;
 
     if (purchase) {
       attachments = await db.attachment.findMany({
         where: {
           courseId: courseId,
+        },
+        include: {
+          gcpData: true,
         },
       });
     }
