@@ -38,3 +38,4 @@ notest.txt
 .http
 prisma/migrations/
 notes.txt
+cors.json

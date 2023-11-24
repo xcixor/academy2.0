@@ -1,0 +1,93 @@
+const { Storage } = require("@google-cloud/storage");
+const { env } = require("./env");
+
+export class FileUploader {
+  gsBucketName: string;
+  gsLocation: string;
+  blobName: any;
+  customLocation: string;
+  contentType: string;
+  method: string;
+  fileName: string;
+  storage: any;
+
+  constructor(
+    blobName: string,
+    customLocation: string,
+    contentType: string,
+    method: string,
+  ) {
+    this.blobName = blobName;
+    this.customLocation = customLocation;
+    this.contentType = contentType;
+    this.method = method;
+    //   The ID of your GCS bucket
+    this.gsBucketName = env.GS_BUCKET_NAME;
+    this.gsLocation = env.GS_LOCATION;
+
+    customLocation
+      ? (this.fileName = `${this.gsLocation}/${this.customLocation}/${this.blobName}`)
+      : (this.fileName = `${this.gsLocation}/${this.blobName}`);
+
+    this.storage = new Storage({ keyFilename: env.GS_CREDENTIALS });
+  }
+
+  generateSignedUrl(): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      const options = {
+        version: "v4",
+        action: "write",
+        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
+        contentType: this.contentType,
+        method: this.method,
+        headers: {
+          "content-type": this.contentType, // Include the content-type header in the signedheaders
+        },
+      };
+
+      // Get a v4 signed URL for uploading file
+      const [url] = await this.storage
+        .bucket(this.gsBucketName)
+        .file(this.fileName)
+        .getSignedUrl(options);
+
+      resolve(url);
+    });
+  }
+
+  generateSignedDownloadUrl(): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      const options = {
+        version: "v4",
+        action: "read",
+        expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      };
+      const [url] = await this.storage
+        .bucket(this.gsBucketName)
+        .file(this.fileName)
+        .getSignedUrl(options);
+
+      resolve(url);
+    });
+  }
+
+  async uploadFile(file: File): Promise<object> {
+    return new Promise(async (resolve, reject) => {
+      const signedUrl = await this.generateSignedUrl();
+      const cloudResponse = await fetch(signedUrl, {
+        method: this.method,
+        headers: {
+          "Content-Type": this.contentType,
+        },
+        body: file,
+      });
+      const downloadUrl = await this.generateSignedDownloadUrl();
+      const response = {
+        status: cloudResponse.status,
+        message: cloudResponse.statusText,
+        downloadUrl: downloadUrl,
+      };
+      resolve(response);
+    });
+  }
+}
