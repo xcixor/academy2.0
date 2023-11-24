@@ -25,9 +25,6 @@ export class FileUploader {
     this.gsLocation = env.GS_LOCATION;
     this.fileName = `${this.gsLocation}/${this.blobName}`;
     this.downloadExpiryDate = downloadExpiryDate;
-    // customLocation
-    //   ? (this.fileName = `${this.gsLocation}/${this.customLocation}/${this.blobName}`)
-    //   : (this.fileName = `${this.gsLocation}/${this.blobName}`);
 
     this.storage = new Storage({ keyFilename: env.GS_CREDENTIALS });
   }

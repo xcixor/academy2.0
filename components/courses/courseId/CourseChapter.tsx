@@ -23,6 +23,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 import { db } from "@/lib/db";
+import { FileUploader } from "@/lib/gcp";
 
 const ChapterIdPage = async ({
   params,
@@ -60,12 +61,26 @@ const ChapterIdPage = async ({
       attachment.gcpData &&
       attachment.gcpData?.urlExpiryDate < currentTimeStamp
     ) {
+      console.log("will update");
+      const newExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      const uploader = new FileUploader(
+        attachment.gcpData.blobName,
+        attachment.type,
+        "PUT",
+        newExpiry,
+      );
+      const newUrl = await uploader.generateSignedDownloadUrl();
       await db.gCPData.update({
         where: {
           id: attachment.gcpData.id,
         },
-        data: attachment.gcpData.validityDuration,
+        data: { urlExpiryDate: newExpiry },
       });
+      const updatedAttach = await db.attachment.update({
+        where: { id: attachment.id },
+        data: { url: newUrl },
+      });
+      console.log(updatedAttach.url);
     }
   });
 
