@@ -5,29 +5,29 @@ export class FileUploader {
   gsBucketName: string;
   gsLocation: string;
   blobName: any;
-  customLocation: string;
   contentType: string;
   method: string;
   fileName: string;
   storage: any;
+  downloadExpiryDate: Date;
 
   constructor(
     blobName: string,
-    customLocation: string,
     contentType: string,
     method: string,
+    downloadExpiryDate: Date,
   ) {
     this.blobName = blobName;
-    this.customLocation = customLocation;
     this.contentType = contentType;
     this.method = method;
     //   The ID of your GCS bucket
     this.gsBucketName = env.GS_BUCKET_NAME;
     this.gsLocation = env.GS_LOCATION;
-
-    customLocation
-      ? (this.fileName = `${this.gsLocation}/${this.customLocation}/${this.blobName}`)
-      : (this.fileName = `${this.gsLocation}/${this.blobName}`);
+    this.fileName = `${this.gsLocation}/${this.blobName}`;
+    this.downloadExpiryDate = downloadExpiryDate;
+    // customLocation
+    //   ? (this.fileName = `${this.gsLocation}/${this.customLocation}/${this.blobName}`)
+    //   : (this.fileName = `${this.gsLocation}/${this.blobName}`);
 
     this.storage = new Storage({ keyFilename: env.GS_CREDENTIALS });
   }
@@ -65,7 +65,7 @@ export class FileUploader {
         const options = {
           version: "v4",
           action: "read",
-          expires: Date.now() + 30 * 60 * 1000, // 30 minutes,
+          expires: this.downloadExpiryDate,
         };
 
         const [url] = await this.storage
@@ -80,7 +80,9 @@ export class FileUploader {
     });
   }
 
-  async uploadFile(file: File): Promise<object> {
+  async uploadFile(
+    file: FormDataEntryValue,
+  ): Promise<{ status: number; message: string; downloadUrl: string }> {
     return new Promise(async (resolve, reject) => {
       try {
         const signedUrl = await this.generateSignedUrl();
@@ -99,7 +101,11 @@ export class FileUploader {
         };
         resolve(response);
       } catch (error) {
-        resolve({ status: 500, message: error.message || error });
+        resolve({
+          status: 500,
+          message: error.message || error,
+          downloadUrl: "",
+        });
       }
     });
   }

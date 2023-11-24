@@ -5,7 +5,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string; attachmentId: string } }
+  { params }: { params: { courseId: string; attachmentId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
@@ -31,6 +31,10 @@ export async function DELETE(
         courseId: params.courseId,
         id: params.attachmentId,
       },
+    });
+
+    await db.gCPData.deleteMany({
+      where: { assetId: params.attachmentId },
     });
 
     return NextResponse.json(attachment);

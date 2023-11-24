@@ -18,7 +18,7 @@ model User {
   updatedAt     DateTime     @updatedAt
   password      String?
   Comment       Comment[]
-  responses      Response[]
+  responses     Response[]
   submissions   Submission[]
 
   @@map("users")
@@ -58,6 +58,14 @@ model Category {
   courses Course[]
 }
 
+model GCPData {
+  id            String       @id @default(cuid())
+  urlExpiryDate DateTime
+  blobName      String
+  assetId       String
+  Attachment    Attachment[]
+}
+
 model Attachment {
   id   String @id @default(uuid())
   name String
@@ -68,6 +76,9 @@ model Attachment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  gcpData   GCPData? @relation(fields: [gCPDataId], references: [id])
+  gCPDataId String?
 
   @@index([courseId])
 }
