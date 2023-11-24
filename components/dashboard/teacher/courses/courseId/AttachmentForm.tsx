@@ -33,16 +33,6 @@ export default function AttachmentForm({
 
   const router = useRouter();
   const uploadUrl = `/api/courses/${courseId}/attachments`;
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.post(`/api/courses/${courseId}/attachments`, values);
-      toast.success("Course updated");
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    }
-  };
 
   const onDelete = async (id: string) => {
     try {
