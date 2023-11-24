@@ -56,11 +56,19 @@ export async function POST(
       },
     });
 
-    await db.gCPData.create({
+    const gcpData = await db.gCPData.create({
       data: {
         assetId: attachment.id,
         urlExpiryDate: downloadExpiryDate,
         blobName: blobName,
+      },
+    });
+    await db.attachment.update({
+      where: {
+        id: attachment.id,
+      },
+      data: {
+        gCPDataId: gcpData.id,
       },
     });
 
