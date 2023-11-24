@@ -34,60 +34,73 @@ export class FileUploader {
 
   generateSignedUrl(): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      const options = {
-        version: "v4",
-        action: "write",
-        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
-        contentType: this.contentType,
-        method: this.method,
-        headers: {
-          "content-type": this.contentType, // Include the content-type header in the signedheaders
-        },
-      };
+      try {
+        const options = {
+          version: "v4",
+          action: "write",
+          expires: Date.now() + 30 * 60 * 1000, // 30 minutes
+          contentType: this.contentType,
+          method: this.method,
+          headers: {
+            "content-type": this.contentType, // Include the content-type header in the signedheaders
+          },
+        };
 
-      // Get a v4 signed URL for uploading file
-      const [url] = await this.storage
-        .bucket(this.gsBucketName)
-        .file(this.fileName)
-        .getSignedUrl(options);
+        // Get a v4 signed URL for uploading file
+        const [url] = await this.storage
+          .bucket(this.gsBucketName)
+          .file(this.fileName)
+          .getSignedUrl(options);
 
-      resolve(url);
+        resolve(url);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
   generateSignedDownloadUrl(): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      const options = {
-        version: "v4",
-        action: "read",
-        expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-      };
-      const [url] = await this.storage
-        .bucket(this.gsBucketName)
-        .file(this.fileName)
-        .getSignedUrl(options);
+      try {
+        const options = {
+          version: "v4",
+          action: "read",
+          expires: Date.now() + 30 * 60 * 1000, // 30 minutes,
+        };
 
-      resolve(url);
+        const [url] = await this.storage
+          .bucket(this.gsBucketName)
+          .file(this.fileName)
+          .getSignedUrl(options);
+
+        resolve(url);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
   async uploadFile(file: File): Promise<object> {
     return new Promise(async (resolve, reject) => {
-      const signedUrl = await this.generateSignedUrl();
-      const cloudResponse = await fetch(signedUrl, {
-        method: this.method,
-        headers: {
-          "Content-Type": this.contentType,
-        },
-        body: file,
-      });
-      const downloadUrl = await this.generateSignedDownloadUrl();
-      const response = {
-        status: cloudResponse.status,
-        message: cloudResponse.statusText,
-        downloadUrl: downloadUrl,
-      };
-      resolve(response);
+      try {
+        const signedUrl = await this.generateSignedUrl();
+        const cloudResponse = await fetch(signedUrl, {
+          method: this.method,
+          headers: {
+            "Content-Type": this.contentType,
+          },
+          body: file,
+        });
+        const downloadUrl = await this.generateSignedDownloadUrl();
+        const response = {
+          status: cloudResponse.status,
+          message: cloudResponse.statusText,
+          downloadUrl: downloadUrl,
+        };
+        resolve(response);
+      } catch (error) {
+        resolve({ status: 500, message: error.message || error });
+      }
     });
   }
 }

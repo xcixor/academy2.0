@@ -5,7 +5,14 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 
 import Dropzone from "react-dropzone";
-import { Check, CheckCircle2, Cloud, FileIcon, Loader2 } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  Cloud,
+  FileIcon,
+  Loader2,
+  StopCircle,
+} from "lucide-react";
 import { Progress } from "./ui/progress";
 
 import { useRouter } from "next/navigation";
@@ -22,6 +29,8 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
   const router = useRouter();
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const startUpload = async function (acceptedFile: File) {
@@ -33,11 +42,15 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success("Course updated");
       toggleEdit();
+      toast.success("Course updated");
       router.refresh();
+      setIsError(false);
     } catch {
       toast.error("Something went wrong");
+    } finally {
+      setIsUploading(false);
+      setIsError(true);
     }
   };
 
@@ -66,9 +79,14 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
         const progressInterval = startSimulatedProgress();
 
         // handle file uploading
-        await startUpload(acceptedFile[0]);
-        clearInterval(progressInterval);
-        setUploadProgress(100);
+        try {
+          await startUpload(acceptedFile[0]);
+          clearInterval(progressInterval);
+          setUploadProgress(100);
+        } catch (error) {
+          console.log(error);
+          setUploadProgress(95);
+        }
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -115,6 +133,20 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
                       <CheckCircle2 className="h-3 w-3 text-green-500" />
                     </div>
                   ) : null}
+                </div>
+              ) : null}
+
+              {isError ? (
+                <div className="mx-auto mt-4 w-full max-w-xs">
+                  <Progress
+                    indicatorColor="bg-red-500"
+                    value={95}
+                    className="h-1 w-full bg-zinc-200"
+                  />
+
+                  <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
+                    <StopCircle className="h-3 w-3 text-red-500" />
+                  </div>
                 </div>
               ) : null}
 
