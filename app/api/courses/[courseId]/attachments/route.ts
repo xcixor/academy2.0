@@ -53,6 +53,7 @@ export async function POST(
         url: cloudResponse.downloadUrl,
         name: file.name,
         courseId: params.courseId,
+        type: contentType,
       },
     });
 
