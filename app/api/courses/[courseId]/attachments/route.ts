@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-
+import { File } from "form-data";
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
-import { FileUploader, generateSignedUrl } from "@/lib/gcp";
+import { FileUploader } from "@/lib/gcp";
 import axios from "axios";
 
 export async function POST(
@@ -30,16 +30,16 @@ export async function POST(
 
     const formData = await req.formData();
     const data = Object.fromEntries(formData);
-    const { file } = data;
+    const { file }: { file: File } = data as { file: File };
 
-    let customLocation = `courses/${params.courseId}/attachments`;
+    let blobName = `courses/${params.courseId}/attachments/${file.name}`;
     const contentType: string = file.type;
-
+    const downloadExpiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const uploader = new FileUploader(
-      file.name,
-      customLocation,
+      blobName,
       contentType,
       "PUT",
+      downloadExpiryDate,
     );
 
     const cloudResponse = await uploader.uploadFile(file);
@@ -47,6 +47,7 @@ export async function POST(
     if (cloudResponse.status !== 200) {
       return new NextResponse("Internal Error", { status: 500 });
     }
+
     const attachment = await db.attachment.create({
       data: {
         url: cloudResponse.downloadUrl,
@@ -54,6 +55,15 @@ export async function POST(
         courseId: params.courseId,
       },
     });
+
+    await db.gCPData.create({
+      data: {
+        assetId: attachment.id,
+        urlExpiryDate: downloadExpiryDate,
+        blobName: blobName,
+      },
+    });
+
     return NextResponse.json(attachment);
   } catch (error) {
     console.log("COURSE_ID_ATTACHMENTS", error);
