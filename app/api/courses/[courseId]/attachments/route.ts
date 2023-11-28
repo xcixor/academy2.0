@@ -62,6 +62,8 @@ export async function POST(
         assetId: attachment.id,
         urlExpiryDate: downloadExpiryDate,
         blobName: blobName,
+        assetName: file.name,
+        assetType: contentType,
       },
     });
     await db.attachment.update({
