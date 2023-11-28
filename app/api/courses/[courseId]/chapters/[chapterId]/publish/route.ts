@@ -5,7 +5,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
@@ -33,15 +33,15 @@ export async function PATCH(
       },
     });
 
-    const muxData = await db.muxData.findUnique({
+    const gcpData = await db.gCPData.findFirst({
       where: {
-        chapterId: params.chapterId,
+        assetId: params.chapterId,
       },
     });
 
     if (
       !chapter ||
-      !muxData ||
+      !gcpData ||
       !chapter.title ||
       !chapter.description ||
       !chapter.videoUrl

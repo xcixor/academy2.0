@@ -47,7 +47,7 @@ export const getChapter = async ({
       throw new Error("Chapter or course not found");
     }
 
-    let muxData = null;
+    let gcpData = null;
 
     let attachments: AttachmentWithGCPData[] = [];
     let nextChapter: Chapter | null = null;
@@ -64,10 +64,19 @@ export const getChapter = async ({
     }
 
     if (chapter.isFree || purchase) {
-      muxData = await db.muxData.findUnique({
+      gcpData = await db.chapter.findUnique({
         where: {
-          chapterId: chapterId,
+          id: chapterId,
         },
+        include:{
+          gcpData:{
+            select:{
+              urlExpiryDate:true,
+              blobName:true
+            }
+          }
+        }
+      
       });
 
       nextChapter = await db.chapter.findFirst({
@@ -96,7 +105,7 @@ export const getChapter = async ({
     return {
       chapter,
       course,
-      muxData,
+      gcpData,
       attachments,
       nextChapter,
       userProgress,
@@ -107,7 +116,7 @@ export const getChapter = async ({
     return {
       chapter: null,
       course: null,
-      muxData: null,
+      gcpData: null,
       attachments: [],
       nextChapter: null,
       userProgress: null,
