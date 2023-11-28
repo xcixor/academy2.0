@@ -51,7 +51,8 @@ const UploadDropzone = ({
       toast.success("Course updated");
       router.refresh();
       setIsError(false);
-    } catch {
+    } catch(error) {
+      console.log(error, '#CLIENT ERROR')
       toast.error("Something went wrong");
     } finally {
       setIsUploading(false);
