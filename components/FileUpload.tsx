@@ -2,17 +2,8 @@
 
 import { useState } from "react";
 
-import { Button } from "./ui/button";
-
 import Dropzone from "react-dropzone";
-import {
-  Check,
-  CheckCircle2,
-  Cloud,
-  FileIcon,
-  Loader2,
-  StopCircle,
-} from "lucide-react";
+import { CheckCircle2, Cloud, FileIcon, StopCircle } from "lucide-react";
 import { Progress } from "./ui/progress";
 
 import { useRouter } from "next/navigation";
@@ -22,10 +13,15 @@ import { File } from "buffer";
 
 interface FileUploadProps {
   uploadUrl: string;
+  isFileEditing: boolean;
   toggleEdit?: () => void;
 }
 
-const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
+const UploadDropzone = ({
+  uploadUrl,
+  toggleEdit,
+  isFileEditing,
+}: FileUploadProps) => {
   const router = useRouter();
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -37,11 +33,20 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
     try {
       let formData = new FormData();
       formData.append("file", acceptedFile);
-      await axios.post(uploadUrl, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      if (isFileEditing) {
+        await axios.patch(uploadUrl, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        await axios.post(uploadUrl, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+
       toggleEdit();
       toast.success("Course updated");
       router.refresh();
@@ -164,6 +169,16 @@ const UploadDropzone = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
   );
 };
 
-export const FileUpload = ({ uploadUrl, toggleEdit }: FileUploadProps) => {
-  return <UploadDropzone uploadUrl={uploadUrl} toggleEdit={toggleEdit} />;
+export const FileUpload = ({
+  uploadUrl,
+  toggleEdit,
+  isFileEditing,
+}: FileUploadProps) => {
+  return (
+    <UploadDropzone
+      uploadUrl={uploadUrl}
+      toggleEdit={toggleEdit}
+      isFileEditing={isFileEditing}
+    />
+  );
 };

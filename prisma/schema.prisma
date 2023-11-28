@@ -63,6 +63,8 @@ model GCPData {
   urlExpiryDate    DateTime
   blobName         String
   assetId          String
+  assetName        String
+  assetType        String
   Attachment       Attachment[]
   validityDuration Int          @default(7)
 }
