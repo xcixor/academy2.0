@@ -52,7 +52,7 @@ export default function ChapterVideoForm({
           </div>
         ) : (
           <div className="relative mt-2 aspect-video">
-            <Player title={chapterId} url={initialData.title} />
+            <Player title={initialData.title} url={initialData.videoUrl} />
           </div>
         ))}
       {isEditing && (
