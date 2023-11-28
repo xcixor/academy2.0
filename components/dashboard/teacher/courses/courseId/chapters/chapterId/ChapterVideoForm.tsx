@@ -1,14 +1,12 @@
 "use client";
 
-import * as z from "zod";
-import MuxPlayer from "@mux/mux-player-react";
 import { Pencil, PlusCircle, Video } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Chapter, MuxData } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/FileUpload";
+import { Player } from "@/components/video/VideoPlayer";
 
 interface ChapterVideoFormProps {
   initialData: Chapter & { muxData?: MuxData | null };
@@ -54,7 +52,7 @@ export default function ChapterVideoForm({
           </div>
         ) : (
           <div className="relative mt-2 aspect-video">
-            <MuxPlayer playbackId={initialData?.muxData?.playbackId || ""} />
+            <Player title={chapterId} url={initialData.title} />
           </div>
         ))}
       {isEditing && (
