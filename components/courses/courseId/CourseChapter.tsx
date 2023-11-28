@@ -40,7 +40,7 @@ const ChapterIdPage = async ({
   const {
     chapter,
     course,
-    muxData,
+    gcpData,
     attachments,
     nextChapter,
     userProgress,
@@ -105,9 +105,9 @@ const ChapterIdPage = async ({
             title={chapter.title}
             courseId={params.courseId}
             nextChapterId={nextChapter?.id}
-            playbackId={muxData?.playbackId!}
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
+            videoUrl={chapter.videoUrl}
           />
         </div>
         <div className="min-w-[80%] max-w-4xl">

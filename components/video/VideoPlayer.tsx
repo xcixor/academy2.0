@@ -1,6 +1,5 @@
 import "@vidstack/react/player/styles/base.css";
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   isHLSProvider,
@@ -18,11 +17,12 @@ import {
 interface Props {
   title: string;
   url: string;
+  onEnded: () => void;
 }
 
-import { VideoLayout } from "./VideoLayout";
+import { VideoLayout } from "./layout/VideoLayout";
 
-export function Player({ title, url }: Props) {
+export function Player({ title, url, onEnded }: Props) {
   let player = useRef<MediaPlayerInstance>(null);
 
   useEffect(() => {
@@ -48,7 +48,9 @@ export function Player({ title, url }: Props) {
     detail: MediaCanPlayDetail,
     nativeEvent: MediaCanPlayEvent,
   ) {
-    // ...
+    if (detail.seekable) {
+      player.current?.play();
+    }
   }
 
   return (
@@ -61,6 +63,8 @@ export function Player({ title, url }: Props) {
       onProviderChange={onProviderChange}
       onCanPlay={onCanPlay}
       ref={player}
+      onEnd={onEnded}
+      muted={true}
     >
       <MediaProvider>
         <Poster

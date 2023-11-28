@@ -58,18 +58,6 @@ model Category {
   courses Course[]
 }
 
-model GCPData {
-  id               String       @id @default(cuid())
-  urlExpiryDate    DateTime
-  blobName         String
-  assetId          String
-  assetName        String
-  assetType        String
-  Attachment       Attachment[]
-  validityDuration Int          @default(7)
-  Chapter          Chapter[]
-}
-
 model Attachment {
   id   String @id @default(uuid())
   name String
@@ -120,6 +108,19 @@ model MuxData {
 
   chapterId String  @unique
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model GCPData {
+  id               String       @id @default(cuid())
+  urlExpiryDate    DateTime
+  blobName         String
+  assetId          String
+  assetName        String
+  assetType        String
+  Attachment       Attachment[]
+  validityDuration Int          @default(7)
+
+  chapter Chapter[]
 }
 
 model UserProgress {
