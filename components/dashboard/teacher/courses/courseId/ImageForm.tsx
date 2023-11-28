@@ -4,7 +4,6 @@ import * as z from "zod";
 import axios from "axios";
 import { Pencil, PlusCircle, ImageIcon, Ban } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 import Image from "next/image";
@@ -35,20 +34,22 @@ export default function ImageForm({
 
   const router = useRouter();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    }
-  };
+  const uploadUrl = `/api/courses/${courseId}/course-image`;
+
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   try {
+  //     await axios.patch(`/api/courses/${courseId}`, values);
+  //     toast.success("Course updated");
+  //     toggleEdit();
+  //     router.refresh();
+  //   } catch {
+  //     toast.error("Something went wrong");
+  //   }
+  // };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border bg-slate-100 p-4">
+      <div className="flex items-center justify-between font-medium">
         Course image
         {isDeleting ? (
           <Ban className="h-4 w-4" />
@@ -57,13 +58,13 @@ export default function ImageForm({
             {isEditing && <>Cancel</>}
             {!isEditing && !initialData.imageUrl && (
               <>
-                <PlusCircle className="h-4 w-4 mr-2" />
+                <PlusCircle className="mr-2 h-4 w-4" />
                 Add an image
               </>
             )}
             {!isEditing && initialData.imageUrl && (
               <>
-                <Pencil className="h-4 w-4 mr-2" />
+                <Pencil className="mr-2 h-4 w-4" />
                 Edit image
               </>
             )}
@@ -72,15 +73,15 @@ export default function ImageForm({
       </div>
       {!isEditing &&
         (!initialData.imageUrl ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">
+          <div className="relative mt-2 aspect-video">
             <Image
               alt="Upload"
               fill
-              className="object-cover rounded-md"
+              className="rounded-md object-cover"
               src={initialData.imageUrl}
             />
           </div>
@@ -88,14 +89,11 @@ export default function ImageForm({
       {isEditing && (
         <div>
           <FileUpload
-            endpoint="courseImage"
-            onChange={(url) => {
-              if (url) {
-                onSubmit({ imageUrl: url });
-              }
-            }}
+            uploadUrl={uploadUrl}
+            toggleEdit={toggleEdit}
+            isFileEditing={false}
           />
-          <div className="text-xs text-muted-foreground mt-4">
+          <div className="mt-4 text-xs text-muted-foreground">
             16:9 aspect ratio recommended
           </div>
         </div>
