@@ -2,9 +2,14 @@
 
 import { Course } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
+import {
+  AlarmCheck,
+  ArrowUpDown,
+  CheckCircle2,
+  MoreHorizontal,
+  Pencil,
+} from "lucide-react";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +20,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
+import NotifyStudents from "./courseId/NotifyStudents";
+import { sendCourseNotifications } from "../actions/actions";
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -78,6 +85,7 @@ export const columns: ColumnDef<Course>[] = [
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;
+      const notificationSent = row.original.notificationSent || false;
 
       return (
         <DropdownMenu>
@@ -90,9 +98,20 @@ export const columns: ColumnDef<Course>[] = [
           <DropdownMenuContent align="end">
             <Link href={`/dashboard/teacher/courses/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
-                <Pencil className="h-4 w-4 mr-2 " />
+                <Pencil className="mr-2 h-4 w-4 " />
                 Edit
               </DropdownMenuItem>
+              {notificationSent ? (
+                <CheckCircle2 className="h-4 w-4 bg-green-400" />
+              ) : (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => sendCourseNotifications(id)}
+                >
+                  <AlarmCheck className="mr-2 h-4 w-4 " />
+                  <p>Notify students</p>
+                </DropdownMenuItem>
+              )}
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

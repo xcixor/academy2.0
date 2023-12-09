@@ -9,22 +9,22 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(uuid())
+  id            String       @id @default(uuid())
   name          String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   bio           String?
   linkedIn      String?
-  isAdmin       Boolean   @default(false)
-  isStaff       Boolean   @default(false)
-  isCoach       Boolean   @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  password    String?
-  Comment     Comment[]
-  responses   Response[]
-  submissions Submission[]
+  isAdmin       Boolean      @default(false)
+  isStaff       Boolean      @default(false)
+  isCoach       Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  password      String?
+  Comment       Comment[]
+  responses     Response[]
+  submissions   Submission[]
 
   @@map("users")
 }
@@ -52,6 +52,8 @@ model Course {
   updatedAt DateTime  @updatedAt
   Comment   Comment[]
   quizzes   Quiz[]
+
+  notificationSent Boolean @default(false)
 
   @@index([categoryId])
   @@index([planId])
@@ -261,4 +263,25 @@ model Submission {
   quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   @@unique([userId, quizId])
+}
+
+enum NOTIFICATION_TYPE {
+  INFO
+  WARNING
+  SUCCESS
+  ERROR
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  creatorId   String
+  recepientId String
+  type        NOTIFICATION_TYPE
+  title       String?
+  message     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isRead    Boolean  @default(false)
 }
