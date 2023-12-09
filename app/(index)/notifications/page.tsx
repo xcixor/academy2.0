@@ -1,34 +1,39 @@
+"use client";
+import { useSession } from "next-auth/react";
+import useSWR from "swr";
+import { fetcher } from "@/lib/utils";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import NotificationList from "@/components/notifications/NotificationList";
-import { getLoggedInUser } from "@/lib/auth/utils";
-import { db } from "@/lib/db";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { NextApiResponse } from "next";
+import { redirect } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Notifications",
-};
-
-const Notifications = async () => {
-  const user = await getLoggedInUser();
-  if (!user) {
-    return notFound();
-  }
-  const notifications = await db.notification.findMany({
-    where: {
-      recepientId: user.userId,
+const Notifications = () => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callbackUrl=/");
     },
   });
+  const url = `http://localhost:3000/api/notifications/${session?.user.id}/all/`;
+  const { data, isLoading, error } = useSWR(url, fetcher);
+  const notifications = data as Notification[] | null;
 
-  return (
-    <MaxWidthWrapper className="py-4">
-      <NotificationList
-        userId={user?.userId}
-        allNotifications={notifications}
-      />
-    </MaxWidthWrapper>
-  );
+  if (isLoading) {
+    return <Loader2 className="h-4 w-4 animate-spin" />;
+  }
+  if (notifications && notifications.length <= 0) {
+    return <p>Not found</p>;
+  }
+  if (notifications && notifications.length > 0) {
+    return (
+      <MaxWidthWrapper className="py-4">
+        <NotificationList
+          userId={session?.user?.id}
+          allNotifications={notifications}
+        />
+      </MaxWidthWrapper>
+    );
+  }
 };
 
 export default Notifications;

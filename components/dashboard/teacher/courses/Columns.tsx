@@ -102,7 +102,10 @@ export const columns: ColumnDef<Course>[] = [
                 Edit
               </DropdownMenuItem>
               {notificationSent ? (
-                <CheckCircle2 className="h-4 w-4 bg-green-400" />
+                <DropdownMenuItem>
+                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-400" />
+                  Notification sent
+                </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
                   className="cursor-pointer"
