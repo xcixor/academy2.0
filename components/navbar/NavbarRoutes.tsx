@@ -1,34 +1,35 @@
-"use client";
 import UserButton from "./UserButton";
-import { usePathname } from "next/navigation";
-import { LogIn, LogOut } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../SearchInput";
 import { isTeacher } from "@/lib/teacher";
 import { Logo } from "../Logo";
 import { SessionUser } from "@/lib/auth/utils";
+import Notifications from "./Notifications";
 
 interface Props {
   user: SessionUser | null;
+  isDashboard: boolean;
+  isTeacherPage: boolean;
+  isCoursePage: boolean;
+  isBrowsePage: boolean;
 }
 
-export default function NavbarRoutes({ user }: Props) {
-  const pathname = usePathname();
-
+export default function NavbarRoutes({
+  user,
+  isDashboard,
+  isTeacherPage,
+  isCoursePage,
+  isBrowsePage,
+}: Props) {
   const userId = user?.userId;
-
-  const isTeacherPage = pathname?.startsWith("/teacher");
-  const isCoursePage = pathname?.includes("/courses");
-  const isBrowsePage = pathname === "/browse";
-  const isDashboard = pathname?.includes("/dashboard");
 
   return (
     <>
       {!isDashboard && (
-        <div className="hidden md:block flex-1">
-          <div className="w-full flex align-middle justify-between gap-x-2">
+        <div className="hidden flex-1 md:block">
+          <div className="flex w-full justify-between gap-x-2 align-middle">
             <Link href="/">
               <Logo />
             </Link>
@@ -40,16 +41,21 @@ export default function NavbarRoutes({ user }: Props) {
             <ul className="flex items-center">
               <li className="mr-4">
                 <Link href="/browse">
-                  <p className="text-blue-500 hover:text-blue-800 cursor-pointer">
+                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
                     Browse
                   </p>
                 </Link>
               </li>
               <li className="mr-4">
                 <Link href="#">
-                  <p className="text-blue-500 hover:text-blue-800 cursor-pointer">
+                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
                     Pricing
                   </p>
+                </Link>
+              </li>
+              <li className="mr-4">
+                <Link href="/notifications">
+                  <Notifications />
                 </Link>
               </li>
             </ul>
@@ -62,11 +68,11 @@ export default function NavbarRoutes({ user }: Props) {
           <SearchInput />
         </div>
       )}
-      <div className="flex gap-x-2 ml-auto items-center">
+      <div className="ml-auto flex items-center gap-x-2">
         {isTeacherPage || isCoursePage ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
-              <LogOut className="h-4 w-4 mr-2" />
+              <LogOut className="mr-2 h-4 w-4" />
               Exit
             </Button>
           </Link>
@@ -82,4 +88,23 @@ export default function NavbarRoutes({ user }: Props) {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { pathname } = req.url;
+
+  const isDashboard = pathname?.includes("/dashboard");
+  const isTeacherPage = pathname?.startsWith("/teacher");
+  const isCoursePage = pathname?.includes("/courses");
+  const isBrowsePage = pathname === "/browse";
+
+  return {
+    props: {
+      isDashboard,
+      isTeacherPage,
+      isCoursePage,
+      isBrowsePage,
+    },
+  };
 }
