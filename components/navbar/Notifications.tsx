@@ -1,24 +1,31 @@
-import { getLoggedInUser } from "@/lib/auth/utils";
-import { db } from "@/lib/db";
-import { Bell, BellDot } from "lucide-react";
+import useSWR from "swr";
+import { fetcher } from "@/lib/utils";
+import { Notification } from "@prisma/client";
+import { Bell, BellDot, Loader2 } from "lucide-react";
 
-const Notifications = async () => {
-  const user = await getLoggedInUser();
-  const unReadNotifications = await db.notification.findMany({
-    where: {
-      isRead: false,
-      recepientId: user?.userId,
-    },
-  });
-  return (
-    <>
-      {unReadNotifications.length > 0 ? (
-        <BellDot className="cursor-pointer text-blue-500 hover:text-blue-800" />
-      ) : (
-        <Bell className="cursor-pointer text-blue-500 hover:text-blue-800" />
-      )}
-    </>
-  );
+type Props = {
+  userId: string;
+};
+
+const Notifications = ({ userId }: Props) => {
+  const url = `http://localhost:3000/api/notifications/${userId}/read/`;
+
+  const { data, isLoading, error } = useSWR(url, fetcher);
+  const unReadNotifications = data as Notification[];
+
+  if (isLoading) {
+    return <Loader2 className="h-4 w-4 animate-spin" />;
+  }
+  if (unReadNotifications && unReadNotifications.length <= 0) {
+    return (
+      <Bell className="cursor-pointer text-blue-500 hover:text-blue-800" />
+    );
+  }
+  if (unReadNotifications && unReadNotifications.length > 0) {
+    return (
+      <BellDot className="cursor-pointer text-blue-500 hover:text-blue-800" />
+    );
+  }
 };
 
 export default Notifications;

@@ -1,6 +1,9 @@
+"use client";
 import UserButton from "./UserButton";
-import { Bell, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../SearchInput";
 import { isTeacher } from "@/lib/teacher";
@@ -10,20 +13,17 @@ import Notifications from "./Notifications";
 
 interface Props {
   user: SessionUser | null;
-  isDashboard: boolean;
-  isTeacherPage: boolean;
-  isCoursePage: boolean;
-  isBrowsePage: boolean;
 }
 
-export default function NavbarRoutes({
-  user,
-  isDashboard,
-  isTeacherPage,
-  isCoursePage,
-  isBrowsePage,
-}: Props) {
+export default function NavbarRoutes({ user }: Props) {
+  const pathname = usePathname();
+
   const userId = user?.userId;
+
+  const isTeacherPage = pathname?.startsWith("/teacher");
+  const isCoursePage = pathname?.includes("/courses");
+  const isBrowsePage = pathname === "/browse";
+  const isDashboard = pathname?.includes("/dashboard");
 
   return (
     <>
@@ -55,7 +55,7 @@ export default function NavbarRoutes({
               </li>
               <li className="mr-4">
                 <Link href="/notifications">
-                  <Notifications />
+                  <Notifications userId={user?.userId} />
                 </Link>
               </li>
             </ul>
@@ -88,23 +88,4 @@ export default function NavbarRoutes({
       </div>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { pathname } = req.url;
-
-  const isDashboard = pathname?.includes("/dashboard");
-  const isTeacherPage = pathname?.startsWith("/teacher");
-  const isCoursePage = pathname?.includes("/courses");
-  const isBrowsePage = pathname === "/browse";
-
-  return {
-    props: {
-      isDashboard,
-      isTeacherPage,
-      isCoursePage,
-      isBrowsePage,
-    },
-  };
 }

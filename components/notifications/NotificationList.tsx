@@ -9,62 +9,71 @@ type Props = {
 };
 
 function getTimeDifference(date: Date) {
-  const currentDate = new Date();
-  const timeDiff = currentDate.getTime() - date.getTime();
-  const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-  const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const weeksDiff = Math.floor(daysDiff / 7);
-  const monthsDiff =
-    currentDate.getMonth() +
-    1 -
-    (date.getMonth() + 1) +
-    12 * (currentDate.getFullYear() - date.getFullYear());
-  const yearsDiff = currentDate.getFullYear() - date.getFullYear();
+  date = new Date(date);
+  if (date) {
+    const currentDate = new Date();
+    const timeDiff = currentDate.getTime() - date.getTime();
+    const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const weeksDiff = Math.floor(daysDiff / 7);
+    const monthsDiff =
+      currentDate.getMonth() +
+      1 -
+      (date.getMonth() + 1) +
+      12 * (currentDate.getFullYear() - date.getFullYear());
+    const yearsDiff = currentDate.getFullYear() - date.getFullYear();
 
-  if (yearsDiff) {
-    if (yearsDiff > 1) {
-      return `${yearsDiff} years ago`;
+    if (yearsDiff) {
+      if (yearsDiff > 1) {
+        return `${yearsDiff} years ago`;
+      }
+      return `${yearsDiff} year ago`;
     }
-    return `${yearsDiff} year ago`;
-  }
-  if (monthsDiff) {
-    if (monthsDiff > 1) {
-      return `${monthsDiff} months ago`;
+    if (monthsDiff) {
+      if (monthsDiff > 1) {
+        return `${monthsDiff} months ago`;
+      }
+      return `${monthsDiff} month ago`;
     }
-    return `${monthsDiff} month ago`;
-  }
-  if (weeksDiff) {
-    if (weeksDiff > 1) {
-      return `${weeksDiff} weeks ago`;
+    if (weeksDiff) {
+      if (weeksDiff > 1) {
+        return `${weeksDiff} weeks ago`;
+      }
+      return `${weeksDiff} week ago`;
     }
-    return `${weeksDiff} week ago`;
-  }
-  if (daysDiff) {
-    if (daysDiff > 1) {
-      return `${daysDiff} days ago`;
+    if (daysDiff) {
+      if (daysDiff > 1) {
+        return `${daysDiff} days ago`;
+      }
+      return `${daysDiff} day ago`;
     }
-    return `${daysDiff} day ago`;
-  }
-  if (hoursDiff) {
-    if (hoursDiff > 1) {
-      return `${hoursDiff} hours ago`;
+    if (hoursDiff) {
+      if (hoursDiff > 1) {
+        return `${hoursDiff} hours ago`;
+      }
+      return `${hoursDiff} hour ago`;
     }
-    return `${hoursDiff} hour ago`;
-  }
-  if (minutesDiff) {
-    if (minutesDiff > 1) {
-      return `${minutesDiff} minutes ago`;
+    if (minutesDiff) {
+      if (minutesDiff > 1) {
+        return `${minutesDiff} minutes ago`;
+      }
+      return `${minutesDiff} minute ago`;
     }
-    return `${minutesDiff} minute ago`;
   }
 }
 
 const NotificationList = ({ allNotifications, userId }: Props) => {
   useEffect(() => {
-    fetch(`/api/notifications/${userId}/`, {
-      method: "PATCH",
-    });
+    if (userId) {
+      try {
+        fetch(`/api/notifications/${userId}/read/`, {
+          method: "PATCH",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }, [userId]);
   if (!allNotifications) {
     return (
