@@ -108,6 +108,7 @@ export const options = {
           where: { email: session.user.email!! },
         });
         session.user.id = sessionUser?.id!!;
+        session.user.userId = sessionUser?.id!!;
         session.user.isAdmin = sessionUser?.isAdmin!!;
         session.user.isCoach = sessionUser?.isCoach!!;
         session.user.isStaff = sessionUser?.isStaff!!;
