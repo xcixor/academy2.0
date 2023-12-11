@@ -46,14 +46,14 @@ const teacherRoutes = [
 
 const adminRoutes = [
   {
-    icon: Library,
-    label: "Courses",
-    href: "/dashboard/admin/courses",
-  },
-  {
     icon: Users2,
     label: "Users",
     href: "/dashboard/admin/users",
+  },
+  {
+    icon: Library,
+    label: "Courses",
+    href: "/dashboard/admin/courses",
   },
 ];
 
