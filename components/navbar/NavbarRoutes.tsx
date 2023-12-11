@@ -21,6 +21,8 @@ export default function NavbarRoutes({ user }: Props) {
   const userId = user?.userId;
 
   const isTeacherPage = pathname?.startsWith("/teacher");
+  const isAdminPage = pathname?.startsWith("/admin");
+  const isUsersPage = pathname?.startsWith("/users");
   const isCoursePage = pathname?.includes("/courses");
   const isBrowsePage = pathname === "/browse";
   const isDashboard = pathname?.includes("/dashboard");
@@ -55,7 +57,7 @@ export default function NavbarRoutes({ user }: Props) {
               </li>
               <li className="mr-4">
                 <Link href="/notifications">
-                  <Notifications userId={user?.userId} />
+                  <Notifications userId={user?.id} />
                 </Link>
               </li>
             </ul>
@@ -76,10 +78,25 @@ export default function NavbarRoutes({ user }: Props) {
               Exit
             </Button>
           </Link>
-        ) : isTeacher(userId) ? (
+        ) : user?.isCoach ? (
           <Link href="/dashboard/teacher/courses">
             <Button size="sm" variant="ghost" className="h-auto py-2">
               Teacher mode
+            </Button>
+          </Link>
+        ) : null}
+
+        {isAdminPage || isUsersPage ? (
+          <Link href="/dashboard">
+            <Button size="sm" variant="ghost">
+              <LogOut className="mr-2 h-4 w-4" />
+              Exit
+            </Button>
+          </Link>
+        ) : user?.isAdmin ? (
+          <Link href="/dashboard/admin/users">
+            <Button size="sm" variant="ghost" className="h-auto py-2">
+              Admin mode
             </Button>
           </Link>
         ) : null}

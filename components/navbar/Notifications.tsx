@@ -16,7 +16,10 @@ const Notifications = ({ userId }: Props) => {
   if (isLoading) {
     return <Loader2 className="h-4 w-4 animate-spin" />;
   }
-  if (unReadNotifications && unReadNotifications.length <= 0) {
+  if (
+    (unReadNotifications && unReadNotifications.length <= 0) ||
+    !unReadNotifications
+  ) {
     return (
       <Bell className="cursor-pointer text-blue-500 hover:text-blue-800" />
     );

@@ -6,9 +6,7 @@ import { redirect } from "next/navigation";
 const TeacherLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getLoggedInUser();
 
-  const userId = user?.userId;
-
-  if (!isTeacher(userId)) {
+  if (!user || !user?.isCoach) {
     return redirect("/");
   }
 
