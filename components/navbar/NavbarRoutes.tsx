@@ -1,12 +1,11 @@
 "use client";
 import UserButton from "./UserButton";
 import { usePathname } from "next/navigation";
-import { LogIn, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../SearchInput";
-import { isTeacher } from "@/lib/teacher";
 import { Logo } from "../Logo";
 import { SessionUser } from "@/lib/auth/utils";
 import Notifications from "./Notifications";
@@ -21,8 +20,7 @@ export default function NavbarRoutes({ user }: Props) {
   const userId = user?.userId;
 
   const isTeacherPage = pathname?.startsWith("/teacher");
-  const isAdminPage = pathname?.startsWith("/admin");
-  const isUsersPage = pathname?.startsWith("/users");
+  const isAdminPage = pathname?.includes("/admin");
   const isCoursePage = pathname?.includes("/courses");
   const isBrowsePage = pathname === "/browse";
   const isDashboard = pathname?.includes("/dashboard");
@@ -71,7 +69,7 @@ export default function NavbarRoutes({ user }: Props) {
         </div>
       )}
       <div className="ml-auto flex items-center gap-x-2">
-        {isTeacherPage || isCoursePage ? (
+        {user?.isCoach && (isTeacherPage || isCoursePage) ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
@@ -80,13 +78,13 @@ export default function NavbarRoutes({ user }: Props) {
           </Link>
         ) : user?.isCoach ? (
           <Link href="/dashboard/teacher/courses">
-            <Button size="sm" variant="ghost" className="h-auto py-2">
+            <Button size="sm" variant="outline" className="h-auto py-2">
               Teacher mode
             </Button>
           </Link>
         ) : null}
 
-        {isAdminPage || isUsersPage ? (
+        {user?.isAdmin && isAdminPage ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
@@ -95,7 +93,7 @@ export default function NavbarRoutes({ user }: Props) {
           </Link>
         ) : user?.isAdmin ? (
           <Link href="/dashboard/admin/users">
-            <Button size="sm" variant="ghost" className="h-auto py-2">
+            <Button size="sm" variant="outline" className="h-auto py-2">
               Admin mode
             </Button>
           </Link>

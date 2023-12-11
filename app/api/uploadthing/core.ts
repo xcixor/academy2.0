@@ -1,6 +1,5 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
-import { isTeacher } from "@/lib/teacher";
 import { getLoggedInUser } from "@/lib/auth/utils";
 
 const f = createUploadthing();
@@ -8,7 +7,7 @@ const f = createUploadthing();
 const handleAuth = async () => {
   const user = await getLoggedInUser();
   const userId = user?.userId;
-  const isAuthorized = isTeacher(userId);
+  const isAuthorized = user?.isCoach;
 
   if (!userId || !isAuthorized) throw new Error("Unauthorized");
   return { userId };

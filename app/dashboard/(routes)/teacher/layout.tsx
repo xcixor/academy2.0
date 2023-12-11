@@ -1,5 +1,4 @@
 import { getLoggedInUser } from "@/lib/auth/utils";
-import { isTeacher } from "@/lib/teacher";
 
 import { redirect } from "next/navigation";
 
