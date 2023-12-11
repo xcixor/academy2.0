@@ -1,14 +1,45 @@
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
 import { env } from "@/lib/env";
 import { db } from "@/lib/db";
+
+interface CustomSessionCallbackData {
+  session: Session;
+  token: JWT;
+}
+
+type CredentialsUser = {
+  user: {
+    iss: string;
+    azp: string;
+    aud: string;
+    sub: string;
+    email: string;
+    email_verified: boolean;
+    at_hash: string;
+    name: string;
+    picture: string;
+    given_name: string;
+    locale: string;
+    iat: number;
+    exp: number;
+    role: string;
+    id: string;
+  };
+};
+
+type CustomJwtCallbackData = {
+  token: JWT;
+  user: Session["user"] | null;
+};
 
 export const options = {
   providers: [
     GoogleProvider({
       profile(profile: GoogleProfile) {
-        console.log("Google Profile", profile);
         let userRole = "Google User";
 
         return {
@@ -36,6 +67,9 @@ export const options = {
       },
       async authorize(credentials) {
         try {
+          if (!credentials) {
+            return null;
+          }
           const foundUser = await db.user.findUnique({
             where: { email: credentials?.email },
           });
@@ -43,14 +77,15 @@ export const options = {
           if (foundUser) {
             const match = await bcrypt.compare(
               credentials.password,
-              foundUser.password
+              foundUser.password!!,
             );
 
             if (match) {
-              delete foundUser.password;
-              foundUser["role"] = "Unverified Email";
-              return foundUser;
+              const { password, ...userWithoutPassword } = foundUser;
+              return userWithoutPassword;
             }
+          } else {
+            return null;
           }
         } catch (error) {
           console.log(error);
@@ -60,20 +95,28 @@ export const options = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.role = user.role;
+    async jwt({ token, user }: CustomJwtCallbackData) {
+      if (user) {
+        token.role = user.role;
+      }
       return token;
     },
-    async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
-      const sessionUser = await db.user.findUnique({
-        where: { email: session.user.email },
-      });
+    async session({ session, token }: CustomSessionCallbackData) {
+      if (session?.user) {
+        session.user.role = token.role;
+        const sessionUser = await db.user.findUnique({
+          where: { email: session.user.email!! },
+        });
+        session.user.id = sessionUser?.id!!;
+        session.user.isAdmin = sessionUser?.isAdmin!!;
+        session.user.isCoach = sessionUser?.isCoach!!;
+        session.user.isStaff = sessionUser?.isStaff!!;
+      }
 
-      session.user.id = sessionUser?.id;
       return session;
     },
-    async signIn({ account, profile, user, credentials }) {
+    async signIn({ user }: CredentialsUser) {
+      console.log(user, "**********");
       try {
         // check if user already exists
         const userExists = await db.user.findUnique({
@@ -92,7 +135,7 @@ export const options = {
         }
 
         return true;
-      } catch (error) {
+      } catch (error: any) {
         console.log("Error checking if user exists: ", error.message);
         return false;
       }
