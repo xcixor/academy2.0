@@ -84,8 +84,8 @@ workflows:
       - push_service_image:
           filters:
             branches:
-              only:
-                - main
+              # only:
+              #   - main
       - deploy_service_cloud_run:
           requires:
             - push_service_image
