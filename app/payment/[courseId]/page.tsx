@@ -1,4 +1,3 @@
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { PaymentForm } from "@/components/paypal/PaymentForm";
 import { env } from "@/lib/env";
 
@@ -8,7 +7,7 @@ interface Params {
   };
 }
 
-export const getCreds = async () => {
+const getCreds = async () => {
   const response = await fetch(
     "http://127.0.0.1:3000/api/payments/paypal/token/",
     {
@@ -24,7 +23,7 @@ export const getCreds = async () => {
   };
 };
 
-export default async function Page({ params }: Params) {
+export default async function page({ params }: Params) {
   const creds = await getCreds();
   const { clientToken, clientID } = creds;
 
