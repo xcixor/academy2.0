@@ -26,4 +26,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 
+# copy service account
+COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
+
 ENTRYPOINT ["/app/scripts/entrypoint.prod.sh"]

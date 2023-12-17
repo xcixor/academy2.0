@@ -48,6 +48,7 @@ jobs:
       - install_rok8s_scripts
       - run: prepare-gcloud
       - setup_service_account
+      - setup_env_file
       - run:
           name: Build Tag and Push pes Docker Image
           command: |
