@@ -4,7 +4,6 @@ services:
     image: academy
     build:
       context: ./
-      target: dev
       dockerfile: Dockerfile.prod
     volumes:
       - .:/app
