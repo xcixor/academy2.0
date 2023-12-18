@@ -70,7 +70,7 @@ jobs:
       - checkout
       - cloudrun/init
       - cloudrun/deploy:
-          image: 'gcr.io/${GOOGLE_PROJECT_ID}/pes:${CIRCLE_SHA1}'
+          image: 'gcr.io/${GOOGLE_PROJECT_ID}/academy2.0:${CIRCLE_SHA1}'
           platform: managed
           region: us-east1
           service-name: academy-<< parameters.environment >>
