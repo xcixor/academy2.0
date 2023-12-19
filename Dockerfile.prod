@@ -33,15 +33,5 @@ COPY --from=builder /app/public ./public
 # copy service account
 COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
 
-
-# set up predictable worining directory
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/academy
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
-
-# copy entrypoint-prod.sh
-COPY /app/scripts/entrypoint.prod.sh $APP_HOME
-RUN chmod u+x $APP_HOME/entrypoint.prod.sh
-
-ENTRYPOINT ["/home/app/scripts/academy/entrypoint.prod.sh"]
+RUN node scripts/seed.ts
+CMD npm start
