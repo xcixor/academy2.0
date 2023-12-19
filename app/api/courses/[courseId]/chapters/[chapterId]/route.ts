@@ -1,13 +1,7 @@
-import Mux from "@mux/mux-node";
-
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 
-const { Video } = new Mux(
-  process.env.MUX_TOKEN_ID!,
-  process.env.MUX_TOKEN_SECRET!
-);
 
 export async function PATCH(
   req: Request,

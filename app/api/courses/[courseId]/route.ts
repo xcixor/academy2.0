@@ -1,11 +1,10 @@
-import Mux from "@mux/mux-node";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
@@ -34,14 +33,9 @@ export async function PATCH(
   }
 }
 
-const { Video } = new Mux(
-  process.env.MUX_TOKEN_ID!,
-  process.env.MUX_TOKEN_SECRET!
-);
-
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
@@ -56,23 +50,10 @@ export async function DELETE(
         id: params.courseId,
         userId: userId,
       },
-      include: {
-        chapters: {
-          include: {
-            muxData: true,
-          },
-        },
-      },
     });
 
     if (!course) {
       return new NextResponse("Not found", { status: 404 });
-    }
-
-    for (const chapter of course.chapters) {
-      if (chapter.muxData?.assetId) {
-        await Video.Assets.del(chapter.muxData.assetId);
-      }
     }
 
     const deletedCourse = await db.course.delete({
