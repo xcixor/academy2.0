@@ -34,5 +34,5 @@ COPY --from=builder /app/public ./public
 COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
 
 WORKDIR /app
-COPY --chmod=755 ./scripts/entrypoint.prod.sh .
+COPY ./scripts/entrypoint.prod.sh .
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
