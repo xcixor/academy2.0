@@ -35,4 +35,5 @@ COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
 
 WORKDIR /app
 COPY ./scripts/entrypoint.prod.sh .
+COPY ./scripts/seed.ts .
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
