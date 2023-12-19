@@ -32,6 +32,7 @@ COPY --from=builder /app/public ./public
 
 # copy service account
 COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
-# copy entrypoint-prod.sh
-RUN chmod u+x /app/scripts/entrypoint.prod.sh
-ENTRYPOINT ["/app/scripts/entrypoint.prod.sh"]
+
+# run entrypoint.prod.sh
+RUN chmod u+x ./scripts/entrypoint.prod.sh
+ENTRYPOINT ["/home/app/scripts/entrypoint.prod.sh"]
