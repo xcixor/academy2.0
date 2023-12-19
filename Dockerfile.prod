@@ -12,6 +12,9 @@ FROM base as builder
 WORKDIR /app
 
 COPY . .
+RUN npx prisma generate
+RUN npx prisma migrate dev --name init
+RUN npx prisma db push --accept-data-loss 
 RUN npm run build
 
 FROM base as production
