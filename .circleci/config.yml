@@ -82,10 +82,6 @@ workflows:
   academy:
     jobs:
       - push_service_image
-          # filters:
-          #   branches:
-              # only:
-              #   - main
       - deploy_service_cloud_run:
           requires:
             - push_service_image
