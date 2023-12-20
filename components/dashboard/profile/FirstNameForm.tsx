@@ -58,7 +58,6 @@ const FirstNameForm = ({ userId, initialData }: FormProps) => {
           description: response.message,
         });
       } else {
-        console.log("HAHHHHAHAHAHHAHAH")
         toast({
           variant: "default",
           title: "Success",
