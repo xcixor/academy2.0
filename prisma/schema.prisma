@@ -300,3 +300,10 @@ model Notification {
   updatedAt DateTime @updatedAt
   isRead    Boolean  @default(false)
 }
+
+model ClientCoach {
+  id          String  @id @default(uuid())
+  isConfirmed Boolean @default(false)
+  coachId     String
+  clientId    String
+}
