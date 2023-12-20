@@ -9,6 +9,8 @@ import {
   Users2,
   Library,
   UserCogIcon,
+  GraduationCap,
+  Users,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -24,6 +26,11 @@ const guestRoutes = [
     icon: Compass,
     label: "Browse",
     href: "/dashboard/search",
+  },
+  {
+    icon: GraduationCap,
+    label: "Coaches",
+    href: "/dashboard/coaches",
   },
   {
     icon: UserCogIcon,
@@ -47,6 +54,11 @@ const teacherRoutes = [
     icon: FolderCheck,
     label: "Quizzes",
     href: "/dashboard/teacher/quizzes",
+  },
+  {
+    icon: Users,
+    label: "Clients",
+    href: "/dashboard/teacher/clients",
   },
 ];
 
