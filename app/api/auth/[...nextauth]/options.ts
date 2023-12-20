@@ -117,7 +117,6 @@ export const options = {
       return session;
     },
     async signIn({ user }: CredentialsUser) {
-      console.log(user, "**********");
       try {
         // check if user already exists
         const userExists = await db.user.findUnique({

@@ -16,29 +16,35 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 const Signup = () => {
   const router = useRouter();
   const formSchema = z.object({
-    name: z.string().min(2, "Please provide your name"),
-    email: z.string().email("Please provide a valid email address"),
+    firstName: z.string().min(2, "Please provide your first name."),
+    lastName: z.string().min(2, "Please provide your last name."),
+    email: z.string().email("Please provide a valid email address."),
     password: z
       .string()
       .min(8, "Password must have a minimum of 8 characters")
       .regex(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).*$/,
-        "Password must have a combination of lowercase and uppercase letters, a special character and at least one number."
+        "Password must have a combination of lowercase and uppercase letters, a special character and at least one number.",
       ),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
   });
+
+  const { isSubmitting, errors } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -55,8 +61,12 @@ const Signup = () => {
       const response = await res.json();
       toast.error(response.message);
     } else {
-      router.refresh();
-      router.push("/");
+      await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: true,
+        callbackUrl: "/dashboard/profile",
+      });
     }
   }
   return (
@@ -64,12 +74,25 @@ const Signup = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Fullname</FormLabel>
+              <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="e.g James Doe" {...field} />
+                <Input placeholder="e.g James" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +124,14 @@ const Signup = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Signup</Button>
+        <Button type="submit">
+          {" "}
+          {isSubmitting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Signup"
+          )}
+        </Button>
       </form>
     </Form>
   );
