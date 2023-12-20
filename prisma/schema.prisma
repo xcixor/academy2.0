@@ -8,6 +8,17 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
+model Profile {
+  id          String    @id @default(cuid())
+  firstName   String?
+  lastName    String?
+  phoneNumber String?
+  dateOfBirth DateTime?
+  oldEmail    String?
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id            String       @id @default(uuid())
   name          String?
@@ -25,6 +36,13 @@ model User {
   Comment       Comment[]
   responses     Response[]
   submissions   Submission[]
+  profile       Profile?
+
+  isVerified                Boolean   @default(false)
+  forgotPasswordToken       String?
+  forgotPasswordTokenExpiry DateTime?
+  verifyToken               String?
+  verifyTokenExpiry         DateTime?
 
   @@map("users")
 }
