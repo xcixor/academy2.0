@@ -8,6 +8,7 @@ import {
   FolderCheck,
   Users2,
   Library,
+  UserCogIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -23,6 +24,11 @@ const guestRoutes = [
     icon: Compass,
     label: "Browse",
     href: "/dashboard/search",
+  },
+  {
+    icon: UserCogIcon,
+    label: "Profile",
+    href: "/dashboard/profile",
   },
 ];
 
@@ -42,6 +48,11 @@ const teacherRoutes = [
     label: "Quizzes",
     href: "/dashboard/teacher/quizzes",
   },
+  {
+    icon: UserCogIcon,
+    label: "Profile",
+    href: "/dashboard/profile",
+  },
 ];
 
 const adminRoutes = [
@@ -54,6 +65,11 @@ const adminRoutes = [
     icon: Library,
     label: "Courses",
     href: "/dashboard/admin/courses",
+  },
+  {
+    icon: UserCogIcon,
+    label: "Profile",
+    href: "/dashboard/profile",
   },
 ];
 
