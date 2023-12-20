@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const userId = user?.userId;
 
     if (!userId || !user.isCoach) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { title, message, recepientId, type } = await req.json();
@@ -26,6 +26,6 @@ export async function POST(req: Request) {
     return NextResponse.json(notification);
   } catch (error) {
     console.log("[NOTIFICATION]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
