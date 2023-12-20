@@ -19,9 +19,8 @@ export default function NavbarRoutes({ user }: Props) {
 
   const userId = user?.userId;
 
-  const isTeacherPage = pathname?.startsWith("/teacher");
+  const isTeacherPage = pathname?.includes("/teacher");
   const isAdminPage = pathname?.includes("/admin");
-  const isCoursePage = pathname?.includes("/courses");
   const isBrowsePage = pathname === "/browse";
   const isDashboard = pathname?.includes("/dashboard");
 
@@ -69,7 +68,7 @@ export default function NavbarRoutes({ user }: Props) {
         </div>
       )}
       <div className="ml-auto flex items-center gap-x-2">
-        {user?.isCoach && (isTeacherPage || isCoursePage) ? (
+        {user?.isCoach && isTeacherPage  ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
