@@ -48,11 +48,6 @@ const teacherRoutes = [
     label: "Quizzes",
     href: "/dashboard/teacher/quizzes",
   },
-  {
-    icon: UserCogIcon,
-    label: "Profile",
-    href: "/dashboard/profile",
-  },
 ];
 
 const adminRoutes = [
@@ -65,11 +60,6 @@ const adminRoutes = [
     icon: Library,
     label: "Courses",
     href: "/dashboard/admin/courses",
-  },
-  {
-    icon: UserCogIcon,
-    label: "Profile",
-    href: "/dashboard/profile",
   },
 ];
 
