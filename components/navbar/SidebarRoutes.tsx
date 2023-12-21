@@ -11,6 +11,7 @@ import {
   UserCogIcon,
   GraduationCap,
   Users,
+  Album,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -59,6 +60,11 @@ const teacherRoutes = [
     icon: Users,
     label: "Clients",
     href: "/dashboard/teacher/clients",
+  },
+  {
+    icon: Album,
+    label: "Sessions",
+    href: "/dashboard/teacher/sessions",
   },
 ];
 

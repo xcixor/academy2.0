@@ -38,11 +38,13 @@ model User {
   submissions   Submission[]
   profile       Profile?
 
-  isVerified                Boolean   @default(false)
+  isVerified                Boolean           @default(false)
   forgotPasswordToken       String?
   forgotPasswordTokenExpiry DateTime?
   verifyToken               String?
   verifyTokenExpiry         DateTime?
+  CoachRequisites           CoachRequisites[]
+  coachSessions             Session[]
 
   @@map("users")
 }
@@ -306,4 +308,28 @@ model ClientCoach {
   isConfirmed Boolean @default(false)
   coachId     String
   clientId    String
+}
+
+model CoachRequisites {
+  id          String  @id @default(uuid())
+  coachId     String  @unique
+  coach       User    @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  calendlyURL String?
+}
+
+model Session {
+  id          String @id @default(uuid())
+  title       String?
+  description String?
+  cost        Int?
+
+  coachId  String
+  coach    User   @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  clientId String
+
+  eventURI   String?
+  inviteeURI String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
