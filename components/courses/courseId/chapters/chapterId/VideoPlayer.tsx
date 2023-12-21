@@ -1,13 +1,11 @@
 "use client";
 
 import axios from "axios";
-import MuxPlayer from "@mux/mux-player-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { useConfettiStore } from "@/hooks/useConfettiStore";
 import { Player } from "@/components/video/VideoPlayer";
 
@@ -73,17 +71,7 @@ export const VideoPlayer = ({
           <p className="text-sm">This chapter is locked</p>
         </div>
       )}
-      {!isLocked && (
-        // <MuxPlayer
-        //   title={title}
-        //   className={cn(!isReady && "hidden")}
-        //   onCanPlay={() => setIsReady(true)}
-        //   onEnded={onEnd}
-        //   autoPlay
-        //   videoUrl={videoUrl}
-        // />
-        <Player title={title} url={videoUrl} onEnded={onEnd} />
-      )}
+      {!isLocked && <Player title={title} url={videoUrl} onEnded={onEnd} />}
     </div>
   );
 };

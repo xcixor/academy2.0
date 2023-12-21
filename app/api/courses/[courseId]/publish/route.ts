@@ -5,7 +5,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
@@ -21,11 +21,7 @@ export async function PATCH(
         userId,
       },
       include: {
-        chapters: {
-          include: {
-            muxData: true,
-          },
-        },
+        chapters: true,
       },
     });
 
@@ -34,7 +30,7 @@ export async function PATCH(
     }
 
     const hasPublishedChapter = course.chapters.some(
-      (chapter) => chapter.isPublished
+      (chapter) => chapter.isPublished,
     );
 
     if (
