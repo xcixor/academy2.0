@@ -21,7 +21,7 @@ type QuizWithQuestionsAndSubmissions = Quiz & {
 };
 
 const QuestionPage = ({ params }: Props) => {
-  const url = `http://localhost:3000/api/courses/${params.courseId}/quizzes/${params.quizId}/`;
+  const url = `/api/courses/${params.courseId}/quizzes/${params.quizId}/`;
 
   const { data, isLoading, error } = useSWR(url, fetcher);
   const quiz = data as QuizWithQuestionsAndSubmissions;

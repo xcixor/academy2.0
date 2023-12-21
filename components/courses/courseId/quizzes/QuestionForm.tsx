@@ -55,7 +55,7 @@ const QuestionForm = ({
     try {
       await axios.post(
         `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/responses/`,
-        values
+        values,
       );
       toggleHasSubmitted();
       confirmSubmission();
@@ -66,7 +66,7 @@ const QuestionForm = ({
     }
   }
 
-  const url = `http://localhost:3000/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/responses`;
+  const url = `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/responses`;
 
   const { data, isLoading, isValidating } = useSWR(url, fetcher, {
     revalidateOnMount: true,
@@ -87,10 +87,10 @@ const QuestionForm = ({
     return (
       <FormItem
         className={cn(
-          "flex items-center space-x-4 space-y-0 p-4 border-4 border-zinc-300",
+          "flex items-center space-x-4 space-y-0 border-4 border-zinc-300 p-4",
           submittedResponse &&
             submittedResponse.optionId === option.id &&
-            "border-sky-300 bg-sky-200/30"
+            "border-sky-300 bg-sky-200/30",
         )}
         key={option.id}
       >
@@ -107,7 +107,7 @@ const QuestionForm = ({
       <div className="flex gap-4">
         {submittedResponse && (
           <div className="flex items-center ">
-            <CheckCircle2 className="h-4 w-4 text-zinc-500 me-2" />
+            <CheckCircle2 className="me-2 h-4 w-4 text-zinc-500" />
             <p className="text-zinc-500">Answer Submitted</p>
           </div>
         )}
@@ -127,16 +127,16 @@ const QuestionForm = ({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <Loader2 className="animate-spin h-8 w-8" />
+      <div className="flex h-full flex-col items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="text-zinc-500">Readying...</p>
       </div>
     );
   }
   if (isValidating) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <Loader2 className="animate-spin h-8 w-8" />
+      <div className="flex h-full flex-col items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="text-zinc-500">Readying...</p>
       </div>
     );
