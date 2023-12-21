@@ -44,7 +44,7 @@ const Client = async ({ client }: Props) => {
         <div className="line-clamp-2 text-lg font-medium transition group-hover:text-sky-700 md:text-base">
           <p className="text-xs font-semibold"> {clientProfile.email}</p>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           {client.isConfirmed ? (
             <span className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-green-400" />
@@ -53,6 +53,11 @@ const Client = async ({ client }: Props) => {
           ) : (
             <ConfirmClient id={client.id} />
           )}
+          <Link href={`/dashboard/teacher/sessions/create/${clientProfile.id}`}>
+            <Button variant="link" className="bg-sky-100">
+              Schedule Session
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
