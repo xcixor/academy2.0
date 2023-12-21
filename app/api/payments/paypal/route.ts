@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  console.log("************** in create route");
+
   const { ORDERS_API_URL } = sandboxURLs;
   const accessToken = await generateAccessToken();
   if (!accessToken) {
@@ -16,7 +16,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const userId = user?.userId;
 
   const { courseId } = await req.json();
-  console.log(courseId, "***********  **************8 %%%%%%%%%%%%");
+
+  const course = await db.course.findUnique({ where: { id: courseId } });
 
   if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 });
@@ -27,8 +28,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     purchase_units: [
       {
         amount: {
-          currency_code: "USD",
-          value: "10.00",
+          currency_code: "KES",
+          value: course.price,
         },
       },
     ],

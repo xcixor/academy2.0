@@ -10,7 +10,6 @@ export async function GET(
   { params }: { params: { orderId: string } },
 ) {
   const orderId = params.orderId;
-  console.log("In order CAPTURE *********************", orderId);
 
   if (!orderId) {
     return new NextResponse("Internal server error", { status: 500 });
