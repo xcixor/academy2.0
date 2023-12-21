@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     if (!userId || !user.isCoach) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const { clientId, eventURI, inviteeURI } = await req.json();
+    const { clientId, eventURI, inviteeURI, title } = await req.json();
 
     const session = await db.session.create({
       data: {
@@ -18,6 +18,7 @@ export async function POST(req: Request) {
         clientId,
         eventURI,
         inviteeURI,
+        title,
       },
     });
 

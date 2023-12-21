@@ -20,12 +20,27 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
+import { format } from "date-fns";
 
 type SessionData = Session & {
   client: string;
 };
 
 export const columns: ColumnDef<SessionData>[] = [
+  {
+    accessorKey: "title",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "createdAt",
     header: ({ column }) => {
@@ -39,23 +54,10 @@ export const columns: ColumnDef<SessionData>[] = [
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "price",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price") || "0");
-      const formatted = formatPrice(price);
+      const date = row.getValue("createdAt");
+      console.log(date);
+      const formatted = format(date, "yyyy-MM-dd HH:mm:ss");
 
       return <div>{formatted}</div>;
     },
