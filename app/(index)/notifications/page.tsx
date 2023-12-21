@@ -14,7 +14,7 @@ const Notifications = () => {
       redirect("/api/auth/signin?callbackUrl=/");
     },
   });
-  const url = `http://localhost:3000/api/notifications/${session?.user.id}/all/`;
+  const url = `/api/notifications/${session?.user.id}/all/`;
   const { data, isLoading, error } = useSWR(url, fetcher);
   const notifications = data as Notification[] | null;
 

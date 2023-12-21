@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Notifications = ({ userId }: Props) => {
-  const url = `http://localhost:3000/api/notifications/${userId}/read/`;
+  const url = `/api/notifications/${userId}/read/`;
 
   const { data, isLoading, error } = useSWR(url, fetcher);
   const unReadNotifications = data as Notification[];

@@ -38,7 +38,7 @@ const QuestionComponent = ({
   });
   const user = session?.user;
 
-  const url = `http://localhost:3000/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}`;
+  const url = `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}`;
 
   const { data, isLoading, error } = useSWR(url, fetcher, {
     revalidateOnMount: true,
@@ -48,8 +48,8 @@ const QuestionComponent = ({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <Loader2 className="animate-spin h-8 w-8" />
+      <div className="flex h-full flex-col items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="text-zinc-500">Readying...</p>
       </div>
     );
@@ -57,7 +57,7 @@ const QuestionComponent = ({
 
   if (!question || error) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex h-full flex-col items-center justify-center">
         <AlertTriangle className=" h-8 w-8 text-red-400" />
         <p className="text-red-400">Something went wrong...</p>
       </div>
@@ -65,11 +65,11 @@ const QuestionComponent = ({
   }
 
   return (
-    <div className="bg-sky-100 p-4 flex-1">
-      <div className="shadow-sm bg-sky-200 p-4">
+    <div className="flex-1 bg-sky-100 p-4">
+      <div className="bg-sky-200 p-4 shadow-sm">
         <h4 className="font-semibold">{question.title}</h4>
       </div>
-      <div className="flex flex-col mt-4">
+      <div className="mt-4 flex flex-col">
         <QuestionForm
           options={question.options}
           toggleHasSubmitted={toggleHasSubmitted}
