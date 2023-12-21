@@ -100,21 +100,21 @@ export const columns: ColumnDef<Course>[] = [
                 <Pencil className="mr-2 h-4 w-4 " />
                 Edit
               </DropdownMenuItem>
-              {notificationSent ? (
-                <DropdownMenuItem>
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-400" />
-                  Notification sent
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => sendCourseNotifications(id)}
-                >
-                  <AlarmCheck className="mr-2 h-4 w-4 " />
-                  <p>Notify students</p>
-                </DropdownMenuItem>
-              )}
             </Link>
+            {notificationSent ? (
+              <DropdownMenuItem>
+                <CheckCircle2 className="mr-2 h-4 w-4 text-green-400" />
+                Notification sent
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => sendCourseNotifications(id)}
+              >
+                <AlarmCheck className="mr-2 h-4 w-4 " />
+                <p>Notify students</p>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -2,8 +2,6 @@ import { NOTIFICATION_TYPES } from "@/constants";
 import toast from "react-hot-toast";
 
 export const sendCourseNotifications = async (courseId: string) => {
-  const dashboard_route = `/dashboard/teacher/courses/`;
-
   try {
     const data = {
       title: "New Arrival",
@@ -21,7 +19,5 @@ export const sendCourseNotifications = async (courseId: string) => {
     }
   } catch {
     toast.error("Something went wrong");
-  } finally {
-    window.location.assign(dashboard_route);
   }
 };
