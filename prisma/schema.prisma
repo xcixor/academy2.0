@@ -321,7 +321,7 @@ model Session {
   id          String @id @default(uuid())
   title       String?
   description String?
-  cost        Int?
+  price        Int?
 
   coachId  String
   coach    User   @relation(fields: [coachId], references: [id], onDelete: Cascade)
