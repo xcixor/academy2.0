@@ -25,6 +25,7 @@ const CalendlyWidget = ({ calendlyURL, client }: Props) => {
           clientId: client.id,
           eventURI: e.data.payload.event.uri,
           inviteeURI: e.data.payload.invitee.uri,
+          title: `New Event: ${prefill.name}`,
         }),
       });
       if (response.ok) {

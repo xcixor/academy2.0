@@ -8,7 +8,6 @@ import { Ban, Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Session } from "@prisma/client";
 
 import {
   Form,
@@ -17,25 +16,23 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { formatPrice } from "@/lib/format";
+import { Button } from "@/components/ui/button";
 
-interface PriceFormProps {
-  initialData: Session;
+interface TitleFormProps {
+  initialData: {
+    title: string;
+  };
   sessionId: string;
 }
 
 const formSchema = z.object({
-  price: z.coerce.number(),
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
 });
 
-export default function PriceForm({
-  initialData,
-  sessionId,
-  isDeleting,
-}: PriceFormProps) {
+export default function TitleForm({ initialData, sessionId }: TitleFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -44,9 +41,7 @@ export default function PriceForm({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      price: initialData?.price || undefined,
-    },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -54,7 +49,7 @@ export default function PriceForm({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/sessions/${sessionId}`, values);
-      toast.success("Session updated");
+      toast.success("Course updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -65,27 +60,20 @@ export default function PriceForm({
   return (
     <div className="mt-6 rounded-md border bg-slate-100 p-4">
       <div className="flex items-center justify-between font-medium">
-        Course price
+        Course title
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="mr-2 h-4 w-4" />
-              Edit price
+              Edit title
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
-        <p
-          className={cn(
-            "mt-2 text-sm",
-            !initialData.price && "italic text-slate-500",
-          )}
-        >
-          {initialData.price ? formatPrice(initialData.price) : "No price"}
-        </p>
+        <p className="mt-2 text-sm">{initialData.title || "N/A"}</p>
       )}
       {isEditing && (
         <Form {...form}>
@@ -95,15 +83,13 @@ export default function PriceForm({
           >
             <FormField
               control={form.control}
-              name="price"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
-                      type="number"
-                      step="0.01"
                       disabled={isSubmitting}
-                      placeholder="Set a price for your course"
+                      placeholder="e.g. 'New Event: Firstname Lastname'"
                       {...field}
                     />
                   </FormControl>
