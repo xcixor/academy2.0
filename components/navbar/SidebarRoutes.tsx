@@ -34,6 +34,11 @@ const guestRoutes = [
     href: "/dashboard/coaches",
   },
   {
+    icon: Album,
+    label: "Sessions",
+    href: "/dashboard/sessions",
+  },
+  {
     icon: UserCogIcon,
     label: "Profile",
     href: "/dashboard/profile",
