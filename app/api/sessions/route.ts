@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
     const { clientId, eventURI, inviteeURI } = await req.json();
 
-    const course = await db.session.create({
+    const session = await db.session.create({
       data: {
         coachId: userId,
         clientId,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json({ sessionId: session.id });
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });

@@ -13,20 +13,22 @@ const page = async () => {
   }
 
   const getClient = async (id) => {
-    return await db.user.findUnique({ where: id });
+    const client = await db.user.findUnique({ where: { id: id } });
+    return client.email;
   };
 
   const sessions = await db.session.findMany({ where: { coachId: userId } });
   const sessionData = [];
-  sessions.forEach(async (session) => {
-    sessionData.push({
-      ...session,
-      client: getClient(session.clientId),
-    });
-  });
+
+  for (let i = 0; i < sessions.length; i++) {
+    const session = sessions[i];
+    const client = await getClient(session.clientId);
+    sessionData.push({ ...session, client });
+  }
+  console.log(sessionData);
   return (
     <div className="p-6">
-      <DataTable columns={columns} data={sessions} />
+      <DataTable columns={columns} data={sessionData} />
     </div>
   );
 };
