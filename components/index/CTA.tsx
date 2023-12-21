@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 import MaxWidthWrapper from "../MaxWidthWrapper";
+import { signIn } from "next-auth/react";
 
 const CTA = () => {
   return (
@@ -20,6 +23,7 @@ const CTA = () => {
         <div className="flex basis-1/2 items-center justify-center">
           <Link href="/dashboard/teacher/courses">
             <Button
+              onClick={() => signIn()}
               size="sm"
               variant="secondary"
               className="h-auto bg-orange-500 py-2"
