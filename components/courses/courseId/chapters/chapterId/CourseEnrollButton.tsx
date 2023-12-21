@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/format";
+import Link from "next/link";
 
 interface CourseEnrollButtonProps {
   price: number;
@@ -33,13 +34,10 @@ export default function CourseEnrollButton({
   };
 
   return (
-    <Button
-      onClick={onClick}
-      disabled={isLoading}
-      size="sm"
-      className="w-full md:w-auto"
-    >
-      Enroll for {formatPrice(price)}
-    </Button>
+    <Link href={`/payment/${courseId}`}>
+      <Button disabled={isLoading} size="sm" className="w-full md:w-auto">
+        Enroll for {formatPrice(price)}
+      </Button>
+    </Link>
   );
 }

@@ -5,7 +5,6 @@ import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-
   const { ORDERS_API_URL } = sandboxURLs;
   const accessToken = await generateAccessToken();
   if (!accessToken) {
@@ -17,6 +16,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   const { courseId } = await req.json();
 
+  // get course cost here but change merchant account to accept kes 
   const course = await db.course.findUnique({ where: { id: courseId } });
 
   if (!userId) {
@@ -28,8 +28,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     purchase_units: [
       {
         amount: {
-          currency_code: "KES",
-          value: course.price,
+          currency_code: "USD",
+          value: "10",
         },
       },
     ],
