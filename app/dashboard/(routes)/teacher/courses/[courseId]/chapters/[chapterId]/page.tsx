@@ -1,18 +1,6 @@
 import { redirect } from "next/navigation";
-
-import dynamic from "next/dynamic";
-import ChapterIdPageSkeleton from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterIdPageSkeleton";
+import ChapterIdPageWrapper from "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterIdPageWrapper";
 import { getLoggedInUser } from "@/lib/auth/utils";
-
-const ChapterIdPageCustomLoading = dynamic(
-  () =>
-    import(
-      "@/components/dashboard/teacher/courses/courseId/chapters/chapterId/ChapterIdPageWrapper"
-    ),
-  {
-    loading: () => <ChapterIdPageSkeleton />,
-  }
-);
 
 export default async function ChapterIdPage({
   params,
@@ -26,7 +14,7 @@ export default async function ChapterIdPage({
     redirect("/");
   }
   return (
-    <ChapterIdPageCustomLoading
+    <ChapterIdPageWrapper
       courseId={params.courseId}
       chapterId={params.chapterId}
     />
