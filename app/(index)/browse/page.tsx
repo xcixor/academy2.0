@@ -16,6 +16,9 @@ interface SearchPageProps {
 export const metadata: Metadata = {
   title: "Browse Courses",
   description: "Explore, Learn, Succeed. Discover transformative courses at PES Academy – Shaping the Future of Private Equity Education.",
+  alternates: {
+    canonical: 'https://academy.privateequity-support.com/browse',
+  },
 };
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {

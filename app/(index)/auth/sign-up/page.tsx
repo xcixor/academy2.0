@@ -1,7 +1,16 @@
+import type { Metadata } from "next";
 import { Logo } from "@/components/Logo";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Signup from "@/components/auth/Signup";
 import { UserCog2 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+  description: "Unlock a world of knowledge at PES Academy. Sign up today for transformative courses and take the first step toward mastering private equity.",
+  alternates: {
+    canonical: 'https://academy.privateequity-support.com/auth/sign-up',
+  },
+};
 
 const page = () => {
   return (

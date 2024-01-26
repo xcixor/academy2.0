@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { ChevronLeft, ChevronRight, LinkedinIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Instructors",
+  description: "Meet the experts shaping your journey at PES Academy. Explore our distinguished instructors, each a leader in their respective fields. EMMANUEL MUDAHEMUKA, Esther Kahuko, Charity Kirima",
+  alternates: {
+    canonical: 'https://academy.privateequity-support.com/instructor/instructor.id',
+  },
+};
 
 type Props = {};
 
