@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { SearchInput } from "@/components/SearchInput";
 
@@ -11,6 +12,11 @@ interface SearchPageProps {
     categoryId: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: "Browse Courses",
+  description: "Explore, Learn, Succeed. Discover transformative courses at PES Academy – Shaping the Future of Private Equity Education.",
+};
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const categories = await db.category.findMany({
