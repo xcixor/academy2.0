@@ -6,13 +6,13 @@ export default withAuth(
   function middleware(req) {
     if (
       req.nextUrl.pathname.includes("/admin") &&
-      req.nextauth?.token?.role !== Role.ADMIN
+      !(req.nextauth?.token?.role === Role.ADMIN)
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
     if (
       req.nextUrl.pathname.includes("/instructor") &&
-      req.nextauth?.token?.role !== Role.COACH
+      !(req.nextauth?.token?.role === Role.COACH)
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }

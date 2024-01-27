@@ -3,6 +3,9 @@ import { File } from "form-data";
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { FileUploader } from "@/lib/gcp";
+import { MAX_IMAGE_SIZE, ALLOWED_IMAGE_TYPES } from "@/constants";
+import { createFileMetaData } from "@/app/api/actions/create-file-metadata";
+import validateImageFile from "@/lib/files";
 
 export async function POST(
   req: Request,
@@ -10,7 +13,7 @@ export async function POST(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -31,42 +34,67 @@ export async function POST(
     const data = Object.fromEntries(formData);
     const { file }: { file: File } = data as { file: File };
 
-    let blobName = `courses/${params.courseId}/attachments/${file.name}`;
-    const contentType: string = file.type;
-    const downloadExpiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    const uploader = new FileUploader(
-      blobName,
-      contentType,
-      "PUT",
-      downloadExpiryDate,
+    // let blobName = `courses/${params.courseId}/attachments/${file.name}`;
+    // const contentType: string = file.type;
+    // const downloadExpiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    // const uploader = new FileUploader(
+    //   blobName,
+    //   contentType,
+    //   "PUT",
+    //   downloadExpiryDate,
+    // );
+
+    // const cloudResponse = await uploader.uploadFile(file);
+
+    //   validate image
+    const { status, message } = validateImageFile(
+      file,
+      ALLOWED_IMAGE_TYPES,
+      MAX_IMAGE_SIZE,
     );
-
-    const cloudResponse = await uploader.uploadFile(file);
-
-    if (cloudResponse.status !== 200) {
-      return new NextResponse("Internal Error", { status: 500 });
+    if (status !== 200) {
+      return new NextResponse(JSON.stringify(message[0]), { status: 400 });
     }
 
-    await db.gCPData.create({
-      data: {
-        assetId: params.courseId,
-        urlExpiryDate: downloadExpiryDate,
-        blobName: blobName,
-        assetName: file.name,
-        assetType: contentType,
-      },
+    // if (cloudResponse.status !== 200) {
+    //   return new NextResponse("Internal Error", { status: 500 });
+    // }
+
+    const fileName = `courses/${params.courseId}/image/${file.name}`;
+    const dbResponse = await createFileMetaData({
+      file,
+      assetId: params.courseId,
+      fileName,
     });
 
-    const course = await db.course.update({
-      where: {
-        id: params.courseId,
-      },
-      data: {
-        imageUrl: cloudResponse.downloadUrl,
-      },
-    });
+    // await db.gCPData.create({
+    //   data: {
+    //     assetId: params.courseId,
+    //     urlExpiryDate: downloadExpiryDate,
+    //     blobName: blobName,
+    //     assetName: file.name,
+    //     assetType: contentType,
+    //   },
+    // });
 
-    return NextResponse.json(course);
+    // const course = await db.course.update({
+    //   where: {
+    //     id: params.courseId,
+    //   },
+    //   data: {
+    //     imageUrl: cloudResponse.downloadUrl,
+    //   },
+    // });
+
+    // return NextResponse.json(course);
+
+    if (dbResponse.status === 200) {
+      return new NextResponse(JSON.stringify(dbResponse.message), {
+        status: 200,
+      });
+    } else {
+      return new NextResponse(dbResponse.message, { status: 500 });
+    }
   } catch (error) {
     console.log("COURSE_ID_ATTACHMENTS", error);
     return new NextResponse("Internal Error", { status: 500 });

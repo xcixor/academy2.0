@@ -4,11 +4,11 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function GET(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { courseId } = params;
 
     if (!userId) {

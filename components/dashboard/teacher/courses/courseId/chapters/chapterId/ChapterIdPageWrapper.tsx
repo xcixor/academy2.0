@@ -20,7 +20,7 @@ interface Props {
 
 const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");

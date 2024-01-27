@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

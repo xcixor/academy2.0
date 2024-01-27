@@ -25,11 +25,13 @@ import {
   Category,
   Chapter,
   Course,
+  GCPData,
   Plan,
   Quiz,
 } from "@prisma/client";
 import { useState } from "react";
 import QuizForm from "./QuizForm";
+
 
 interface PageProps {
   course: Course & {
@@ -39,8 +41,9 @@ interface PageProps {
   };
   categories: Category[];
   plans: Plan[];
+  gcpData: GCPData;
 }
-const CourseIdPage = ({ course, categories, plans }: PageProps) => {
+const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
   const [deleting, setIsDeleting] = useState(false);
   const toggleDeleting = () => setIsDeleting((current) => !current);
 
@@ -63,7 +66,7 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
   return (
     <div className="relative">
       {deleting && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white z-10 opacity-60">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white opacity-60">
           <Loader2
             strokeWidth="50px"
             className="h-10 w-10 animate-spin text-red-600"
@@ -91,7 +94,7 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
             toggleDeleting={toggleDeleting}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={LayoutDashboard} />
@@ -111,6 +114,7 @@ const CourseIdPage = ({ course, categories, plans }: PageProps) => {
               initialData={course}
               courseId={course.id}
               isDeleting={deleting}
+              gcpData={gcpData}
             />
             <CategoryForm
               initialData={course}

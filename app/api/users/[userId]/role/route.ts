@@ -3,26 +3,30 @@ import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { Role } from "@prisma/client";
 
-export async function POST(req: Request) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { userId: string } },
+) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.id;
-    const { title } = await req.json();
 
-    if (!userId || !(user.role === Role.COACH)) {
+    if (!user || user.role !== Role.ADMIN) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
-    const course = await db.course.create({
+    const { userId } = params;
+    const { role } = await req.json();
+    const updatedUser = await db.user.update({
+      where: {
+        id: userId,
+      },
       data: {
-        userId,
-        title,
+        role: role,
       },
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json(updatedUser);
   } catch (error) {
-    console.log("[COURSES]", error);
+    console.log("[USER_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

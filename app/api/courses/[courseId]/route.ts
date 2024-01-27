@@ -8,7 +8,7 @@ export async function PATCH(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { courseId } = params;
     const values = await req.json();
 
@@ -39,7 +39,7 @@ export async function DELETE(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

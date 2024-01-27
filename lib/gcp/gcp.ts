@@ -1,5 +1,5 @@
 const { Storage } = require("@google-cloud/storage");
-const { env } = require("./env");
+const { env } = require("../env");
 
 export class FileUploader {
   gsBucketName: string;

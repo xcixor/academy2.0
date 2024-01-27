@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 const page = async ({ params }: { params: { clientId: string } }) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");

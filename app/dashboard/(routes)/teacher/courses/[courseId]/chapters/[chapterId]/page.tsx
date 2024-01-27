@@ -8,7 +8,7 @@ export default async function ChapterIdPage({
   params: { courseId: string; chapterId: string };
 }) {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     redirect("/");

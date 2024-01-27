@@ -5,7 +5,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 export async function GET(req: Request) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

@@ -11,7 +11,7 @@ const QuestionIdPageCustomLoading = dynamic(
     ),
   {
     loading: () => <QuestionIdPageSkeleton />,
-  }
+  },
 );
 
 export default async function QuestionIdPage({
@@ -20,7 +20,7 @@ export default async function QuestionIdPage({
   params: { courseId: string; quizId: string; questionId: string };
 }) {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     redirect("/");

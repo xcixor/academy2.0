@@ -20,6 +20,7 @@ const Coach = ({ coach, myCoaches }: Props) => {
       (coach) => coach.coachId === id && !coach.isConfirmed,
     );
   };
+
   return (
     <div className="group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm">
       <div className="relative aspect-video w-full overflow-hidden rounded-md">

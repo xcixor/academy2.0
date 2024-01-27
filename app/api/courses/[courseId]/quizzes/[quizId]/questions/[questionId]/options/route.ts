@@ -7,11 +7,11 @@ export async function POST(
   req: Request,
   {
     params,
-  }: { params: { courseId: string; quizId: string; questionId: string } }
+  }: { params: { courseId: string; quizId: string; questionId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { title } = await req.json();
 
     if (!userId) {

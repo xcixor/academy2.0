@@ -21,7 +21,7 @@ interface Props {
 
 const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");
@@ -63,12 +63,12 @@ const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
           <div className="w-full">
             <Link
               href={`/dashboard/teacher/courses/${courseId}`}
-              className="flex items-center text-sm hover:opacity-75 transition mb-6"
+              className="mb-6 flex items-center text-sm transition hover:opacity-75"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to course setup
             </Link>
-            <div className="flex items-center justify-between w-full">
+            <div className="flex w-full items-center justify-between">
               <div className="flex flex-col gap-y-2">
                 <h1 className="text-2xl font-medium">Quiz Setup</h1>
                 <span className="text-sm text-slate-700">
@@ -90,7 +90,7 @@ const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize your quiz</h2>
           </div>
-          <div className="md:w-1/2 gap-6 mt-16 ">
+          <div className="mt-16 gap-6 md:w-1/2 ">
             <QuizTitleForm
               initialData={quiz}
               courseId={courseId}
