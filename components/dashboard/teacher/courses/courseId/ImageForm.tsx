@@ -38,17 +38,6 @@ export default function ImageForm({
 
   const uploadUrl = `/api/courses/${courseId}/course-image`;
 
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   try {
-  //     await axios.patch(`/api/courses/${courseId}`, values);
-  //     toast.success("Course updated");
-  //     toggleEdit();
-  //     router.refresh();
-  //   } catch {
-  //     toast.error("Something went wrong");
-  //   }
-  // };
-
   return (
     <div className="mt-6 rounded-md border bg-slate-100 p-4">
       <div className="flex items-center justify-between font-medium">

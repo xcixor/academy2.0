@@ -26,7 +26,7 @@ export default async function CourseSidebar({
     return redirect("/");
   }
 
-  const { userId } = user;
+  const userId = user.id;
 
   const purchase = await db.purchase.findUnique({
     where: {
@@ -38,8 +38,8 @@ export default async function CourseSidebar({
   });
 
   return (
-    <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
-      <div className="p-8 flex flex-col border-b">
+    <div className="flex h-full flex-col overflow-y-auto border-r shadow-sm">
+      <div className="flex flex-col border-b p-8">
         <h1 className="font-semibold">{course.title}</h1>
         {purchase && (
           <div className="mt-10">
@@ -47,7 +47,7 @@ export default async function CourseSidebar({
           </div>
         )}
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         {course.chapters.map((chapter) => (
           <CourseSidebarItem
             key={chapter.id}

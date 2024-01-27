@@ -2,7 +2,7 @@
 
 import { Pencil, PlusCircle, Video } from "lucide-react";
 import { useState } from "react";
-import { Chapter } from "@prisma/client";
+import { Chapter, GCPData } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/FileUpload";
@@ -12,12 +12,14 @@ interface ChapterVideoFormProps {
   initialData: Chapter;
   courseId: string;
   chapterId: string;
+  fileMetaData: GCPData;
 }
 
 export default function ChapterVideoForm({
   initialData,
   courseId,
   chapterId,
+  fileMetaData,
 }: ChapterVideoFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -31,13 +33,13 @@ export default function ChapterVideoForm({
         Chapter video
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>Cancel</>}
-          {!isEditing && !initialData.videoUrl && (
+          {!isEditing && !fileMetaData && (
             <>
               <PlusCircle className="mr-2 h-4 w-4" />
               Add a video
             </>
           )}
-          {!isEditing && initialData.videoUrl && (
+          {!isEditing && fileMetaData && (
             <>
               <Pencil className="mr-2 h-4 w-4" />
               Edit video
@@ -46,7 +48,7 @@ export default function ChapterVideoForm({
         </Button>
       </div>
       {!isEditing &&
-        (!initialData.videoUrl ? (
+        (!fileMetaData ? (
           <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <Video className="h-10 w-10 text-slate-500" />
           </div>
@@ -54,7 +56,7 @@ export default function ChapterVideoForm({
           <div className="relative mt-2 aspect-video">
             <Player
               title={initialData.title}
-              url={initialData.videoUrl}
+              url={fileMetaData.downloadUrl}
               onEnded={null}
             />
           </div>
@@ -71,7 +73,7 @@ export default function ChapterVideoForm({
           </div>
         </div>
       )}
-      {initialData.videoUrl && !isEditing && (
+      {fileMetaData && !isEditing && (
         <div className="mt-2 text-xs text-muted-foreground">
           Videos can take a few minutes to process. Refresh the page if video
           does not appear.

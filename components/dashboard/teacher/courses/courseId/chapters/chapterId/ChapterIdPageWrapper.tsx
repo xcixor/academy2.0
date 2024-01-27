@@ -12,6 +12,7 @@ import ChapterVideoForm from "./ChapterVideoForm";
 import { Banner } from "@/components/Banner";
 import { ChapterActions } from "./ChapterActions";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 interface Props {
   courseId: string;
@@ -36,8 +37,9 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
   if (!chapter) {
     return redirect("/");
   }
+  const fileMetaData = await getLatestFileMetaData(chapterId);
 
-  const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
+  const requiredFields = [chapter.title, chapter.description, fileMetaData];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -119,6 +121,7 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
               initialData={chapter}
               chapterId={chapterId}
               courseId={courseId}
+              fileMetaData={fileMetaData}
             />
           </div>
         </div>
