@@ -32,7 +32,6 @@ import {
 import { useState } from "react";
 import QuizForm from "./QuizForm";
 
-
 interface PageProps {
   course: Course & {
     chapters: Chapter[];
@@ -50,10 +49,10 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
   const requiredFields = [
     course.title,
     course.description,
-    course.imageUrl,
     course.price,
     course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
+    gcpData,
   ];
 
   const totalFields = requiredFields.length;

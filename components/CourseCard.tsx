@@ -5,34 +5,40 @@ import { BookOpen } from "lucide-react";
 import { IconBadge } from "@/components/IconBadge";
 import { formatPrice } from "@/lib/format";
 import { CourseProgress } from "./CourseProgress";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 interface CourseCardProps {
   id: string;
   title: string;
-  imageUrl: string;
   chaptersLength: number;
   price: number;
   progress?: number | null;
   category: string;
 }
 
-export default function CourseCard({
+export default async function CourseCard({
   id,
   title,
-  imageUrl,
   chaptersLength,
   price,
   progress,
   category,
 }: CourseCardProps) {
+  const imageMetaData = await getLatestFileMetaData(id);
+
   return (
     <Link href={`/courses/${id}`}>
-      <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
-        <div className="relative w-full aspect-video rounded-md overflow-hidden">
-          <Image fill className="object-cover" alt={title} src={imageUrl} />
+      <div className="group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm">
+        <div className="relative aspect-video w-full overflow-hidden rounded-md">
+          <Image
+            fill
+            className="object-cover"
+            alt={title}
+            src={imageMetaData ? imageMetaData.downloadUrl : ""}
+          />
         </div>
         <div className="flex flex-col pt-2">
-          <div className="text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">
+          <div className="line-clamp-2 text-lg font-medium transition group-hover:text-sky-700 md:text-base">
             {title}
           </div>
           <p className="text-xs text-muted-foreground">{category}</p>
@@ -51,7 +57,7 @@ export default function CourseCard({
               variant={progress === 100 ? "success" : "default"}
             />
           ) : (
-            <p className="text-md md:text-sm font-medium text-slate-700">
+            <p className="text-md font-medium text-slate-700 md:text-sm">
               {formatPrice(price)}
             </p>
           )}
