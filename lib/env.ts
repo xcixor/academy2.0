@@ -17,6 +17,16 @@ const envSchema = zod.object({
     .string()
     .min(1, "Please provide PAYPAL_CLIENT_SECRET"),
   NODE_ENV: zod.string().min(1, "Please provide ").default("development"),
+  ADMIN_EMAIL: zod.string().min(1, "Please provide ADMIN_EMAIL"),
+
+  BASE_DOMAIN: zod.string().min(1),
+  SERVICE_ID: zod.string().min(1),
+  DEFAULT_TEMPLATE_ID: zod.string().min(1),
+  EMAIL_VERIFICATION_TEMPLATE_ID: zod.string().min(1),
+  PASSWORD_RESET_TEMPLATE_ID: zod.string().min(1),
+  PUBLIC_KEY: zod.string().min(1),
+  DEFAULT_FROM_NAME: zod.string().min(1),
+  PRIVATE_KEY: zod.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);
