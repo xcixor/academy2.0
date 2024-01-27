@@ -5,7 +5,7 @@ import axios from "axios";
 import { Pencil, PlusCircle, ImageIcon, Ban } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Course } from "@prisma/client";
+import { Course, GCPData } from "@prisma/client";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ interface ImageFormProps {
   initialData: Course;
   courseId: string;
   isDeleting: boolean;
+  gcpData: GCPData;
 }
 
 const formSchema = z.object({
@@ -27,6 +28,7 @@ export default function ImageForm({
   initialData,
   courseId,
   isDeleting,
+  gcpData,
 }: ImageFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -56,13 +58,13 @@ export default function ImageForm({
         ) : (
           <Button onClick={toggleEdit} variant="ghost">
             {isEditing && <>Cancel</>}
-            {!isEditing && !initialData.imageUrl && (
+            {!isEditing && !gcpData.downloadUrl && (
               <>
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add an image
               </>
             )}
-            {!isEditing && initialData.imageUrl && (
+            {!isEditing && gcpData.downloadUrl && (
               <>
                 <Pencil className="mr-2 h-4 w-4" />
                 Edit image
@@ -72,7 +74,7 @@ export default function ImageForm({
         )}
       </div>
       {!isEditing &&
-        (!initialData.imageUrl ? (
+        (!gcpData.downloadUrl ? (
           <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
@@ -82,7 +84,7 @@ export default function ImageForm({
               alt="Upload"
               fill
               className="rounded-md object-cover"
-              src={initialData.imageUrl}
+              src={gcpData.downloadUrl}
             />
           </div>
         ))}

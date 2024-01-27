@@ -12,11 +12,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   const { courseId } = await req.json();
 
-  // get course cost here but change merchant account to accept kes 
+  // get course cost here but change merchant account to accept kes
   const course = await db.course.findUnique({ where: { id: courseId } });
 
   if (!userId) {

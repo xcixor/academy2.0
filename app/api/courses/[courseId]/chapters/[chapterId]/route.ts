@@ -8,7 +8,7 @@ export async function PATCH(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { isPublished, ...values } = await req.json();
 
     if (!userId) {
@@ -53,7 +53,7 @@ export async function DELETE(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -81,7 +81,7 @@ export async function DELETE(
       return new NextResponse("Not Found", { status: 404 });
     }
 
-    // delete videos too 
+    // delete videos too
     // if (chapter.videoUrl) {
     // }
 

@@ -135,13 +135,13 @@ model GCPData {
   id               String       @id @default(cuid())
   urlExpiryDate    DateTime
   blobName         String
-  assetId          String
+  assetId          String       @unique
   assetName        String
   assetType        String
   Attachment       Attachment[]
   validityDuration Int          @default(7)
-
-  chapter Chapter[]
+  downloadUrl      String
+  chapter          Chapter[]
 }
 
 model UserProgress {

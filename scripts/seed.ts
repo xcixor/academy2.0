@@ -61,9 +61,9 @@ async function createAdmin() {
 }
 
 async function main() {
-  createCategories();
-  createPlans();
-  createAdmin();
+  // createCategories();
+  // createPlans();
+  // createAdmin();
 }
 
 main();

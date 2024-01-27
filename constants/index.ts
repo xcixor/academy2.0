@@ -10,3 +10,16 @@ export enum EMAILTYPES {
   RESETPASSWORD,
   DEFAULT,
 }
+
+export const MAX_IMAGE_SIZE = 1;
+
+export const ALLOWED_IMAGE_TYPES = [
+  "image/webp",
+  "image/webm",
+  "image/tiff",
+  "image/svg+xml",
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/bmp",
+];

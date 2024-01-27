@@ -5,11 +5,11 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { isCompleted } = await req.json();
 
     if (!userId) {
