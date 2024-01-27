@@ -8,6 +8,13 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
+enum Role {
+  USER
+  COACH
+  STAFF
+  ADMIN
+}
+
 model Profile {
   id          String    @id @default(cuid())
   firstName   String?
@@ -27,9 +34,7 @@ model User {
   image         String?
   bio           String?
   linkedIn      String?
-  isAdmin       Boolean      @default(false)
-  isStaff       Boolean      @default(false)
-  isCoach       Boolean      @default(false)
+  role          Role         @default(USER)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   password      String?
@@ -318,10 +323,10 @@ model CoachRequisites {
 }
 
 model Session {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String?
   description String?
-  price        Int?
+  price       Int?
 
   coachId  String
   coach    User   @relation(fields: [coachId], references: [id], onDelete: Cascade)

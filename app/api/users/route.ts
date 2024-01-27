@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { sendEmail } from "@/lib/email/mailer";
+import { EMAILTYPES } from "@/constants";
 
 export async function POST(req: NextRequest) {
   try {
@@ -31,7 +33,26 @@ export async function POST(req: NextRequest) {
       },
     });
     await db.profile.create({ data: { userId: user.id, firstName, lastName } });
-    return NextResponse.json({ message: "User Created." }, { status: 201 });
+    const emailVerificationResponse = await sendEmail({
+      toEmail: email,
+      emailType: EMAILTYPES.EMAILVERIFICATION,
+      extraArgs: {
+        userId: user.id,
+      },
+    });
+    if (emailVerificationResponse.status === 200) {
+      return NextResponse.json(
+        { message: "User Created.", userId: user.id },
+        { status: 201 },
+      );
+    }
+    return NextResponse.json(
+      {
+        message: "User Created but verificiation email not sent.",
+        userId: user.id,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: "Error", error }, { status: 500 });
