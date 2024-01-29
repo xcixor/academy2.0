@@ -11,6 +11,7 @@ interface CourseSidebarItemProps {
   isCompleted: boolean;
   courseId: string;
   isLocked: boolean;
+  isCourseOwner: boolean;
 }
 
 export default function CourseSidebarItem({
@@ -19,11 +20,13 @@ export default function CourseSidebarItem({
   isCompleted,
   courseId,
   isLocked,
+  isCourseOwner,
 }: CourseSidebarItemProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
+  const Icon =
+    isLocked && !isCourseOwner ? Lock : isCompleted ? CheckCircle : PlayCircle;
   const isActive = pathname?.includes(id);
 
   const onClick = () => {
@@ -35,11 +38,11 @@ export default function CourseSidebarItem({
       onClick={onClick}
       type="button"
       className={cn(
-        "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
+        "flex items-center gap-x-2 pl-6 text-sm font-[500] text-slate-500 transition-all hover:bg-slate-300/20 hover:text-slate-600",
         isActive &&
-          "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
+          "bg-slate-200/20 text-slate-700 hover:bg-slate-200/20 hover:text-slate-700",
         isCompleted && "text-emerald-700 hover:text-emerald-700",
-        isCompleted && isActive && "bg-emerald-200/20"
+        isCompleted && isActive && "bg-emerald-200/20",
       )}
     >
       <div className="flex items-center gap-x-2 py-4">
@@ -48,16 +51,16 @@ export default function CourseSidebarItem({
           className={cn(
             "text-slate-500",
             isActive && "text-slate-700",
-            isCompleted && "text-emerald-700"
+            isCompleted && "text-emerald-700",
           )}
         />
         {label}
       </div>
       <div
         className={cn(
-          "ml-auto opacity-0 border-2 border-slate-700 h-full transition-all",
+          "ml-auto h-full border-2 border-slate-700 opacity-0 transition-all",
           isActive && "opacity-100",
-          isCompleted && "border-emerald-700"
+          isCompleted && "border-emerald-700",
         )}
       />
     </button>

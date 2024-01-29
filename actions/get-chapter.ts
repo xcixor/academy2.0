@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { Attachment, Chapter, GCPData } from "@prisma/client";
 import { getLatestFileMetaData } from "./get-latest-file-metadata";
+import { getCourseOwner } from "./get-course-owner";
 
 interface GetChapterProps {
   userId: string;
@@ -64,7 +65,9 @@ export const getChapter = async ({
       });
     }
 
-    if (chapter.isFree || purchase) {
+    const isCourseOwner = await getCourseOwner(userId, courseId);
+
+    if (chapter.isFree || purchase || isCourseOwner) {
       gcpData = await getLatestFileMetaData(chapterId);
 
       nextChapter = await db.chapter.findFirst({
