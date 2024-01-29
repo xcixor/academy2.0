@@ -7,12 +7,13 @@ export const getAllCourses = async ({
   title,
   categoryId,
 }: GetCourses): Promise<CourseWithProgressWithCategory[]> => {
+  const formattedTitle = title?.replace(/\s/g, "");
   try {
     const courses = await db.course.findMany({
       where: {
         isPublished: true,
         categoryId,
-        ...(title && title.trim().length > 0
+        ...(formattedTitle
           ? {
               OR: [
                 { title: { contains: title, mode: "insensitive" } },
