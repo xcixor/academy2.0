@@ -22,7 +22,7 @@ import CommentSection from "@/components/courses/courseId/discussion/CommentSect
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
-import { db } from "@/lib/db";
+import { getCourseOwner } from "@/actions/get-course-owner";
 
 const ChapterIdPage = async ({
   params,
@@ -53,8 +53,8 @@ const ChapterIdPage = async ({
   if (!chapter || !course) {
     return redirect("/");
   }
-
-  const isLocked = !chapter.isFree && !purchase;
+  const isCourseOwner = await getCourseOwner(userId, params.courseId);
+  const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
   return (

@@ -6,6 +6,7 @@ import { CourseProgress } from "@/components/CourseProgress";
 
 import CourseSidebarItem from "./CourseSidebarItem";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { getCourseOwner } from "@/actions/get-course-owner";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -37,6 +38,8 @@ export default async function CourseSidebar({
     },
   });
 
+  const isCourseOwner = await getCourseOwner(userId, course.id);
+
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r shadow-sm">
       <div className="flex flex-col border-b p-8">
@@ -56,6 +59,7 @@ export default async function CourseSidebar({
             isCompleted={!!chapter.userProgress?.[0]?.isCompleted}
             courseId={course.id}
             isLocked={!chapter.isFree && !purchase}
+            isCourseOwner={isCourseOwner!!}
           />
         ))}
       </div>
