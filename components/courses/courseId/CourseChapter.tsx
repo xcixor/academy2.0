@@ -57,8 +57,6 @@ const ChapterIdPage = async ({
   const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-  console.log(attachments, '****************')
-
   return (
     <div>
       {userProgress?.isCompleted && (
@@ -79,7 +77,7 @@ const ChapterIdPage = async ({
             nextChapterId={nextChapter?.id}
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
-            videoUrl={gcpData.downloadUrl}
+            videoUrl={gcpData ? gcpData.downloadUrl : ""}
           />
         </div>
         <div className="min-w-[80%] max-w-4xl">
