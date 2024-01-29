@@ -10,6 +10,7 @@ import { Attachment, Course } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/FileUpload";
+import { DropZoneDocumentFileTypes } from "@/constants";
 
 interface AttachmentFormProps {
   initialData: Course & { attachments: Attachment[] };
@@ -106,6 +107,8 @@ export default function AttachmentForm({
             uploadUrl={uploadUrl}
             toggleEdit={toggleEdit}
             isFileEditing={false}
+            fileMessage={"pdf, docx, txt, zip, rar, ppt, pptx, xls, xlsx, doc"}
+            acceptedFileTypes={DropZoneDocumentFileTypes}
           />
           <div className="mt-4 text-xs text-muted-foreground">
             Add anything your students might need to complete the course.
