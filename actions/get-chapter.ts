@@ -8,10 +8,13 @@ interface GetChapterProps {
   courseId: string;
   chapterId: string;
 }
+// type AttachmentWithGCPData = Attachment & {
+//   gcpData: GCPData | null;
+// };
 
-type AttachmentWithGCPData = Attachment & {
-  gcpData: GCPData | null;
-};
+interface AttachmentWithGCPData extends Attachment {
+  gcpData?: GCPData | null;
+}
 
 export const getChapter = async ({
   userId,
@@ -54,18 +57,19 @@ export const getChapter = async ({
     let attachments: AttachmentWithGCPData[] = [];
     let nextChapter: Chapter | null = null;
 
-    if (purchase) {
+    const isCourseOwner = await getCourseOwner(userId, courseId);
+
+    if (purchase || isCourseOwner) {
       attachments = await db.attachment.findMany({
         where: {
           courseId: courseId,
         },
-        include: {
-          gcpData: true,
-        },
       });
+      for (const attachment of attachments) {
+        const gcpData = await getLatestFileMetaData(attachment.id);
+        attachment.gcpData = gcpData;
+      }
     }
-
-    const isCourseOwner = await getCourseOwner(userId, courseId);
 
     if (chapter.isFree || purchase || isCourseOwner) {
       gcpData = await getLatestFileMetaData(chapterId);

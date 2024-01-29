@@ -102,7 +102,11 @@ export default function AttachmentForm({
       )}
       {isEditing && (
         <div>
-          <FileUpload uploadUrl={uploadUrl} toggleEdit={toggleEdit} />
+          <FileUpload
+            uploadUrl={uploadUrl}
+            toggleEdit={toggleEdit}
+            isFileEditing={false}
+          />
           <div className="mt-4 text-xs text-muted-foreground">
             Add anything your students might need to complete the course.
           </div>

@@ -57,6 +57,8 @@ const ChapterIdPage = async ({
   const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
+  console.log(attachments, '****************')
+
   return (
     <div>
       {userProgress?.isCompleted && (
@@ -126,7 +128,7 @@ const ChapterIdPage = async ({
                   <div className="p-4">
                     {attachments.map((attachment) => (
                       <a
-                        href={attachment.url}
+                        href={attachment.gcpData.downloadUrl}
                         target="_blank"
                         key={attachment.id}
                         className="flex w-full items-center rounded-md border bg-sky-200 p-3 text-sky-700 hover:underline"
