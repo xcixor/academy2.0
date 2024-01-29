@@ -23,7 +23,6 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 import { db } from "@/lib/db";
-import { FileUploader } from "@/lib/gcp";
 
 const ChapterIdPage = async ({
   params,
@@ -78,7 +77,7 @@ const ChapterIdPage = async ({
             nextChapterId={nextChapter?.id}
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
-            videoUrl={chapter.videoUrl}
+            videoUrl={gcpData.downloadUrl}
           />
         </div>
         <div className="min-w-[80%] max-w-4xl">

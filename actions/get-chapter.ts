@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { Attachment, Chapter, GCPData } from "@prisma/client";
+import { getLatestFileMetaData } from "./get-latest-file-metadata";
 
 interface GetChapterProps {
   userId: string;
@@ -64,20 +65,7 @@ export const getChapter = async ({
     }
 
     if (chapter.isFree || purchase) {
-      gcpData = await db.chapter.findUnique({
-        where: {
-          id: chapterId,
-        },
-        include:{
-          gcpData:{
-            select:{
-              urlExpiryDate:true,
-              blobName:true
-            }
-          }
-        }
-      
-      });
+      gcpData = await getLatestFileMetaData(chapterId);
 
       nextChapter = await db.chapter.findFirst({
         where: {
