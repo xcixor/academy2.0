@@ -32,62 +32,12 @@ export async function POST(
     const { file }: { file: File } = data as { file: File };
 
     let fileName = `courses/${params.courseId}/chapters/${params.chapterId}/video/${file.name}`;
-    const contentType: string = file.type;
-    const downloadExpiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    // const uploader = new FileUploader(
-    //   blobName,
-    //   contentType,
-    //   "PUT",
-    //   downloadExpiryDate,
-    // );
-
-    // const cloudResponse = await uploader.uploadFile(file);
-
-    // if (cloudResponse.status !== 200) {
-    //   return new NextResponse("Internal Error", { status: 500 });
-    // }
-
-    // const existingGCPVideo = await db.gCPData.findFirst({
-    //   where: {
-    //     assetId: params.chapterId,
-    //   },
-    // });
-
-    // if (existingGCPVideo) {
-    //   await db.gCPData.delete({
-    //     where: {
-    //       id: existingGCPVideo.id,
-    //     },
-    //   });
-    // }
-
-    // const gcpData = await db.gCPData.create({
-    //   data: {
-    //     assetId: params.chapterId,
-    //     urlExpiryDate: downloadExpiryDate,
-    //     blobName: blobName,
-    //     assetName: file.name,
-    //     assetType: contentType,
-    //   },
-    // });
-
-    // const chapter = await db.chapter.update({
-    //   where: {
-    //     id: params.chapterId,
-    //   },
-    //   data: {
-    //     gCPDataId: gcpData.id,
-    //     videoUrl: cloudResponse.downloadUrl,
-    //   },
-    // });
 
     const dbResponse = await createFileMetaData({
       file,
       assetId: params.chapterId,
       fileName,
     });
-
-    console.log(dbResponse, "dbResponse", "************");
 
     if (dbResponse.status === 200) {
       return new NextResponse(JSON.stringify(dbResponse.message), {

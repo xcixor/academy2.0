@@ -93,17 +93,12 @@ model Category {
 model Attachment {
   id   String @id @default(uuid())
   name String
-  url  String @db.Text
-  type String
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  gcpData   GCPData? @relation(fields: [gCPDataId], references: [id])
-  gCPDataId String?
 
   @@index([courseId])
 }
@@ -132,14 +127,13 @@ model Chapter {
 }
 
 model GCPData {
-  id               String       @id @default(cuid())
+  id               String    @id @default(cuid())
   urlExpiryDate    DateTime
   blobName         String
-  assetId          String       @unique
+  assetId          String    @unique
   assetName        String
   assetType        String
-  Attachment       Attachment[]
-  validityDuration Int          @default(7)
+  validityDuration Int       @default(7)
   downloadUrl      String
   chapter          Chapter[]
 }
