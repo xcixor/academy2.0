@@ -26,17 +26,17 @@ export default function NavbarRoutes({ user }: Props) {
 
   return (
     <>
-      {!isDashboard && (
-        <div className="hidden flex-1 md:block">
-          <div className="flex w-full justify-between gap-x-2 align-middle">
-            <Link href="/">
-              <Logo />
-            </Link>
-            {isBrowsePage && (
-              <div className="hidden md:block">
-                <SearchInput />
-              </div>
-            )}
+      <div className="hidden flex-1 md:block">
+        <div className="flex w-full justify-between gap-x-2 align-middle">
+          <Link href="/">
+            <Logo />
+          </Link>
+          {isBrowsePage && (
+            <div className="hidden md:block">
+              <SearchInput />
+            </div>
+          )}
+          {!isDashboard && (
             <ul className="flex items-center">
               <li className="mr-4">
                 <Link href="/browse">
@@ -46,28 +46,21 @@ export default function NavbarRoutes({ user }: Props) {
                 </Link>
               </li>
               <li className="mr-4">
-                <Link href="#">
-                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
-                    Pricing
-                  </p>
-                </Link>
-              </li>
-              <li className="mr-4">
                 <Link href="/notifications">
                   <Notifications userId={user?.id} />
                 </Link>
               </li>
             </ul>
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
       {isBrowsePage && userId && (
         <div className="hidden md:block">
           <SearchInput />
         </div>
       )}
-      <div className="ml-auto flex items-center gap-x-2">
+      <div className="ml-auto flex items-center gap-x-2 ">
         {user?.role === Role.COACH && isTeacherPage ? (
           <Link href="/dashboard">
             <Button size="sm" variant="ghost">
