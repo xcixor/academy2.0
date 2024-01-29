@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { Logo } from "../Logo";
 import SidebarRoutes from "./SidebarRoutes";
 
 export const Sidebar = () => {
