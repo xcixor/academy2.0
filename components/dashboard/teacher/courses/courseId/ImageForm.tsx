@@ -10,6 +10,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/FileUpload";
+import { DropZoneImageFileTypes } from "@/constants";
 
 interface ImageFormProps {
   initialData: Course;
@@ -83,6 +84,8 @@ export default function ImageForm({
             uploadUrl={uploadUrl}
             toggleEdit={toggleEdit}
             isFileEditing={false}
+            fileMessage={"png, jpg, jpeg, webp, svg, bmp, tiff, gif, webp"}
+            acceptedFileTypes={DropZoneImageFileTypes}
           />
           <div className="mt-4 text-xs text-muted-foreground">
             16:9 aspect ratio recommended

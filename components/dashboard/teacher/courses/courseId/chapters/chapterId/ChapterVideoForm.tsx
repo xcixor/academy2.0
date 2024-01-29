@@ -7,6 +7,7 @@ import { Chapter, GCPData } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/FileUpload";
 import { Player } from "@/components/video/VideoPlayer";
+import { DropZoneVideoFileTypes } from "@/constants";
 
 interface ChapterVideoFormProps {
   initialData: Chapter;
@@ -67,6 +68,8 @@ export default function ChapterVideoForm({
             uploadUrl={uploadUrl}
             isFileEditing={false}
             toggleEdit={toggleEdit}
+            fileMessage={"mp4, webm, ogg, mov, wmv, avi, 3gp, flv, mkv"}
+            acceptedFileTypes={DropZoneVideoFileTypes}
           />
           <div className="mt-4 text-xs text-muted-foreground">
             Upload this chapter&apos;s video

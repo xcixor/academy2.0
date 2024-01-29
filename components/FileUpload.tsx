@@ -1,26 +1,31 @@
 "use client";
 
 import { useState } from "react";
-
 import Dropzone from "react-dropzone";
 import { CheckCircle2, Cloud, FileIcon, StopCircle } from "lucide-react";
 import { Progress } from "./ui/progress";
-
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import axios from "axios";
+import { toast } from "@/components/ui/use-toast";
 import { File } from "buffer";
+
+interface Accept {
+  [key: string]: string[];
+}
 
 interface FileUploadProps {
   uploadUrl: string;
   isFileEditing: boolean;
   toggleEdit?: () => void;
+  fileMessage: string;
+  acceptedFileTypes: Accept | null;
 }
 
 const UploadDropzone = ({
   uploadUrl,
   toggleEdit,
   isFileEditing,
+  fileMessage,
+  acceptedFileTypes,
 }: FileUploadProps) => {
   const router = useRouter();
 
@@ -31,29 +36,62 @@ const UploadDropzone = ({
 
   const startUpload = async function (acceptedFile: File) {
     try {
-      let formData = new FormData();
+      const formData = new FormData();
       formData.append("file", acceptedFile);
       if (isFileEditing) {
-        await axios.patch(uploadUrl, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const response = await fetch(uploadUrl, {
+          method: "PATCH",
+          body: formData,
         });
+        const data = await response.json();
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: "Update success.",
+            variant: "default",
+            className: "bg-green-300 border-0",
+          });
+          toggleEdit();
+          router.refresh();
+          setIsError(false);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: data,
+          });
+        }
       } else {
-        await axios.post(uploadUrl, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const response = await fetch(uploadUrl, {
+          method: "POST",
+          body: formData,
         });
+        const data = await response.json();
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: "Course updated.",
+            variant: "default",
+            className: "bg-green-300 border-0",
+          });
+          toggleEdit();
+          router.refresh();
+          setIsError(false);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: data,
+          });
+        }
       }
-
-      toggleEdit();
-      toast.success("Course updated");
-      router.refresh();
-      setIsError(false);
-    } catch(error) {
-      console.log(error, '#CLIENT ERROR')
-      toast.error("Something went wrong");
+    } catch (error) {
+      console.log(error, "#CLIENT ERROR");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong!",
+      });
     } finally {
       setIsUploading(false);
       setIsError(true);
@@ -79,6 +117,7 @@ const UploadDropzone = ({
   return (
     <Dropzone
       multiple={false}
+      accept={acceptedFileTypes}
       onDrop={async (acceptedFile) => {
         setIsUploading(true);
 
@@ -111,7 +150,7 @@ const UploadDropzone = ({
                   <span className="font-semibold">Click to upload</span> or drag
                   and drop
                 </p>
-                <p className="text-xs text-zinc-500">PDF 4MB</p>
+                <p className="text-xs text-zinc-500">{fileMessage}</p>
               </div>
 
               {acceptedFiles && acceptedFiles[0] ? (
@@ -174,12 +213,16 @@ export const FileUpload = ({
   uploadUrl,
   toggleEdit,
   isFileEditing,
+  fileMessage,
+  acceptedFileTypes,
 }: FileUploadProps) => {
   return (
     <UploadDropzone
       uploadUrl={uploadUrl}
       toggleEdit={toggleEdit}
       isFileEditing={isFileEditing}
+      fileMessage={fileMessage}
+      acceptedFileTypes={acceptedFileTypes}
     />
   );
 };
