@@ -32,7 +32,7 @@ export default function NavbarRoutes({ user }: Props) {
             <Logo />
           </Link>
           {isBrowsePage && (
-            <div className="hidden md:block">
+            <div className="hidden flex-1 md:mx-12 md:block">
               <SearchInput />
             </div>
           )}
@@ -55,11 +55,6 @@ export default function NavbarRoutes({ user }: Props) {
         </div>
       </div>
 
-      {isBrowsePage && userId && (
-        <div className="hidden md:block">
-          <SearchInput />
-        </div>
-      )}
       <div className="ml-auto flex items-center gap-x-2 ">
         {user?.role === Role.COACH && isTeacherPage ? (
           <Link href="/dashboard">
