@@ -37,7 +37,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <ChevronDown />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="space-y-2">
             <DropdownMenuLabel>Hi, {user.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
