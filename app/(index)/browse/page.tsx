@@ -4,6 +4,8 @@ import { SearchInput } from "@/components/SearchInput";
 import CoursesList from "@/components/CoursesList";
 
 import Categories from "../../../components/browse/Categories";
+import { CourseWithProgressWithCategory } from "@/@types/db";
+import { getAllCourses } from "@/actions/get-all-courses";
 
 interface SearchPageProps {
   searchParams: {
@@ -19,6 +21,10 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
     },
   });
 
+  const items = (await getAllCourses({
+    ...searchParams,
+  })) as CourseWithProgressWithCategory[];
+
   return (
     <>
       <div className="block px-6 pt-6 md:mb-0 md:hidden">
@@ -26,7 +32,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
       </div>
       <div className="space-y-4 p-6">
         <Categories items={categories} />
-        <CoursesList searchParams={searchParams} />
+        <CoursesList items={items} />
       </div>
     </>
   );

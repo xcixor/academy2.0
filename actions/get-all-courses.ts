@@ -1,11 +1,7 @@
 import { Category, Course } from "@prisma/client";
 
 import { db } from "@/lib/db";
-
-type CourseWithProgressWithCategory = Course & {
-  category: Category | null;
-  chapters: { id: string }[];
-};
+import { CourseWithProgressWithCategory } from "@/@types/db";
 
 type GetCourses = {
   title?: string;
