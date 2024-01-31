@@ -29,22 +29,21 @@ type Props = {
 const images = [
   {
     src: "/carousel/photo-1.avif",
-    title: "PES ACADEMY",
+    title: "Explore Excellence",
     legend:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, dolor! Lorem ipsum dolor sit amet. \
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus, cumque.",
+      "Dive into our curated selection of featured courses at PES Academy. From foundational principles to advanced strategies, discover transformative learning experiences that elevate your understanding on various topics.",
     alt: "Photo 1",
   },
   {
     src: "/carousel/photo-2.avif",
-    title: "PES Academy",
-    legend: "Legend 2",
+    title: "Guiding Experts",
+    legend: "Our seasoned instructors bring real-world insights and expertise, ensuring a rich and engaging learning journey. Discover the mentors shaping your path to success.",
     alt: "Photo 2",
   },
   {
     src: "/carousel/photo-3.avif",
-    title: "PES Academy",
-    legend: "Legend 3",
+    title: "Practical Insights for Today's Challenges",
+    legend: "Our practical insights carousel offers courses designed to address today's challenges. Equip yourself with the knowledge to thrive in a rapidly evolving financial landscape.",
     alt: "Photo 3",
   },
 ];
