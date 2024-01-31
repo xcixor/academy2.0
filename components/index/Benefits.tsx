@@ -16,14 +16,12 @@ const Benefits = () => {
                 <div className="space-y-8 p-8 ">
                   <div className="relative">
                     <h3 className="half-underline text-2xl font-semibold text-white">
-                      Education Organization
+                    Elevate Your Expertise
                     </h3>
                   </div>
 
                   <p className="text-white ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quibusdam ex numquam quis hic ratione vero laborum doloribus
-                    non ullam dolores.
+                  Stay ahead in the competitive financial landscape with PES Academy. Our comprehensive courses, crafted and led by industry leaders, provide a transformative learning experience.
                   </p>
                 </div>
               </div>
@@ -42,14 +40,12 @@ const Benefits = () => {
                 <div className="space-y-8 p-8 ">
                   <div className="relative">
                     <h3 className="half-underline text-2xl font-semibold text-white">
-                      Education Organization
+                    Practical Insights for Success
                     </h3>
                   </div>
 
                   <p className="text-white ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quibusdam ex numquam quis hic ratione vero laborum doloribus
-                    non ullam dolores.
+                  Benefit from hands-on knowledge, strategic perspectives, and practical skills that set you apart in the industry.
                   </p>
                 </div>
               </div>
@@ -68,14 +64,12 @@ const Benefits = () => {
                 <div className="space-y-8 p-8 ">
                   <div className="relative">
                     <h3 className="half-underline text-2xl font-semibold text-white">
-                      Education Organization
+                    Expert-Led Specializations
                     </h3>
                   </div>
 
                   <p className="text-white ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quibusdam ex numquam quis hic ratione vero laborum doloribus
-                    non ullam dolores.
+                  Choose expertise. PES Academy stands out for its expert-led specializations.
                   </p>
                 </div>
               </div>
@@ -94,14 +88,12 @@ const Benefits = () => {
                 <div className="space-y-8 p-8 ">
                   <div className="relative">
                     <h3 className="half-underline text-2xl font-semibold text-white">
-                      Education Organization
+                    Future-Ready Learning
                     </h3>
                   </div>
 
                   <p className="text-white ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quibusdam ex numquam quis hic ratione vero laborum doloribus
-                    non ullam dolores.
+                  Our forward-looking curriculum ensures you're equipped with the latest industry trends and innovations. 
                   </p>
                 </div>
               </div>

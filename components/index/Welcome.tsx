@@ -9,10 +9,7 @@ const Welcome = (props: Props) => {
       <div className="w-1/2 text-center">
         <h2 className="text-3xl font-semibold text-red-800">Welcome To PES Academy</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-          perferendis quaerat molestiae itaque praesentium illo odio nisi
-          corporis, dolores cumque voluptatibus animi provident ullam sunt,
-          asperiores, commodi at quia sequi.
+        As a cutting-edge platform, we go beyond conventional learning, offering a dynamic range of courses designed and led by industry experts. Whether you're starting your journey or seeking advanced insights, PES Academy empowers you with the knowledge and skills needed to thrive in the ever-evolving world of finance. Join us on this transformative educational experience where expertise meets innovation, and where your success in private equity begins
         </p>
       </div>
       <div className="relative flex w-full items-center justify-center space-y-4">

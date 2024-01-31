@@ -15,9 +15,7 @@ const CTA = () => {
             Are you ready to start learning?
           </h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit quos esse molestias error sapiente, dolorum unde
-            accusamus magnam libero hic.
+          Join us on this transformative educational experience where expertise meets innovation.
           </p>
         </div>
         <div className="flex basis-1/2 items-center justify-center">
