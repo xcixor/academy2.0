@@ -65,12 +65,13 @@ export default function ChapterVideoForm({
       {isEditing && (
         <div>
           <FileUpload
-            uploadUrl={uploadUrl}
-            isFileEditing={false}
+            assetId={chapterId}
             toggleEdit={toggleEdit}
             fileMessage={"mp4, webm, ogg, mov, wmv, avi, 3gp, flv, mkv"}
             acceptedFileTypes={DropZoneVideoFileTypes}
+            bucketFileDirectory={`courses/${courseId}/chapters/${chapterId}/video`}
           />
+
           <div className="mt-4 text-xs text-muted-foreground">
             Upload this chapter&apos;s video
           </div>
