@@ -108,10 +108,10 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
             >
               <ArrowLeft /> Back to course
             </Link>
-            <h1 className="py-4 text-2xl font-semibold text-zinc-500">
+            <h1 className="py-4 text-2xl font-semibold text-red-800">
               Course Title
             </h1>
-            <p className="text-3xl font-bold text-zinc-800">
+            <p className="text-3xl font-bold text-red-800">
               {formatPrice(2500)}
             </p>
             <p>
@@ -119,7 +119,7 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
               itaque perspiciatis, quis vitae atque amet? Asperiores quam
               temporibus modi explicabo.
             </p>
-            <div className="mt-6 flex w-full items-center gap-4 text-zinc-600">
+            <div className="mt-6 flex w-full items-center gap-4 text-red-800">
               <p>&copy; private capital support</p>
               <Link href="#">Terms</Link>
               <Link href="#">Privacy</Link>
