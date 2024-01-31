@@ -11,7 +11,7 @@ const CTA = () => {
     <section className="bg-secondary py-32">
       <MaxWidthWrapper className="flex">
         <div className="basis-1/2">
-          <h2 className="text-2xl  uppercase">
+          <h2 className="text-2xl  uppercase text-red-800">
             Are you ready to start learning?
           </h2>
           <p>
