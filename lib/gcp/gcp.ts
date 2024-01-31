@@ -29,7 +29,7 @@ export class FileUploader {
     this.storage = new Storage({ keyFilename: env.GS_CREDENTIALS });
   }
 
-  generateSignedUrl(): Promise<string> {
+  generateSignedUrl(): Promise<{ url: string; blobName: string }> {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
@@ -49,7 +49,7 @@ export class FileUploader {
           .file(this.fileName)
           .getSignedUrl(options);
 
-        resolve(url);
+        resolve({ url, blobName: this.fileName });
       } catch (error) {
         reject(error);
       }
@@ -105,5 +105,27 @@ export class FileUploader {
         });
       }
     });
+  }
+  async getGenerationNumber() {
+    const [metadata] = await this.storage
+      .bucket(this.gsBucketName)
+      .file(this.blobName)
+      .getMetadata();
+    const generationNumber = metadata.generation;
+    return generationNumber;
+  }
+
+  async deleteBlob() {
+    const generationMatchPrecondition = await this.getGenerationNumber();
+    const deleteOptions = {
+      ifGenerationMatch: generationMatchPrecondition || 0,
+    };
+
+    const [response] = await this.storage
+      .bucket(this.gsBucketName)
+      .file(this.blobName)
+      .delete(deleteOptions);
+
+    console.log(response.statusCode, "************************8");
   }
 }

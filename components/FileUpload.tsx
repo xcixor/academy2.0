@@ -13,19 +13,19 @@ interface Accept {
 }
 
 interface FileUploadProps {
-  uploadUrl: string;
-  isFileEditing: boolean;
+  assetId: string;
   toggleEdit?: () => void;
   fileMessage: string;
   acceptedFileTypes: Accept | null;
+  bucketFileDirectory: string;
 }
 
 const UploadDropzone = ({
-  uploadUrl,
+  assetId,
   toggleEdit,
-  isFileEditing,
   fileMessage,
   acceptedFileTypes,
+  bucketFileDirectory,
 }: FileUploadProps) => {
   const router = useRouter();
 
@@ -36,55 +36,76 @@ const UploadDropzone = ({
 
   const startUpload = async function (acceptedFile: File) {
     try {
-      const formData = new FormData();
-      formData.append("file", acceptedFile);
-      if (isFileEditing) {
-        const response = await fetch(uploadUrl, {
-          method: "PATCH",
-          body: formData,
-        });
-        const data = await response.json();
-        if (response.status === 200) {
-          toast({
-            title: "Success",
-            description: "Update success.",
-            variant: "default",
-            className: "bg-green-300 border-0",
-          });
-          toggleEdit();
-          router.refresh();
-          setIsError(false);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: data,
-          });
+      const customFileName = `${bucketFileDirectory}/${acceptedFile.name}`;
+      const contentType = acceptedFile.type;
+      const response = await fetch("/api/gcp/signed-url", {
+        method: "POST",
+        cache: "no-store",
+        body: JSON.stringify({
+          contentType: contentType,
+          fileName: customFileName,
+        }),
+      });
+      const data = await response.json();
+      const { url, downloadUrl, downloadExpiry, blobName } = data;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("PUT", url, true);
+      xhr.setRequestHeader("Content-Type", contentType);
+      xhr.addEventListener("loadend", function () {
+        setIsUploading(false);
+      });
+      xhr.upload.addEventListener("progress", function (event) {
+        if (event.lengthComputable) {
+          const percentComplete = Math.round(
+            (event.loaded / event.total) * 100,
+          );
+          console.log(`Upload progress: ${percentComplete.toFixed(2)}%`);
+
+          setUploadProgress(percentComplete);
         }
-      } else {
-        const response = await fetch(uploadUrl, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        if (response.status === 200) {
-          toast({
-            title: "Success",
-            description: "Course updated.",
-            variant: "default",
-            className: "bg-green-300 border-0",
-          });
-          toggleEdit();
-          router.refresh();
-          setIsError(false);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: data,
-          });
+      });
+
+      xhr.addEventListener("readystatechange", async function () {
+        if (xhr.readyState === 4 && xhr.status == 200) {
+          try {
+            const response = await fetch("/api/gcp/asset", {
+              method: "PUT",
+              body: JSON.stringify({
+                fileName: acceptedFile.name,
+                contentType: contentType,
+                blobName: blobName,
+                downloadUrl: downloadUrl,
+                downloadExpiry: downloadExpiry,
+                assetId: assetId,
+                assetName: acceptedFile.name,
+              }),
+            });
+            const data = await response.json();
+            if (response.status === 200) {
+              toast({
+                title: "Success",
+                description: "Update success.",
+                variant: "default",
+                className: "bg-green-300 border-0",
+              });
+              toggleEdit();
+              router.refresh();
+              setIsError(false);
+            } else {
+              toast({
+                variant: "destructive",
+                title: "Error",
+                description: data.message,
+              });
+            }
+          } catch (error) {}
+        } else if (xhr.readyState === 4 && xhr.status != 200) {
+          console.log("errred", xhr.status, xhr.responseText);
+          setIsError(true);
         }
-      }
+      });
+      xhr.send(acceptedFile);
     } catch (error) {
       console.log(error, "#CLIENT ERROR");
       toast({
@@ -92,26 +113,7 @@ const UploadDropzone = ({
         title: "Error",
         description: "Something went wrong!",
       });
-    } finally {
-      setIsUploading(false);
-      setIsError(true);
     }
-  };
-
-  const startSimulatedProgress = () => {
-    setUploadProgress(0);
-
-    const interval = setInterval(() => {
-      setUploadProgress((prevProgress) => {
-        if (prevProgress >= 95) {
-          clearInterval(interval);
-          return prevProgress;
-        }
-        return prevProgress + 5;
-      });
-    }, 500);
-
-    return interval;
   };
 
   return (
@@ -121,16 +123,11 @@ const UploadDropzone = ({
       onDrop={async (acceptedFile) => {
         setIsUploading(true);
 
-        const progressInterval = startSimulatedProgress();
-
         // handle file uploading
         try {
           await startUpload(acceptedFile[0]);
-          clearInterval(progressInterval);
-          setUploadProgress(100);
         } catch (error) {
           console.log(error);
-          setUploadProgress(95);
         }
       }}
     >
@@ -210,19 +207,19 @@ const UploadDropzone = ({
 };
 
 export const FileUpload = ({
-  uploadUrl,
+  assetId,
   toggleEdit,
-  isFileEditing,
   fileMessage,
   acceptedFileTypes,
+  bucketFileDirectory,
 }: FileUploadProps) => {
   return (
     <UploadDropzone
-      uploadUrl={uploadUrl}
+      assetId={assetId}
       toggleEdit={toggleEdit}
-      isFileEditing={isFileEditing}
       fileMessage={fileMessage}
       acceptedFileTypes={acceptedFileTypes}
+      bucketFileDirectory={bucketFileDirectory}
     />
   );
 };
