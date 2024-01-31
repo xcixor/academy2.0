@@ -10,11 +10,11 @@ type Props = {
 
 const QuizList = async ({ courseId }: Props) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return (
-      <div className="flex items-center justify-center w-full">
+      <div className="flex w-full items-center justify-center">
         <AlertTriangle className="h-8 w-8 text-red-500" />
       </div>
     );
@@ -43,7 +43,7 @@ const QuizList = async ({ courseId }: Props) => {
           target="_blank"
         >
           <span className="flex items-center justify-between ">
-            <span className="font-semibold text-sky-700 hover:underline hover:text-sky-500 flex items-center">
+            <span className="flex items-center font-semibold text-sky-700 hover:text-sky-500 hover:underline">
               {quiz.title} <ChevronsRight />
             </span>
             {quiz.submissions[0] && (

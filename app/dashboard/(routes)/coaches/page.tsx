@@ -1,6 +1,7 @@
 import Coach from "@/components/dashboard/coach/Coach";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { db } from "@/lib/db";
+import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 const page = async () => {
@@ -9,7 +10,7 @@ const page = async () => {
     return redirect("/");
   }
   const coaches = await db.user.findMany({
-    where: { isCoach: true },
+    where: { role: Role.COACH },
     include: { profile: true },
   });
   const myCoaches = await db.clientCoach.findMany({

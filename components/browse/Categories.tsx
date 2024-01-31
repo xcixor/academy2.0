@@ -4,6 +4,7 @@ import { Category } from "@prisma/client";
 import {
   FcEngineering,
   FcFilmReel,
+  FcMenu,
   FcMultipleDevices,
   FcMusic,
   FcOldTimeCamera,
@@ -13,6 +14,7 @@ import {
 import { IconType } from "react-icons";
 
 import CategoryItem from "./CategoryItem";
+import { Menu } from "lucide-react";
 
 interface CategoriesProps {
   items: Category[];
@@ -29,8 +31,15 @@ const iconMap: Record<Category["name"], IconType> = {
 };
 
 export default function Categories({ items }: CategoriesProps) {
+  const allIcon: Record<string, IconType> = {
+    All: FcMenu,
+  };
+
+  const MenuIcon = allIcon["All"];
+
   return (
     <div className="flex items-center gap-x-2 overflow-x-auto pb-2">
+      <CategoryItem label={"All"} icon={MenuIcon} value={""} />
       {items.map((item) => (
         <CategoryItem
           key={item.id}

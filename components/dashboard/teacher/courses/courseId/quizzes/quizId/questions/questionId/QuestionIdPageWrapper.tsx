@@ -25,7 +25,7 @@ const QuestionIdPageWrapper = async ({
   courseId,
 }: Props) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");
@@ -70,12 +70,12 @@ const QuestionIdPageWrapper = async ({
           <div className="w-full">
             <Link
               href={`/dashboard/teacher/courses/${courseId}/quizzes/${quizId}`}
-              className="flex items-center text-sm hover:opacity-75 transition mb-6"
+              className="mb-6 flex items-center text-sm transition hover:opacity-75"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to quiz setup
             </Link>
-            <div className="flex items-center justify-between w-full">
+            <div className="flex w-full items-center justify-between">
               <div className="flex flex-col gap-y-2">
                 <h1 className="text-2xl font-medium">Question Setup</h1>
                 <span className="text-sm text-slate-700">
@@ -98,8 +98,8 @@ const QuestionIdPageWrapper = async ({
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize Your Question</h2>
           </div>
-          <div className="md:flex gap-4 mt-16">
-            <div className="md:w-1/2 gap-6">
+          <div className="mt-16 gap-4 md:flex">
+            <div className="gap-6 md:w-1/2">
               <QuestionTitleForm
                 initialData={question}
                 courseId={courseId}
@@ -107,7 +107,7 @@ const QuestionIdPageWrapper = async ({
                 quizId={quizId}
               />
             </div>
-            <div className="md:w-1/2 gap-6">
+            <div className="gap-6 md:w-1/2">
               <AnswerForm
                 initialData={question}
                 courseId={courseId}

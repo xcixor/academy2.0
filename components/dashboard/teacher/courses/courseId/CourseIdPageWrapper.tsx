@@ -2,6 +2,7 @@ import React from "react";
 import CourseIdPage from "./CourseIdPage";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 interface Props {
   courseId: string;
@@ -41,8 +42,16 @@ const CourseIdPageWrapper = async ({ courseId, userId }: Props) => {
       name: "asc",
     },
   });
+  const imageMetaData = await getLatestFileMetaData(course.id);
   const plans = await db.plan.findMany();
-  return <CourseIdPage course={course} categories={categories} plans={plans} />;
+  return (
+    <CourseIdPage
+      course={course}
+      categories={categories}
+      plans={plans}
+      gcpData={imageMetaData}
+    />
+  );
 };
 
 export default CourseIdPageWrapper;

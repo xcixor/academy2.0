@@ -1,33 +1,41 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
+import Combobox from "@/components/ui/combobox";
+import { Role } from "@prisma/client";
 
 interface UserTypeFormProps {
   initialData: User;
 }
 
 const formSchema = z.object({
-  isCoach: z.boolean().default(false),
+  role: z.string(),
 });
+
+const roleList = [];
+
+for (const key in Role) {
+  if (isNaN(Number(key))) {
+    roleList.push({ label: key, value: Role[key] });
+  }
+}
 
 export default function UserTypeForm({ initialData }: UserTypeFormProps) {
   const [isEditing, setIsEditing] = useState(false);
@@ -39,7 +47,7 @@ export default function UserTypeForm({ initialData }: UserTypeFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isCoach: !!initialData.isCoach,
+      role: initialData.role,
     },
   });
 
@@ -47,12 +55,35 @@ export default function UserTypeForm({ initialData }: UserTypeFormProps) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/users/${initialData.id}`, values);
-      toast.success("User updated");
+      const response = await fetch(`/api/users/${initialData.id}/role/`, {
+        method: "PATCH",
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "User updated",
+          variant: "default",
+          className: "bg-green-300 border-0",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message,
+        });
+      }
+
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong!",
+      });
     }
   };
 
@@ -72,17 +103,8 @@ export default function UserTypeForm({ initialData }: UserTypeFormProps) {
         </Button>
       </div>
       {!isEditing && (
-        <p
-          className={cn(
-            "mt-2 text-sm",
-            !initialData.isCoach && "italic text-slate-500",
-          )}
-        >
-          {initialData.isCoach ? (
-            <>This user is a coach.</>
-          ) : (
-            <>This user is not a coach.</>
-          )}
+        <p className={cn("mt-2 text-sm italic text-slate-500")}>
+          Set the type of user.
         </p>
       )}
       {isEditing && (
@@ -93,20 +115,13 @@ export default function UserTypeForm({ initialData }: UserTypeFormProps) {
           >
             <FormField
               control={form.control}
-              name="isCoach"
+              name="role"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormItem>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Combobox options={roleList} {...field} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormDescription>
-                      Check this box if you want to make this user a coach
-                    </FormDescription>
-                  </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />

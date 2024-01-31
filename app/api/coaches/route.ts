@@ -8,7 +8,7 @@ export async function POST(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { coachId } = await req.json();
 
     if (!userId) {

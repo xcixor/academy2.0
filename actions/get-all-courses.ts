@@ -1,46 +1,33 @@
-import { Category, Course } from "@prisma/client";
-
 import { db } from "@/lib/db";
+import { CourseWithProgressWithCategory } from "@/@types/db";
 
-type CourseWithProgressWithCategory = Course & {
-  category: Category | null;
-  chapters: { id: string }[];
-};
-
-type GetCourses = {
-  title?: string;
-  categoryId?: string;
-};
+type GetCourses = { title?: string; categoryId?: string; description?: string };
 
 export const getAllCourses = async ({
   title,
   categoryId,
 }: GetCourses): Promise<CourseWithProgressWithCategory[]> => {
+  const formattedTitle = title?.replace(/\s/g, "");
   try {
     const courses = await db.course.findMany({
       where: {
         isPublished: true,
-        title: {
-          contains: title,
-        },
         categoryId,
+        ...(formattedTitle
+          ? {
+              OR: [
+                { title: { contains: title, mode: "insensitive" } },
+                { description: { contains: title, mode: "insensitive" } },
+              ],
+            }
+          : {}),
       },
       include: {
         category: true,
-        chapters: {
-          where: {
-            isPublished: true,
-          },
-          select: {
-            id: true,
-          },
-        },
+        chapters: { where: { isPublished: true }, select: { id: true } },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     });
-
     return courses;
   } catch (error) {
     console.log("[GET_COURSES]", error);

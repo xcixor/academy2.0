@@ -37,7 +37,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <ChevronDown />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="space-y-2">
             <DropdownMenuLabel>Hi, {user.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
@@ -57,7 +57,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
           <Button size="sm" variant="default" onClick={() => signIn()}>
             <LogIn className="mr-2 h-4 w-4" /> LogIn
           </Button>
-          <Link href="/auth/sign-up">
+          <Link href="/auth/signup">
             <p className="cursor-pointer text-blue-500 hover:text-blue-800">
               Signup
             </p>

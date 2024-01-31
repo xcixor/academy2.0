@@ -1,15 +1,20 @@
 import { db } from "@/lib/db";
 import { Attachment, Chapter, GCPData } from "@prisma/client";
+import { getLatestFileMetaData } from "./get-latest-file-metadata";
+import { getCourseOwner } from "./get-course-owner";
 
 interface GetChapterProps {
   userId: string;
   courseId: string;
   chapterId: string;
 }
+// type AttachmentWithGCPData = Attachment & {
+//   gcpData: GCPData | null;
+// };
 
-type AttachmentWithGCPData = Attachment & {
-  gcpData: GCPData | null;
-};
+interface AttachmentWithGCPData extends Attachment {
+  gcpData?: GCPData | null;
+}
 
 export const getChapter = async ({
   userId,
@@ -52,32 +57,22 @@ export const getChapter = async ({
     let attachments: AttachmentWithGCPData[] = [];
     let nextChapter: Chapter | null = null;
 
-    if (purchase) {
+    const isCourseOwner = await getCourseOwner(userId, courseId);
+
+    if (purchase || isCourseOwner) {
       attachments = await db.attachment.findMany({
         where: {
           courseId: courseId,
         },
-        include: {
-          gcpData: true,
-        },
       });
+      for (const attachment of attachments) {
+        const gcpData = await getLatestFileMetaData(attachment.id);
+        attachment.gcpData = gcpData;
+      }
     }
 
-    if (chapter.isFree || purchase) {
-      gcpData = await db.chapter.findUnique({
-        where: {
-          id: chapterId,
-        },
-        include:{
-          gcpData:{
-            select:{
-              urlExpiryDate:true,
-              blobName:true
-            }
-          }
-        }
-      
-      });
+    if (chapter.isFree || purchase || isCourseOwner) {
+      gcpData = await getLatestFileMetaData(chapterId);
 
       nextChapter = await db.chapter.findFirst({
         where: {

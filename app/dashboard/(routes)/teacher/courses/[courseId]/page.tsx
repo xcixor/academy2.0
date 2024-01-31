@@ -11,12 +11,12 @@ const CourseIdPageWithCustomLoading = dynamic(
     ),
   {
     loading: () => <CourseIdSkeleton />,
-  }
+  },
 );
 
 const page = async ({ params }: { params: { courseId: string } }) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");

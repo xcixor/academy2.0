@@ -8,6 +8,13 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
+enum Role {
+  USER
+  COACH
+  STAFF
+  ADMIN
+}
+
 model Profile {
   id          String    @id @default(cuid())
   firstName   String?
@@ -27,9 +34,7 @@ model User {
   image         String?
   bio           String?
   linkedIn      String?
-  isAdmin       Boolean      @default(false)
-  isStaff       Boolean      @default(false)
-  isCoach       Boolean      @default(false)
+  role          Role         @default(USER)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   password      String?
@@ -88,17 +93,12 @@ model Category {
 model Attachment {
   id   String @id @default(uuid())
   name String
-  url  String @db.Text
-  type String
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  gcpData   GCPData? @relation(fields: [gCPDataId], references: [id])
-  gCPDataId String?
 
   @@index([courseId])
 }
@@ -127,16 +127,15 @@ model Chapter {
 }
 
 model GCPData {
-  id               String       @id @default(cuid())
+  id               String    @id @default(cuid())
   urlExpiryDate    DateTime
   blobName         String
-  assetId          String
+  assetId          String    @unique
   assetName        String
   assetType        String
-  Attachment       Attachment[]
-  validityDuration Int          @default(7)
-
-  chapter Chapter[]
+  validityDuration Int       @default(7)
+  downloadUrl      String
+  chapter          Chapter[]
 }
 
 model UserProgress {
@@ -318,10 +317,10 @@ model CoachRequisites {
 }
 
 model Session {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String?
   description String?
-  price        Int?
+  price       Int?
 
   coachId  String
   coach    User   @relation(fields: [coachId], references: [id], onDelete: Cascade)

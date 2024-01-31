@@ -1,56 +1,53 @@
+import GitHubProvider, { GithubProfile } from "next-auth/providers/github";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { JWT } from "next-auth/jwt";
-import { Session } from "next-auth";
+import { Account, Profile, Session } from "next-auth";
 import { env } from "@/lib/env";
 import { db } from "@/lib/db";
+import { User as NextAuthUser } from "next-auth";
+import { Role } from "@prisma/client";
+import { AdapterUser } from "next-auth/adapters";
 
 interface CustomSessionCallbackData {
   session: Session;
   token: JWT;
 }
 
-type CredentialsUser = {
-  user: {
-    iss: string;
-    azp: string;
-    aud: string;
-    sub: string;
-    email: string;
-    email_verified: boolean;
-    at_hash: string;
-    name: string;
-    picture: string;
-    given_name: string;
-    locale: string;
-    iat: number;
-    exp: number;
-    role: string;
-    id: string;
-  };
-};
-
 type CustomJwtCallbackData = {
   token: JWT;
   user: Session["user"] | null;
 };
 
+type CustomNextAuthUser = NextAuthUser & {
+  isVerified: boolean;
+};
+
+type CustomGoogleProfile = GoogleProfile & {
+  emailVerified: Date | null;
+};
+
+type CustomGithubProfile = GithubProfile & {
+  emailVerified: Date | null;
+};
+let userRole: Role;
 export const options = {
   providers: [
     GoogleProvider({
-      profile(profile: GoogleProfile) {
-        let userRole = "Google User";
-
+      profile(profile: CustomGoogleProfile) {
+        userRole = Role.USER;
         return {
           ...profile,
           role: userRole,
           id: profile.sub,
+          isVerified: true,
         };
       },
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
+
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -81,6 +78,17 @@ export const options = {
             );
 
             if (match) {
+              if (
+                foundUser.email === env.ADMIN_EMAIL &&
+                foundUser.role !== Role.ADMIN
+              ) {
+                const updatedUser = await db.user.update({
+                  where: { id: foundUser.id },
+                  data: { role: Role.ADMIN },
+                });
+                const { password, ...userWithoutPassword } = updatedUser;
+                return userWithoutPassword;
+              }
               const { password, ...userWithoutPassword } = foundUser;
               return userWithoutPassword;
             }
@@ -96,49 +104,40 @@ export const options = {
   ],
   callbacks: {
     async jwt({ token, user }: CustomJwtCallbackData) {
-      if (user) {
-        token.role = user.role;
-      }
+      if (user) token.isVerified = user.isVerified;
+      if (user) token.role = user.role;
       return token;
     },
+
     async session({ session, token }: CustomSessionCallbackData) {
       if (session?.user) {
-        session.user.role = token.role;
         const sessionUser = await db.user.findUnique({
           where: { email: session.user.email!! },
+          include: { profile: true },
         });
         session.user.id = sessionUser?.id!!;
-        session.user.userId = sessionUser?.id!!;
-        session.user.isAdmin = sessionUser?.isAdmin!!;
-        session.user.isCoach = sessionUser?.isCoach!!;
-        session.user.isStaff = sessionUser?.isStaff!!;
+        session.user.firstName = sessionUser?.profile?.firstName as string;
+        session.user.lastName = sessionUser?.profile?.lastName as string;
+        session.user.role = sessionUser.role;
       }
 
       return session;
     },
-    async signIn({ user }: CredentialsUser) {
-      try {
-        // check if user already exists
-        const userExists = await db.user.findUnique({
-          where: { email: user.email },
-        });
-
-        // if not, create a new document and save user in MongoDB
-        if (!userExists) {
-          await db.user.create({
-            data: {
-              email: user.email,
-              name: user.name.replace(" ", "").toLowerCase(),
-              image: user.picture,
-            },
-          });
-        }
-
+    signIn: async (params: {
+      user: AdapterUser | CustomNextAuthUser;
+      account: Account | null;
+      profile?: Profile;
+      email?: { verificationRequest?: boolean };
+      credentials?: Record<string, any>;
+    }): Promise<string | true> => {
+      if (params.user.isVerified) {
         return true;
-      } catch (error: any) {
-        console.log("Error checking if user exists: ", error.message);
-        return false;
+      } else {
+        return `/auth/unverified-email?u=${params.user.id}`;
       }
     },
+  },
+  pages: {
+    signIn: "/auth/signin",
   },
 };

@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { Role } from "@prisma/client";
 
 export async function POST(
   req: NextRequest,
@@ -8,9 +9,9 @@ export async function POST(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
-    if (!userId || !user.isCoach) {
+    if (!userId || !(user.role === Role.COACH)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 

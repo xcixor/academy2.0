@@ -22,8 +22,7 @@ import CommentSection from "@/components/courses/courseId/discussion/CommentSect
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
-import { db } from "@/lib/db";
-import { FileUploader } from "@/lib/gcp";
+import { getCourseOwner } from "@/actions/get-course-owner";
 
 const ChapterIdPage = async ({
   params,
@@ -31,7 +30,7 @@ const ChapterIdPage = async ({
   params: { courseId: string; chapterId: string };
 }) => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");
@@ -54,37 +53,8 @@ const ChapterIdPage = async ({
   if (!chapter || !course) {
     return redirect("/");
   }
-
-  attachments.forEach(async (attachment) => {
-    const currentTimeStamp = Date.now();
-    if (
-      attachment.gcpData &&
-      attachment.gcpData?.urlExpiryDate < currentTimeStamp
-    ) {
-      console.log("will update");
-      const newExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-      const uploader = new FileUploader(
-        attachment.gcpData.blobName,
-        attachment.type,
-        "PUT",
-        newExpiry,
-      );
-      const newUrl = await uploader.generateSignedDownloadUrl();
-      await db.gCPData.update({
-        where: {
-          id: attachment.gcpData.id,
-        },
-        data: { urlExpiryDate: newExpiry },
-      });
-      const updatedAttach = await db.attachment.update({
-        where: { id: attachment.id },
-        data: { url: newUrl },
-      });
-      console.log(updatedAttach.url);
-    }
-  });
-
-  const isLocked = !chapter.isFree && !purchase;
+  const isCourseOwner = await getCourseOwner(userId, params.courseId);
+  const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
   return (
@@ -107,7 +77,7 @@ const ChapterIdPage = async ({
             nextChapterId={nextChapter?.id}
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
-            videoUrl={chapter.videoUrl}
+            videoUrl={gcpData ? gcpData.downloadUrl : ""}
           />
         </div>
         <div className="min-w-[80%] max-w-4xl">
@@ -156,7 +126,7 @@ const ChapterIdPage = async ({
                   <div className="p-4">
                     {attachments.map((attachment) => (
                       <a
-                        href={attachment.url}
+                        href={attachment.gcpData.downloadUrl}
                         target="_blank"
                         key={attachment.id}
                         className="flex w-full items-center rounded-md border bg-sky-200 p-3 text-sky-700 hover:underline"

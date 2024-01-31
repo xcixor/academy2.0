@@ -6,6 +6,7 @@ import { CourseProgress } from "@/components/CourseProgress";
 
 import CourseSidebarItem from "./CourseSidebarItem";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { getCourseOwner } from "@/actions/get-course-owner";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -26,7 +27,7 @@ export default async function CourseSidebar({
     return redirect("/");
   }
 
-  const { userId } = user;
+  const userId = user.id;
 
   const purchase = await db.purchase.findUnique({
     where: {
@@ -37,9 +38,11 @@ export default async function CourseSidebar({
     },
   });
 
+  const isCourseOwner = await getCourseOwner(userId, course.id);
+
   return (
-    <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
-      <div className="p-8 flex flex-col border-b">
+    <div className="flex h-full flex-col overflow-y-auto border-r shadow-sm">
+      <div className="flex flex-col border-b p-8">
         <h1 className="font-semibold">{course.title}</h1>
         {purchase && (
           <div className="mt-10">
@@ -47,7 +50,7 @@ export default async function CourseSidebar({
           </div>
         )}
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         {course.chapters.map((chapter) => (
           <CourseSidebarItem
             key={chapter.id}
@@ -56,6 +59,7 @@ export default async function CourseSidebar({
             isCompleted={!!chapter.userProgress?.[0]?.isCompleted}
             courseId={course.id}
             isLocked={!chapter.isFree && !purchase}
+            isCourseOwner={isCourseOwner!!}
           />
         ))}
       </div>

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Logo } from "@/components/Logo";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Signup from "@/components/auth/Signup";
 import { UserCog2 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,13 +11,11 @@ export const metadata: Metadata = {
 };
 
 const page = () => {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="grainy">
-      <MaxWidthWrapper className="w-full gap-4 rounded-md md:flex">
-        <div className="basis-1/2 py-16">
-          <Signup />
-        </div>
-        <div className="flex basis-1/2 flex-col items-center justify-center gap-4 bg-sky-50 py-16">
+      <div className="w-full justify-between gap-4 rounded-md align-middle md:flex">
+        <div className="flex basis-1/2 flex-col items-center justify-center gap-4 bg-sky-50">
           <Logo />
           <div className="flex items-center gap-2">
             <UserCog2 className="h-8 w-8" />
@@ -30,9 +26,12 @@ const page = () => {
             the next level
           </p>
         </div>
-      </MaxWidthWrapper>
+        <div className="flex basis-1/2 justify-center px-[5%] align-middle md:py-[10%]">
+          {children}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default page;
+export default AuthLayout;

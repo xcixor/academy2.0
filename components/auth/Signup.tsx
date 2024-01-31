@@ -15,16 +15,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Signup = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const formSchema = z.object({
-    firstName: z.string().min(2, "Please provide your first name."),
-    lastName: z.string().min(2, "Please provide your last name."),
-    email: z.string().email("Please provide a valid email address."),
+    firstName: z.string().min(2, "Please provide your name"),
+    lastName: z.string().min(2, "Please provide your name"),
+    email: z.string().email("Please provide a valid email address"),
     password: z
       .string()
       .min(8, "Password must have a minimum of 8 characters")
@@ -44,8 +43,6 @@ const Signup = () => {
     },
   });
 
-  const { isSubmitting, errors } = form.formState;
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
 
@@ -56,48 +53,58 @@ const Signup = () => {
       },
       body: JSON.stringify(values),
     });
-
+    const response = await res.json();
     if (!res.ok) {
-      const response = await res.json();
-      toast.error(response.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: response.message,
+      });
     } else {
-      await signIn("credentials", {
-        email: values.email,
-        password: values.password,
-        redirect: true,
-        callbackUrl: "/dashboard/profile",
+      router.push(`/auth/email-verification-sent?t=${response.userId}`);
+      toast({
+        variant: "default",
+        title: "Success",
+        description: response.message,
       });
     }
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g James" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="justify-between gap-4 md:flex">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g James Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g James Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
         <FormField
           control={form.control}
           name="email"
@@ -124,13 +131,12 @@ const Signup = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">
-          {" "}
-          {isSubmitting ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            "Signup"
-          )}
+        <Button
+          type="submit"
+          variant="secondary"
+          className="bg-tertiary font-semibold text-primary"
+        >
+          Signup
         </Button>
       </form>
     </Form>

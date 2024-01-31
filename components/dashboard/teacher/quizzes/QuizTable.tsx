@@ -9,7 +9,7 @@ import { Quiz } from "@prisma/client";
 
 const CoursesPage = async () => {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/");

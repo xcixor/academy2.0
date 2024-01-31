@@ -7,12 +7,12 @@ const DashboardPageCustomLoading = dynamic(
   () => import("@/components/dashboard/root/DashboardPageWrapper"),
   {
     loading: () => <DashboardSkeleton />,
-  }
+  },
 );
 
 export default async function Dashboard() {
   const user = await getLoggedInUser();
-  const userId = user?.userId;
+  const userId = user?.id;
 
   if (!userId) {
     redirect("/");

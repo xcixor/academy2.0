@@ -4,11 +4,11 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string; quizId: string } }
+  { params }: { params: { courseId: string; quizId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
     const { isPublished, ...values } = await req.json();
 
     if (!userId) {
@@ -45,11 +45,11 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string; quizId: string } }
+  { params }: { params: { courseId: string; quizId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -110,11 +110,11 @@ export async function DELETE(
 
 export async function GET(
   req: Request,
-  { params }: { params: { courseId: string; quizId: string } }
+  { params }: { params: { courseId: string; quizId: string } },
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

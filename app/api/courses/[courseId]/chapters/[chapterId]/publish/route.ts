@@ -9,7 +9,7 @@ export async function PATCH(
 ) {
   try {
     const user = await getLoggedInUser();
-    const userId = user?.userId;
+    const userId = user?.id;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -39,13 +39,7 @@ export async function PATCH(
       },
     });
 
-    if (
-      !chapter ||
-      !gcpData ||
-      !chapter.title ||
-      !chapter.description ||
-      !chapter.videoUrl
-    ) {
+    if (!chapter || !gcpData || !chapter.title || !chapter.description) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 
