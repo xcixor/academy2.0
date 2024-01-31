@@ -7,7 +7,7 @@ const Welcome = (props: Props) => {
   return (
     <section className="flex flex-col items-center gap-8 py-32">
       <div className="w-1/2 text-center">
-        <h2 className="text-3xl font-semibold">Welcome To PES Academy</h2>
+        <h2 className="text-3xl font-semibold text-red-800">Welcome To PES Academy</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
           perferendis quaerat molestiae itaque praesentium illo odio nisi

@@ -6,7 +6,7 @@ const Benefits = () => {
   return (
     <section className="bg-secondary py-32">
       <MaxWidthWrapper>
-        <h2 className="my-8 text-center text-3xl font-semibold">
+        <h2 className="my-8 text-center text-3xl font-semibold text-red-800">
           Why PES Academy?
         </h2>
         <div className="grid-cols-2 grid-rows-2 gap-4 md:grid">

@@ -26,7 +26,7 @@ const CTA = () => {
               onClick={() => signIn()}
               size="sm"
               variant="secondary"
-              className="h-auto bg-orange-500 py-2"
+              className="h-auto bg-red-800 py-2 text-white"
             >
               Start Now!
             </Button>
