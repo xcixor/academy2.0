@@ -65,6 +65,7 @@ export default function ChapterVideoForm({
       {isEditing && (
         <div>
           <FileUpload
+            isVideo={true}
             assetId={chapterId}
             toggleEdit={toggleEdit}
             fileMessage={"mp4, webm, ogg, mov, wmv, avi, 3gp, flv, mkv"}

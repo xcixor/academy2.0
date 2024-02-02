@@ -6,7 +6,15 @@ import { CheckCircle2, Cloud, FileIcon, StopCircle } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
-import { File } from "buffer";
+// import { File } from "buffer";
+import { DropZoneVideoFileTypes } from "@/constants";
+
+function checkFileType(fileType) {
+  const videoFileTypes = Object.keys(DropZoneVideoFileTypes);
+  return videoFileTypes.includes(fileType);
+}
+
+
 
 interface Accept {
   [key: string]: string[];
@@ -18,6 +26,7 @@ interface FileUploadProps {
   fileMessage: string;
   acceptedFileTypes: Accept | null;
   bucketFileDirectory: string;
+  isVideo?: boolean;
 }
 
 const UploadDropzone = ({
@@ -26,6 +35,7 @@ const UploadDropzone = ({
   fileMessage,
   acceptedFileTypes,
   bucketFileDirectory,
+  isVideo,
 }: FileUploadProps) => {
   const router = useRouter();
 
@@ -35,9 +45,24 @@ const UploadDropzone = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const startUpload = async function (acceptedFile: File) {
+    let fileToUpload = acceptedFile;
     try {
-      const customFileName = `${bucketFileDirectory}/${acceptedFile.name}`;
-      const contentType = acceptedFile.type;
+      let contentType = acceptedFile.type;
+
+      const isReadableVideoFileType = checkFileType(contentType);
+      if (isVideo) {
+        if (!isReadableVideoFileType) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "File type not supported",
+          });
+          setIsError(true);
+          return;
+        }
+      }
+      const customFileName = `${bucketFileDirectory}/${fileToUpload.name}`;
+
       const response = await fetch("/api/gcp/signed-url", {
         method: "POST",
         cache: "no-store",
@@ -71,13 +96,13 @@ const UploadDropzone = ({
             const response = await fetch("/api/gcp/asset", {
               method: "PUT",
               body: JSON.stringify({
-                fileName: acceptedFile.name,
+                fileName: fileToUpload.name,
                 contentType: contentType,
                 blobName: blobName,
                 downloadUrl: downloadUrl,
                 downloadExpiry: downloadExpiry,
                 assetId: assetId,
-                assetName: acceptedFile.name,
+                assetName: fileToUpload.name,
               }),
             });
             const data = await response.json();
@@ -104,7 +129,7 @@ const UploadDropzone = ({
           setIsError(true);
         }
       });
-      xhr.send(acceptedFile);
+      xhr.send(fileToUpload);
     } catch (error) {
       console.log(error, "#CLIENT ERROR");
       toast({
@@ -211,9 +236,11 @@ export const FileUpload = ({
   fileMessage,
   acceptedFileTypes,
   bucketFileDirectory,
+  isVideo = false,
 }: FileUploadProps) => {
   return (
     <UploadDropzone
+      isVideo={isVideo}
       assetId={assetId}
       toggleEdit={toggleEdit}
       fileMessage={fileMessage}
