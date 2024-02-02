@@ -9,7 +9,7 @@ type Props = {
 const page = async (props: Props) => {
   const user = await getLoggedInUser();
   if (user) {
-    return redirect("/profile/dashboard");
+    return redirect("/dashboard");
   }
   return (
     <div className="flex w-full flex-col gap-4 rounded-md p-4  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
