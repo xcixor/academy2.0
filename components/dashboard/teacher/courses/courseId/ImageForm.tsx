@@ -48,13 +48,13 @@ export default function ImageForm({
         ) : (
           <Button onClick={toggleEdit} variant="ghost">
             {isEditing && <>Cancel</>}
-            {!isEditing && !gcpData.downloadUrl && (
+            {!isEditing && !gcpData && (
               <>
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add an image
               </>
             )}
-            {!isEditing && gcpData.downloadUrl && (
+            {!isEditing && gcpData && (
               <>
                 <Pencil className="mr-2 h-4 w-4" />
                 Edit image
@@ -64,7 +64,7 @@ export default function ImageForm({
         )}
       </div>
       {!isEditing &&
-        (!gcpData.downloadUrl ? (
+        (!gcpData ? (
           <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
