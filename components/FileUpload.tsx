@@ -60,7 +60,6 @@ const UploadDropzone = ({
           const percentComplete = Math.round(
             (event.loaded / event.total) * 100,
           );
-          console.log(`Upload progress: ${percentComplete.toFixed(2)}%`);
 
           setUploadProgress(percentComplete);
         }
