@@ -41,7 +41,6 @@ export const DropZoneVideoFileTypes = {
   "video/mov": [".mov"],
   "video/wmv": [".wmv"],
   "video/flv": [".flv"],
-  "video/mkv": [".mkv"],
   "video/webm": [".webm"],
   "video/3gp": [".3gp"],
   "video/mpeg": [".mpeg"],
