@@ -26,7 +26,6 @@ export default function ChapterVideoForm({
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  const uploadUrl = `/api/courses/${courseId}/chapters/${chapterId}/video`;
 
   return (
     <div className="mt-6 rounded-md border bg-slate-100 p-4">

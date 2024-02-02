@@ -81,11 +81,11 @@ export default function ImageForm({
       {isEditing && (
         <div>
           <FileUpload
-            uploadUrl={uploadUrl}
             toggleEdit={toggleEdit}
-            isFileEditing={false}
             fileMessage={"png, jpg, jpeg, webp, svg, bmp, tiff, gif, webp"}
             acceptedFileTypes={DropZoneImageFileTypes}
+            assetId={courseId}
+            bucketFileDirectory={`courses/${courseId}/image`}
           />
           <div className="mt-4 text-xs text-muted-foreground">
             16:9 aspect ratio recommended
