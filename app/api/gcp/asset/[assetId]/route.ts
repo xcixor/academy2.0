@@ -29,7 +29,6 @@ export async function PUT(req: NextRequest) {
     });
 
     if (existingMetadata) {
-      console.log("vill delete **************");
       const uploader = new FileUploader(
         existingMetadata.blobName,
         contentType,
@@ -62,6 +61,49 @@ export async function PUT(req: NextRequest) {
     });
   } catch (error) {
     console.log("[COURSES_CHAPTER_ID]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { assetId: string } },
+) {
+  try {
+    const user = await getLoggedInUser();
+    const userId = user?.id;
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const gCPData = await db.gCPData.findUnique({
+      where: {
+        id: params.assetId,
+      },
+    });
+
+    if (!gCPData) {
+      return new NextResponse("Not found", { status: 404 });
+    }
+
+    const uploader = new FileUploader(
+      gCPData.blobName,
+      gCPData.assetType,
+      "PUT",
+      DOWNLOAD_EXPIRY_IN_SECONDS,
+    );
+    await uploader.deleteBlob();
+
+    const deletedData = await db.gCPData.delete({
+      where: {
+        id: params.assetId,
+      },
+    });
+
+    return NextResponse.json(deletedData);
+  } catch (error) {
+    console.log("[COURSE_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

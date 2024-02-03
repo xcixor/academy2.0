@@ -31,6 +31,7 @@ import {
 } from "@prisma/client";
 import { useState } from "react";
 import QuizForm from "./QuizForm";
+import AttachmentsForm from "./AttachmentsForm";
 
 interface PageProps {
   course: Course & {
@@ -151,7 +152,8 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
                 <IconBadge icon={File} />
                 <h2 className="text-xl">Resources & Attachments</h2>
               </div>
-              <AttachmentForm
+
+              <AttachmentsForm
                 initialData={course}
                 courseId={course.id}
                 isDeleting={deleting}
