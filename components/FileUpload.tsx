@@ -8,13 +8,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 // import { File } from "buffer";
 import { DropZoneVideoFileTypes } from "@/constants";
+import { cn } from "@/lib/utils";
 
 function checkFileType(fileType) {
   const videoFileTypes = Object.keys(DropZoneVideoFileTypes);
   return videoFileTypes.includes(fileType);
 }
-
-
 
 interface Accept {
   [key: string]: string[];
@@ -192,8 +191,18 @@ const UploadDropzone = ({
                       uploadProgress === 100 ? "bg-green-500" : ""
                     }
                     value={uploadProgress}
-                    className="h-1 w-full bg-zinc-200"
+                    className="h-1 flex-1 bg-zinc-200"
                   />
+
+                  <p
+                    className={cn(
+                      "text-center text-sm italic",
+                      uploadProgress === 100 && "text-green-500",
+                    )}
+                  >
+                    {uploadProgress}%
+                  </p>
+
                   {uploadProgress === 100 ? (
                     <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
                       <CheckCircle2 className="h-3 w-3 text-green-500" />
@@ -201,7 +210,6 @@ const UploadDropzone = ({
                   ) : null}
                 </div>
               ) : null}
-
               {isError ? (
                 <div className="mx-auto mt-4 w-full max-w-xs">
                   <Progress
