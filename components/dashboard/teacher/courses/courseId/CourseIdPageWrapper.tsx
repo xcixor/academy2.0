@@ -18,7 +18,7 @@ const CourseIdPageWrapper = async ({ courseId, userId }: Props) => {
     include: {
       attachments: {
         orderBy: {
-          createdAt: "desc",
+          position: "asc",
         },
       },
       chapters: {
