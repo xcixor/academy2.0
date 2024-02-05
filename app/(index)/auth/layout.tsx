@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   },
 };
 
-const page = () => {
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="grainy">
