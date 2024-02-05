@@ -93,7 +93,7 @@ const Benefits = () => {
                   </div>
 
                   <p className="text-white ">
-                  Our forward-looking curriculum ensures you're equipped with the latest industry trends and innovations. 
+                  Our forward-looking curriculum ensures you&apos;re equipped with the latest industry trends and innovations. 
                   </p>
                 </div>
               </div>
