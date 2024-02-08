@@ -15,6 +15,15 @@ create_env_file() {
     echo "PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}" >> .env
     echo "NODE_ENV=${NODE_ENV}" >> .env
 
+    # email
+    echo "SERVICE_ID=${SERVICE_ID}" >> .env
+    echo "EMAIL_VERIFICATION_TEMPLATE_ID=${EMAIL_VERIFICATION_TEMPLATE_ID}" >> .env
+    echo "DEFAULT_FROM_NAME=${DEFAULT_FROM_NAME}" >> .env
+    echo "PUBLIC_KEY=${PUBLIC_KEY}" >> .env
+    echo "PRIVATE_KEY=${PRIVATE_KEY}" >> .env
+    echo "DEFAULT_TEMPLATE_ID=${DEFAULT_TEMPLATE_ID}" >> .env
+    echo "PASSWORD_RESET_TEMPLATE_ID=${PASSWORD_RESET_TEMPLATE_ID}" >> .env
+    echo "BASE_DOMAIN=${BASE_DOMAIN}" >> .env
 }
 main(){
     create_env_file
