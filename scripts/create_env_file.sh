@@ -14,6 +14,7 @@ create_env_file() {
     echo "PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}" >> .env
     echo "PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}" >> .env
     echo "NODE_ENV=${NODE_ENV}" >> .env
+    echo "ADMIN_EMAIL=${ADMIN_EMAIL}" >> .env
 
     # email
     echo "SERVICE_ID=${SERVICE_ID}" >> .env
