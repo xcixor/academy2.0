@@ -9,7 +9,7 @@ function getSignedUrlExpiryDate(signedUrl) {
   expirationDate.setTime(expirationDate.getTime() + expirationTimestamp * 1000);
   const currentDate: Date = new Date();
   const daysRemaining = Math.ceil(
-    (expirationDate - currentDate) / (1000 * 60 * 60 * 24),
+    (expirationDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
   );
   return daysRemaining;
 }
