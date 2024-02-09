@@ -19,6 +19,8 @@ module.exports = withUt({
     },
     extend: {
       colors: {
+        'pes-red': '#A31A2A',
+        'pes-blue': '#4B6386',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
