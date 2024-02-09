@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { FileUploader } from "@/lib/gcp/gcp";
 import {
   DOWNLOAD_EXPIRY_IN_SECONDS,
-  UPLOAD_EXPIRY_IN_SECONDS,
 } from "@/lib/gcp/gcp-utils";
 
 export async function POST(
