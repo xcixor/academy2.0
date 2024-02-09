@@ -58,7 +58,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
   }
   return (
     <div className="">
-      <h1 className="my-4 text-2xl font-bold text-red-800">Login</h1>
+      <h1 className="my-4 text-2xl font-bold text-pes-red">Login</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {!!error && (

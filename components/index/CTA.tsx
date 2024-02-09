@@ -11,11 +11,11 @@ const CTA = () => {
     <section className="bg-secondary py-32">
       <MaxWidthWrapper className="flex">
         <div className="basis-1/2">
-          <h2 className="text-2xl  uppercase text-red-800">
+          <h2 className="text-2xl  uppercase text-pes-red">
             Are you ready to start learning?
           </h2>
           <p>
-          Join us on this transformative educational experience where expertise meets innovation.
+            Join us on this transformative educational experience where expertise meets innovation.
           </p>
         </div>
         <div className="flex basis-1/2 items-center justify-center">

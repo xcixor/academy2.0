@@ -43,7 +43,7 @@ const PopularCourses = () => {
     <section className="py-32">
       <MaxWidthWrapper>
         <div className="flex items-center justify-between">
-          <h2 className="text-center text-3xl font-semibold text-red-800">
+          <h2 className="text-center text-3xl font-semibold text-pes-red">
             Popular Courses
           </h2>
           <Link href="/browse" className="flex items-center">
