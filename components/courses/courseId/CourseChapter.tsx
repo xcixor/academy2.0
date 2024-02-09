@@ -23,6 +23,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 import { getCourseOwner } from "@/actions/get-course-owner";
+import Attachment from "./attachment/Attachment";
 
 const ChapterIdPage = async ({
   params,
@@ -125,15 +126,10 @@ const ChapterIdPage = async ({
                 <AccordionContent>
                   <div className="p-4">
                     {attachments.map((attachment) => (
-                      <a
-                        href={attachment.gcpData.downloadUrl}
-                        target="_blank"
+                      <Attachment
                         key={attachment.id}
-                        className="flex w-full items-center rounded-md border bg-sky-200 p-3 text-sky-700 hover:underline"
-                      >
-                        <File />
-                        <p className="line-clamp-1">{attachment.name}</p>
-                      </a>
+                        attachmentId={attachment.id}
+                      />
                     ))}
                   </div>
                 </AccordionContent>
