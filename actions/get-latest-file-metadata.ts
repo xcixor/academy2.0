@@ -2,6 +2,18 @@ import { FileUploader } from "@/lib/gcp/gcp";
 import { DOWNLOAD_EXPIRY_IN_SECONDS } from "@/lib/gcp/gcp-utils";
 import { db } from "@/lib/db";
 
+function getSignedUrlExpiryDate(signedUrl) {
+  const url = new URL(signedUrl);
+  const expirationTimestamp = Number(url.searchParams.get("X-Goog-Expires")); // Convert to number
+  const expirationDate: Date = new Date();
+  expirationDate.setTime(expirationDate.getTime() + expirationTimestamp * 1000);
+  const currentDate: Date = new Date();
+  const daysRemaining = Math.ceil(
+    (expirationDate - currentDate) / (1000 * 60 * 60 * 24),
+  );
+  return daysRemaining;
+}
+
 export async function getLatestFileMetaData(assetId: string) {
   const metaData = await db.gCPData.findFirst({
     where: {
@@ -10,7 +22,7 @@ export async function getLatestFileMetaData(assetId: string) {
   });
   if (metaData) {
     const targetDate = metaData.urlExpiryDate; // Replace with your target date
-
+    const urlExpiryDate = getSignedUrlExpiryDate(metaData.downloadUrl);
     const currentDate = new Date(); // Get the current date
     const twoDaysFromNow = new Date(
       currentDate.getFullYear(),
@@ -18,7 +30,7 @@ export async function getLatestFileMetaData(assetId: string) {
       currentDate.getDate() + 2,
     ); // Calculate 2 days from now
 
-    if (targetDate <= twoDaysFromNow) {
+    if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
       console.log("The target date is 2 days or less from today's date.");
       const uploader = new FileUploader(
         metaData.blobName,
