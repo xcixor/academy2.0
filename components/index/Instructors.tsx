@@ -33,18 +33,18 @@ const Instructors = () => {
                   <div className="flex">
                     <div className="space-y-8 p-8 ">
                       <div className="relative">
-                        <h3 className="text-2xl font-semibold ">
+                        <h3 className="text-2xl font-semibold text-pes-red">
                           {instructor.name}
                         </h3>
-                        <h4 className="text-lg font-semibold text-zinc-500">
+                        <h4 className="text-lg font-semibold text-pes-blue">
                           {instructor.jobTitle}
                         </h4>
                       </div>
-                      <p className="line-clamp-3">{instructor.bio}</p>
+                      <p className="line-clamp-3 text-pes-blue">{instructor.bio}</p>
                       <Link
                         key={instructor.id}
                         href={`/instructor/${"instructor.id"}`}
-                        className="flex items-center"
+                        className="flex items-center text-pes-red"
                       >
                         More
                         <ChevronRight className="h-4 w-4" />

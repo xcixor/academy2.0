@@ -46,7 +46,7 @@ const PopularCourses = () => {
           <h2 className="text-center text-5xl font-semibold text-pes-red mb-10" data-scroll data-scroll-speed="0.05">
             Popular Courses
           </h2>
-          <Link href="/browse" className="flex items-center">
+          <Link href="/browse" className="flex items-center text-pes-red">
             More <ChevronRight className="h-6 w-6" />
           </Link>
         </div>
