@@ -14,11 +14,13 @@ import {
   Youtube,
 } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const Footer = () => {
   return (
     <footer className="bg-primary py-32 text-white">
-      <MaxWidthWrapper className="grid-cols-2 md:grid">
+      <MaxWidthWrapper className="grid-cols-3 md:grid">
         <div>
           <Image
             src="/logo.png"
@@ -106,6 +108,29 @@ const Footer = () => {
               </Link>
             </li>
           </ul>
+        </div>
+        <div>
+          <h4 className="text-md font-semibold">Subscribe to our newsletter</h4>
+          <div className="relative max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl">
+            <p className="mb-6 text-base text-white md:text-lg">
+              Get the latest insights, expert advice, and exclusive updates in the world of private equity and stay updated when new courses are released.
+            </p>
+            <form className="flex flex-col items-center w-full mb-4 md:flex-row md:px-8">
+              <Input
+                className="w-full rounded-full bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full"
+                placeholder=" Your Email"
+                type="text"
+              />
+              <Button
+                type="submit"
+                variant="secondary"
+                className="bg-pes-red font-semibold text-white mx-4 shadow-md hover:text-pes-red"
+              >
+                Subscribe
+              </Button>
+              
+            </form>
+          </div>
         </div>
       </MaxWidthWrapper>
     </footer>
