@@ -11,7 +11,7 @@ const CTA = () => {
     <section className="bg-secondary py-32">
       <MaxWidthWrapper className="flex">
         <div className="basis-1/2">
-          <h2 className="text-2xl  uppercase text-pes-red">
+          <h2 className="text-3xl  uppercase text-pes-red mb-6">
             Are you ready to start learning?
           </h2>
           <p>
@@ -24,7 +24,7 @@ const CTA = () => {
               onClick={() => signIn()}
               size="sm"
               variant="secondary"
-              className="h-auto bg-red-800 py-2 text-white"
+              className="h-auto bg-pes-red py-2 text-white hover:bg-pes-blue shadow"
             >
               Start Now!
             </Button>
