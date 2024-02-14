@@ -125,7 +125,5 @@ export class FileUploader {
       .bucket(this.gsBucketName)
       .file(this.blobName)
       .delete(deleteOptions);
-
-    console.log(response.statusCode, "************************8");
   }
 }
