@@ -55,42 +55,44 @@ const UploadDropzone = ({
   const startUpload = async function (acceptedFile: File) {
     let fileToUpload = acceptedFile;
     const customFileName = `${bucketFileDirectory}/thumbnails`;
-    try {
-      const formData = new FormData();
-      formData.append("file", fileToUpload);
-      formData.append("chapterId", assetId);
-      formData.append("videoFolder", customFileName);
-      setIsProcessingFile(true);
-      const response = await fetch("/api/gcp/asset/thumbnail", {
-        method: "PUT",
-        body: formData,
-      });
-
-      const data = await response.json();
-      if (response.status === 200) {
-        toast({
-          title: "Success",
-          description: "File processing success.",
-          variant: "default",
-          className: "bg-green-300 border-0",
+    if (isVideo) {
+      try {
+        const formData = new FormData();
+        formData.append("file", fileToUpload);
+        formData.append("chapterId", assetId);
+        formData.append("videoFolder", customFileName);
+        setIsProcessingFile(true);
+        const response = await fetch("/api/gcp/asset/thumbnail", {
+          method: "PUT",
+          body: formData,
         });
-      } else {
+
+        const data = await response.json();
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: "File processing success.",
+            variant: "default",
+            className: "bg-green-300 border-0",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: data.message.toString(),
+          });
+        }
+      } catch (error) {
+        setIsError(true);
+        console.log(error, "#CLIENT ERROR");
         toast({
           variant: "destructive",
           title: "Error",
-          description: data.message.toString(),
+          description: "Something went wrong!",
         });
+      } finally {
+        setIsProcessingFile(false);
       }
-    } catch (error) {
-      setIsError(true);
-      console.log(error, "#CLIENT ERROR");
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Something went wrong!",
-      });
-    } finally {
-      setIsProcessingFile(false);
     }
     try {
       setIsUploading(true);
