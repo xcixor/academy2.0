@@ -17,12 +17,13 @@ import {
 interface Props {
   title: string;
   url: string;
+  thumbnailsFileUrl: string;
   onEnded: () => void;
 }
 
 import { VideoLayout } from "./layout/VideoLayout";
 
-export function Player({ title, url, onEnded }: Props) {
+export function Player({ title, url, onEnded, thumbnailsFileUrl }: Props) {
   let player = useRef<MediaPlayerInstance>(null);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export function Player({ title, url, onEnded }: Props) {
         />
       </MediaProvider>
 
-      <VideoLayout thumbnails="https://image.mux.com/VZtzUzGRv02OhRnZCxcNg49OilvolTqdnFLEqBsTwaxU/storyboard.vtt" />
+      <VideoLayout thumbnails={thumbnailsFileUrl} />
     </MediaPlayer>
   );
 }
