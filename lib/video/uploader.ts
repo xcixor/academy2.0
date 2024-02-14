@@ -58,7 +58,6 @@ async function getFileContent(bucketName, fileName) {
   } catch (error) {
     if (error.code === 404) {
       console.log(`File ${fileName} not found in bucket ${bucketName}`);
-      return "";
     }
     throw error;
   }
