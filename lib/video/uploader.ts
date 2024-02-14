@@ -42,7 +42,6 @@ async function generateVTT(startTime, endTime, url, fileName) {
     const updatedContent = existingContent + vttContent;
     // Write the updated VTT content to the GCP file
     await writeFileContent(gsBucketName, fileName, updatedContent);
-
     // console.log("VTT file created successfully!");
   } catch (error) {
     console.error("Error generating VTT file:", error);
@@ -80,4 +79,25 @@ function generateVTTContent(startTime, endTime, url) {
   return `${startTime} --> ${endTime}\n${url}\n\n`;
 }
 
-module.exports = { uploadToGCPCloud, generateVTT };
+async function makeFilePublic(fileName) {
+  const file = bucket.file(`${gsLocation}/${fileName}`);
+
+  // Make the file public
+  await file.makePublic();
+  const publicUrl = file.publicUrl();
+
+  return publicUrl;
+}
+
+async function clearFolder(folder) {
+  // List all objects in the folder
+  const [files] = await bucket.getFiles({ prefix: folder });
+
+  // Delete each file within the folder
+  await Promise.all(files.map((file) => file.delete()));
+
+  // Delete the empty folder
+  await bucket.deleteFiles({ prefix: folder, force: true });
+}
+
+module.exports = { uploadToGCPCloud, generateVTT, makeFilePublic, clearFolder };

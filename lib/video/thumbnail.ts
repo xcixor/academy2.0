@@ -1,17 +1,14 @@
 const ffmpeg = require("fluent-ffmpeg");
-const fs = require("fs");
-const { uploadToGCPCloud, generateVTT } = require("./uploader.ts");
-const filePath = "/home/xcixor/Videos/comp.mp4";
+const { uploadToGCPCloud, generateVTT, clearFolder } = require("./uploader.ts");
 
-let captions = new Array();
 function createVideoThumbnails(
-  filePath,
+  file,
   numThumbnails,
   duration,
   i,
   destinationFolder,
 ) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     const outputPath = Date.now() + "thumbnail.png";
 
     const interval = duration / numThumbnails;
@@ -26,7 +23,7 @@ function createVideoThumbnails(
     let startTime = time;
     let endTime = formatTime((i + 1) * interval);
 
-    const ffmpegCommand = ffmpeg(filePath)
+    const ffmpegCommand = ffmpeg(file)
       .seekInput(time)
       .format("mjpeg")
       .frames(1)
@@ -40,9 +37,9 @@ function createVideoThumbnails(
 
     const destination = `${destinationFolder}/${outputPath}`;
     const url = await uploadToGCPCloud(stream, destination);
-    const fileName = `${destinationFolder}/captions.vtt`;
-    await generateVTT(startTime, endTime, url, fileName);
-    resolve(outputPath);
+    const vttfileName = `${destinationFolder}/captions.vtt`;
+    await generateVTT(startTime, endTime, url, vttfileName);
+    resolve(vttfileName);
   });
 }
 
@@ -58,9 +55,9 @@ function padZero(num) {
   return num.toString().padStart(2, "0");
 }
 
-function getVideoDuration(videoPath) {
+function getVideoDuration(file) {
   return new Promise((resolve, reject) => {
-    ffmpeg.ffprobe(videoPath, (err, metadata) => {
+    ffmpeg.ffprobe(file, (err, metadata) => {
       if (err) {
         reject(err);
         return;
@@ -68,7 +65,6 @@ function getVideoDuration(videoPath) {
 
       const duration = metadata.format.duration;
       const durationInSeconds = Math.round(duration);
-
       resolve(durationInSeconds);
     });
   });
@@ -76,31 +72,27 @@ function getVideoDuration(videoPath) {
 
 const numThumbnails = 5;
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function generateThumbnails(gcpDestinationFolder) {
-  const duration = await getVideoDuration(filePath);
-
+async function generateThumbnails(gcpDestinationFolder, file) {
+  const gsLocation = process.env.GS_LOCATION;
+  const destinationFolder = `${gsLocation}/${gcpDestinationFolder}`;
+  await clearFolder(destinationFolder);
+  const duration = await getVideoDuration(file);
   try {
     for (let i = 0; i < numThumbnails; i++) {
-      const gsLocation = process.env.GS_LOCATION;
-      const destinationFolder = `${gsLocation}/${gcpDestinationFolder}`;
-      const result = await createVideoThumbnails(
-        filePath,
+      await createVideoThumbnails(
+        file,
         numThumbnails,
         duration,
         i,
         destinationFolder,
       );
-      console.log(result);
-      // await sleep(200);
     }
+    return { message: "Success", status: 200 };
   } catch (err) {
     console.log("An error occurred: " + err.message);
+    return { message: "Error", status: 500 };
   } finally {
   }
 }
 
-generateThumbnails("test");
+module.exports = { generateThumbnails };
