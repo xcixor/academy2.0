@@ -77,6 +77,9 @@ dependencies:
   '@types/bcrypt':
     specifier: ^5.0.2
     version: 5.0.2
+  '@types/fluent-ffmpeg':
+    specifier: ^2.1.24
+    version: 2.1.24
   '@uploadthing/react':
     specifier: ^5.6.2
     version: 5.7.0(next@14.1.0)(react@18.2.0)(uploadthing@5.7.4)
@@ -113,6 +116,9 @@ dependencies:
   eslint-config-prettier:
     specifier: ^9.0.0
     version: 9.1.0(eslint@8.56.0)
+  ffmpeg-stream:
+    specifier: ^0.7.0
+    version: 0.7.0
   ffprobe:
     specifier: ^1.1.2
     version: 1.1.2
@@ -203,6 +209,9 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.1)
+  tmp:
+    specifier: ^0.2.1
+    version: 0.2.1
   typescript:
     specifier: ^5
     version: 5.3.3
@@ -212,9 +221,6 @@ dependencies:
   uploadthing:
     specifier: ^5.7.1
     version: 5.7.4
-  video-thumb:
-    specifier: ^0.0.3
-    version: 0.0.3
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -2029,6 +2035,12 @@ packages:
     resolution: {integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==}
     dev: false
 
+  /@types/fluent-ffmpeg@2.1.24:
+    resolution: {integrity: sha512-g5oQO8Jgi2kFS3tTub7wLvfLztr1s8tdXmRd8PiL/hLMLzTIAyMR2sANkTggM/rdEDAg3d63nYRRVepwBiCw5A==}
+    dependencies:
+      '@types/node': 20.11.16
+    dev: false
+
   /@types/hoist-non-react-statics@3.3.5:
     resolution: {integrity: sha512-SbcrWzkKBw2cdwRTwQAswfpB9g9LJWfjtUeW/jvNwbhC8cpmmNYVePa+ncbUe0rGTQ7G3Ff6mYUN2VMfLVr+Sg==}
     dependencies:
@@ -3467,6 +3479,14 @@ packages:
     resolution: {integrity: sha512-zGygtijUMT7jnk3h26kUms3BkSDp4IfIKjmnqI2tvx6nuBfiF1UqOxbnLfzdv+apBy+53oaImsKtMw/xYbW+1w==}
     dependencies:
       reusify: 1.0.4
+    dev: false
+
+  /ffmpeg-stream@0.7.0:
+    resolution: {integrity: sha512-Cz6EDH1LGBMZAb2ae03hvyMkrhZr7LdQ5fj/YUnaj00pxs5BDVZAF2AsYrthO8RrJ8ybwNTlAmvyztAOuuQg3g==}
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /ffprobe@1.1.2:
@@ -5805,6 +5825,13 @@ packages:
     resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
     dev: false
 
+  /tmp@0.2.1:
+    resolution: {integrity: sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==}
+    engines: {node: '>=8.17.0'}
+    dependencies:
+      rimraf: 3.0.2
+    dev: false
+
   /to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -6021,12 +6048,6 @@ packages:
       d3-shape: 3.2.0
       d3-time: 3.1.0
       d3-timer: 3.0.1
-    dev: false
-
-  /video-thumb@0.0.3:
-    resolution: {integrity: sha512-mzVBvrm21ZINMIeEyg4nHbZKfHvDTHIOmQF0z8da5XQUCpfJP+fAyOX++hUJtdFV4QCaFmFbFymWvSAvZ0t47A==}
-    engines: {node: '>= 0.4'}
-    deprecated: Package is no longer maintained
     dev: false
 
   /webidl-conversions@3.0.1:

@@ -14,23 +14,23 @@ export async function uploadFile(
     const buffer = Buffer.from(bytes);
     const path = `${uploadDir}/${file.name}`;
     await writeFile(path, buffer);
-    return { status: 200, message: `${ROOT_DIR}/${file.name}` };
+    return { status: 200, message: path };
   } catch (error) {
     return { status: 500, message: error.message };
   }
 }
 
-export async function removeImage(imagePath: string) {
-  if (imagePath) {
+export async function removeFile(filePath: string) {
+  if (filePath) {
     try {
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = path.dirname(__filename);
-      const filePreviousThumbnailPath = path.resolve(
-        __dirname,
-        `../public${imagePath}`,
-      );
+      // const __filename = fileURLToPath(import.meta.url);
+      // const __dirname = path.dirname(__filename);
+      // const filePreviousThumbnailPath = path.resolve(
+      //   __dirname,
+      //   `../public${filePath}`,
+      // );
 
-      fs.unlinkSync(filePreviousThumbnailPath);
+      fs.unlinkSync(filePath);
       return { status: 200, message: "OK" };
     } catch (error) {
       return { status: 500, message: error.message };

@@ -124,6 +124,8 @@ model Chapter {
   gcpData   GCPData? @relation(fields: [gCPDataId], references: [id])
   gCPDataId String?
 
+  vttFileUrl String?
+
   @@index([courseId])
 }
 
