@@ -20,9 +20,17 @@ type Props = {
   clientID: string;
   clientToken: string;
   courseId: string;
+  courseTitle: string;
+  courseDescription: string;
 };
 
-export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
+export const PaymentForm = ({
+  clientID,
+  clientToken,
+  courseId,
+  courseTitle,
+  courseDescription,
+}: Props) => {
   const [loader, showLoader] = useState(false);
   const [success, showSuccess] = useState(false);
   const [error, showErrorMsg] = useState(false);
@@ -109,16 +117,12 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
               <ArrowLeft /> Back to course
             </Link>
             <h1 className="py-4 text-2xl font-semibold text-red-800">
-              Course Title
+              {courseTitle}
             </h1>
             <p className="text-3xl font-bold text-red-800">
               {formatPrice(2500)}
             </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-              itaque perspiciatis, quis vitae atque amet? Asperiores quam
-              temporibus modi explicabo.
-            </p>
+            <p>{courseDescription}</p>
             <div className="mt-6 flex w-full items-center gap-4 text-red-800">
               <p>&copy; private capital support</p>
               <Link href="#">Terms</Link>
