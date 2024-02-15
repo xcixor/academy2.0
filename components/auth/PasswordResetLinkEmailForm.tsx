@@ -17,7 +17,7 @@ import { CheckCircle2, Info, Loader2 } from "lucide-react";
 import { toast } from "../ui/use-toast";
 import { useState } from "react";
 
-const ResendEmailForm = () => {
+const PasswordResetLinkEmailForm = () => {
   const formSchema = z.object({
     email: z.string().email("Please provide a valid email address"),
   });
@@ -125,4 +125,4 @@ const ResendEmailForm = () => {
   );
 };
 
-export default ResendEmailForm;
+export default PasswordResetLinkEmailForm;

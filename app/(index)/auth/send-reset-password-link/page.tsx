@@ -1,4 +1,4 @@
-import ResendEmailForm from "@/components/auth/ResendEmailForm";
+import ResendEmailForm from "@/components/auth/PasswordResetLinkEmailForm";
 
 const page = async () => {
   return (
