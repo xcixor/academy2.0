@@ -40,7 +40,7 @@ export const PaymentForm = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (Object.keys(errorMsg).length > 0) {
+    if (errorMsg && Object.keys(errorMsg).length > 0) {
       const description = errorMsg.details[0].description;
 
       toast({
@@ -261,8 +261,6 @@ export const PaymentForm = ({
                     </Button>
                   )}
                   {!loader && <SubmitPayment />}
-
-             
                 </div>
               </section>
             </PayPalHostedFieldsProvider>
