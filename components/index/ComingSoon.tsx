@@ -2,68 +2,42 @@ import Link from "next/link";
 import CourseCard from "../CourseCard";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import { ChevronRight } from "lucide-react";
+import { getComingSoonCourses } from "@/actions/get-coming-soon-courses";
+import { CourseWithProgressWithCategory } from "@/@types/db";
 
-const popularCourses = [
-  {
-    id: "02f7f6d6-367d-4c98-97cf-0452aa85eba7",
-    title: "Marketing",
-    imageUrl: "/index/female_student.jpg",
-    chaptersLength: 3,
-    price: 12000,
-    category: "Marketing",
-  },
-  {
-    id: "02f7f6d6-367d-4c98-97cf-0452aa85eba7",
-    title: "Advanced Business",
-    imageUrl: "/index/male_student.jpg",
-    chaptersLength: 3,
-    price: 15000,
-    category: "Marketing",
-  },
-  {
-    id: "02f7f6d6-367d-4c98-97cf-0452aa85eba7",
-    title: "AI in Business",
-    imageUrl: "/index/female_student.jpg",
-    chaptersLength: 3,
-    price: 21000,
-    category: "Technology",
-  },
-  {
-    id: "02f7f6d6-367d-4c98-97cf-0452aa85eba7",
-    title: "Social Media Marketing",
-    imageUrl: "/carousel/photo-2.avif",
-    chaptersLength: 3,
-    price: 21000,
-    category: "Technology",
-  },
-];
+const ComingSoon = async () => {
+  const items =
+    (await getComingSoonCourses()) as CourseWithProgressWithCategory[];
 
-const ComingSoon = () => {
   return (
     <MaxWidthWrapper className="py-32">
       <div className="flex items-center justify-between">
-        <h2 className="text-center text-3xl font-semibold text-red-800">Coming Soon</h2>
+        <h2 className="text-center text-3xl font-semibold text-red-800">
+          Coming Soon
+        </h2>
         <Link href="/browse" className="flex items-center">
           More <ChevronRight className="h-6 w-6" />
         </Link>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
-        {popularCourses.map((course) => (
+        {items.map((item) => (
           <CourseCard
-            key={course.id}
-            id={course.id}
-            title={course.title}
-            imageUrl={course.imageUrl}
-            chaptersLength={course.chaptersLength}
-            price={course.price}
-            category={course.category}
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            chaptersLength={item.chapters.length}
+            progress={item.progress}
+            category={item?.category?.name}
+            price={item.price}
           />
         ))}
       </div>
       <div>
-        {popularCourses.length === 0 && (
-          <div className="mt-10 text-center text-sm text-muted-foreground">
-            No courses found
+        {items.length === 0 && (
+          <div className="mt-10">
+            <p className=" text-sm text-muted-foreground">
+              We are updating our library.
+            </p>
           </div>
         )}
       </div>
