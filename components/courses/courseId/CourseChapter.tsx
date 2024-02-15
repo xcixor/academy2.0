@@ -55,7 +55,7 @@ const ChapterIdPage = async ({
   });
 
   if (!chapter || !course) {
-    return redirect("/");
+    return redirect("/browse");
   }
   const isCourseOwner = await getCourseOwner(userId, params.courseId);
   const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
