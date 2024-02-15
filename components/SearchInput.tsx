@@ -35,8 +35,8 @@ export const SearchInput = () => {
   }, [debouncedValue, currentCategoryId, router, pathname]);
 
   return (
-    <div className="relative">
-      <Search className="absolute left-3 top-3 h-6 w-6 text-slate-600" />
+    <div className="relative flex h-full items-center justify-center">
+      <Search className="absolute left-3 top-1/2 h-6 w-6 -translate-y-1/2 transform text-slate-600" />
       <Input
         onChange={(e) => setValue(e.target.value)}
         value={value}
@@ -44,7 +44,7 @@ export const SearchInput = () => {
         placeholder="Browse our courses"
       />
       <SearchX
-        className="absolute right-3 top-3 h-6 w-6 cursor-pointer text-slate-600"
+        className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform text-slate-600"
         onClick={() => setValue("")}
       />
     </div>

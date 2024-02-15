@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { Navbar } from "@/components/navbar/Navbar";
 
-
-
 export const metadata: Metadata = {
   title: {
     default: "PES Academy",
-    template: `%s | PES Academy`
+    template: `%s | PES Academy`,
   },
-  description: "Join us on a transformative journey at PES Academy, where innovation meets education, developing the leaders of tomorrow's successful enterprises.",
+  description:
+    "Join us on a transformative journey at PES Academy, where innovation meets education, developing the leaders of tomorrow's successful enterprises.",
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
