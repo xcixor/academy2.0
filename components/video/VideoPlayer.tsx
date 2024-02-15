@@ -17,13 +17,20 @@ import {
 interface Props {
   title: string;
   url: string;
-  thumbnailsFileUrl: string;
+  thumbnailsFileUrl?: string;
+  posterUrl: string;
   onEnded: () => void;
 }
 
 import { VideoLayout } from "./layout/VideoLayout";
 
-export function Player({ title, url, onEnded, thumbnailsFileUrl }: Props) {
+export function Player({
+  title,
+  url,
+  onEnded,
+  thumbnailsFileUrl,
+  posterUrl,
+}: Props) {
   let player = useRef<MediaPlayerInstance>(null);
 
   useEffect(() => {
@@ -70,7 +77,7 @@ export function Player({ title, url, onEnded, thumbnailsFileUrl }: Props) {
       <MediaProvider>
         <Poster
           className="absolute inset-0 block h-full w-full rounded-md object-cover opacity-0 transition-opacity data-[visible]:opacity-100"
-          src="https://image.mux.com/VZtzUzGRv02OhRnZCxcNg49OilvolTqdnFLEqBsTwaxU/thumbnail.webp?time=268&width=1200"
+          src={posterUrl}
           alt={title}
         />
       </MediaProvider>

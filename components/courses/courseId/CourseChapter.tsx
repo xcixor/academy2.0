@@ -24,6 +24,7 @@ import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 import { getCourseOwner } from "@/actions/get-course-owner";
 import Attachment from "./attachment/Attachment";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 const ChapterIdPage = async ({
   params,
@@ -36,6 +37,8 @@ const ChapterIdPage = async ({
   if (!userId) {
     return redirect("/");
   }
+
+  const imageMetaData = await getLatestFileMetaData(params.courseId);
 
   const {
     chapter,
@@ -72,6 +75,7 @@ const ChapterIdPage = async ({
       <div className="mx-auto flex flex-col items-center justify-center pb-20">
         <div className="w-full p-4">
           <VideoPlayer
+            posterUrl={imageMetaData?.downloadUrl || ""}
             chapterId={params.chapterId}
             title={chapter.title}
             courseId={params.courseId}
