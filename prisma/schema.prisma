@@ -24,6 +24,9 @@ model Profile {
   oldEmail    String?
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTitle    String?
+  bio         String?
+  linkedIn    String?
 }
 
 model User {
@@ -32,8 +35,6 @@ model User {
   email         String?      @unique
   emailVerified DateTime?
   image         String?
-  bio           String?
-  linkedIn      String?
   role          Role         @default(USER)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
