@@ -15,6 +15,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { toast } from "@/components/ui/use-toast";
 
 type Props = {
   clientID: string;
@@ -39,10 +40,20 @@ export const PaymentForm = ({
   const router = useRouter();
 
   useEffect(() => {
+    if (Object.keys(errorMsg).length > 0) {
+      const description = errorMsg.details[0].description;
+
+      toast({
+        title: "Error",
+        description: description,
+        variant: "destructive",
+        className: "bg-red-500 border-0",
+      });
+    }
     if (success) {
       router.push(`/courses/${courseId}/`);
     }
-  }, [courseId, router, success]);
+  }, [courseId, errorMsg, router, success]);
 
   const SubmitPayment = () => {
     // Here declare the variable containing the hostedField instance
@@ -251,11 +262,7 @@ export const PaymentForm = ({
                   )}
                   {!loader && <SubmitPayment />}
 
-                  {error && (
-                    <p className="text-red-500">
-                      Sorry, there is an error {JSON.stringify(errorMsg)}
-                    </p>
-                  )}
+             
                 </div>
               </section>
             </PayPalHostedFieldsProvider>
