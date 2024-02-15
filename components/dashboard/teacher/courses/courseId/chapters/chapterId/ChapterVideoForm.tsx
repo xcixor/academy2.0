@@ -58,6 +58,7 @@ export default function ChapterVideoForm({
               url={fileMetaData.downloadUrl}
               onEnded={null}
               thumbnailsFileUrl={initialData.vttFileUrl}
+              posterUrl={""}
             />
           </div>
         ))}
