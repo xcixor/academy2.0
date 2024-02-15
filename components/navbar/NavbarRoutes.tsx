@@ -66,7 +66,7 @@ export default function NavbarRoutes({ user }: Props) {
         ) : user?.role === Role.COACH ? (
           <Link href="/dashboard/teacher/courses">
             <Button size="sm" variant="outline" className="h-auto py-2">
-              Teacher mode
+              Coach Mode
             </Button>
           </Link>
         ) : null}
@@ -81,7 +81,7 @@ export default function NavbarRoutes({ user }: Props) {
         ) : user?.role === Role.ADMIN ? (
           <Link href="/dashboard/admin/users">
             <Button size="sm" variant="outline" className="h-auto py-2">
-              Admin mode
+              Admin Mode
             </Button>
           </Link>
         ) : null}
