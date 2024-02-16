@@ -41,7 +41,12 @@ const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
     return redirect("/");
   }
 
-  const requiredFields = [quiz.title, quiz.description, quiz.passingPercentage];
+  const requiredFields = [
+    quiz.title,
+    quiz.description,
+    quiz.passingPercentage,
+    quiz.questions.some((question) => question.isPublished),
+  ];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -73,6 +78,15 @@ const QuizIdPageWrapper = async ({ courseId, quizId }: Props) => {
                 <h1 className="text-2xl font-medium">Quiz Setup</h1>
                 <span className="text-sm text-slate-700">
                   Complete all fields {completionText}
+                </span>
+                <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+                  <p>Required fields include;</p>
+                  <ul className="list-disc pl-4 text-[0.7rem]">
+                    <li>Title</li>
+                    <li>Description</li>
+                    <li>Passing percentage</li>
+                    <li>At least one published question.</li>
+                  </ul>
                 </span>
               </div>
               <QuizActions

@@ -76,6 +76,26 @@ export async function DELETE(
       },
     });
 
+    const quiz = await db.quiz.findUnique({
+      where: {
+        id: params.quizId,
+      },
+      include: {
+        questions: true,
+      }
+    });
+
+    if(quiz.questions.length === 0) {
+      await db.quiz.update({
+        where: {
+          id: params.quizId
+        },
+        data: {
+          isPublished: false
+        }
+      })
+    }
+
     return NextResponse.json(deletedQuestion);
   } catch (error) {
     console.log("[QUESTION_ID_DELETE]", error);

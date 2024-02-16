@@ -88,6 +88,17 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
             <span className="text-sm text-slate-700">
               Complete all fields {completionText}
             </span>
+            <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+              <p>Required fields include;</p>
+              <ul className="list-disc pl-4 text-[0.7rem]">
+                <li>Title</li>
+                <li>Description</li>
+                <li>Image</li>
+                <li>Category</li>
+                <li>Price if the course is not free</li>
+                <li>At least one published chapter</li>
+              </ul>
+            </span>
           </div>
           <Actions
             disabled={!isComplete}

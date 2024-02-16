@@ -81,7 +81,7 @@ const QuestionIdPageWrapper = async ({
                 <span className="text-sm text-slate-700">
                   Complete all fields {completionText}
                 </span>
-                <span className="rounded-sm border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+                <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
                   <p>Required fields include;</p>
                   <ul className="list-disc pl-4 text-[0.7rem]">
                     <li>Title</li>
