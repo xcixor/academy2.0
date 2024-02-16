@@ -96,7 +96,9 @@ export const columns: ColumnDef<Course>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/courses/${id}`}>
+            <Link
+              href={`/courses/${id}?callbackUrl=/dashboard/teacher/courses`}
+            >
               <DropdownMenuItem className="cursor-pointer">
                 <Eye className="mr-2 h-4 w-4 " />
                 Preview
