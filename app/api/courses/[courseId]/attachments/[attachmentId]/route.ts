@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { deleteGCPObject } from "@/lib/gcp/gcp-utils";
 
 export async function DELETE(
   req: Request,
@@ -26,15 +27,25 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const asset = await db.gCPData.findUnique({
+      where: {
+        assetId: params.attachmentId,
+      },
+    });
+    if (asset) {
+      const res = await deleteGCPObject(asset.blobName);
+      if (res.status !== 200) {
+        return new NextResponse("Internal Error", { status: 500 });
+      }
+      await db.gCPData.delete({
+        where: { assetId: params.attachmentId },
+      });
+    }
     const attachment = await db.attachment.delete({
       where: {
         courseId: params.courseId,
         id: params.attachmentId,
       },
-    });
-
-    await db.gCPData.deleteMany({
-      where: { assetId: params.attachmentId },
     });
 
     return NextResponse.json(attachment);
