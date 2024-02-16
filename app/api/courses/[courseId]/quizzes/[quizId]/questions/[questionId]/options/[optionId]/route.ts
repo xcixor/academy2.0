@@ -90,6 +90,26 @@ export async function DELETE(
       },
     });
 
+    const question = await db.question.findUnique({
+      where: {
+        id: params.questionId,
+      },
+      include: {
+        options: true,
+      },
+    });
+
+    if (question.options.length <= 1) {
+      await db.question.update({
+        where: {
+          id: params.questionId,
+        },
+        data: {
+          isPublished: false,
+        },
+      });
+    }
+
     return NextResponse.json(deletedOption);
   } catch (error) {
     console.log("[OPTION_ID_DELETE]", error);

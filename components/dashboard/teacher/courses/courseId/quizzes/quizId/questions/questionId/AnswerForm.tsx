@@ -62,7 +62,7 @@ export default function AnswerForm({
 
     try {
       await axios.patch(
-        `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/options/${optionId}/set-answer`
+        `/api/courses/${courseId}/quizzes/${quizId}/questions/${questionId}/options/${optionId}/set-answer`,
       );
       toast.success("Question updated");
       toggleEdit();
@@ -75,9 +75,9 @@ export default function AnswerForm({
   const selectedOption = options.find((item) => item.isAnswer);
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
-        Select correct answer
+    <div className="mt-6 rounded-md border bg-slate-100 p-4">
+      <div className="flex items-center justify-between font-medium">
+        Set the correct answer from your options.
         {isDeleting ? (
           <Ban className="h-4 w-4" />
         ) : (
@@ -86,7 +86,7 @@ export default function AnswerForm({
               <>Cancel</>
             ) : (
               <>
-                <Pencil className="h-4 w-4 mr-2" />
+                <Pencil className="mr-2 h-4 w-4" />
                 Set Answer
               </>
             )}
@@ -96,8 +96,8 @@ export default function AnswerForm({
       {!isEditing && (
         <p
           className={cn(
-            "text-sm mt-2",
-            !selectedOption && "text-slate-500 italic"
+            "mt-2 text-sm",
+            !selectedOption && "italic text-slate-500",
           )}
         >
           {selectedOption?.label || "Answer not added"}
@@ -107,7 +107,7 @@ export default function AnswerForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
+            className="mt-4 space-y-4"
           >
             <FormField
               control={form.control}
