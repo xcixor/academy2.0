@@ -32,6 +32,9 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
       id: chapterId,
       courseId: courseId,
     },
+    include: {
+      course: true,
+    },
   });
 
   if (!chapter) {
@@ -109,6 +112,7 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
                 initialData={chapter}
                 courseId={courseId}
                 chapterId={chapterId}
+                isCourseFree={chapter.course.isFree}
               />
             </div>
           </div>
