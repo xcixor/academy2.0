@@ -1,10 +1,16 @@
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+type Props = {
+  searchParams?: Record<"callbackUrl", string>;
+  params: {
+    courseId: string;
+  };
+};
+const CourseIdPage = async (props: Props) => {
   const course = await db.course.findUnique({
     where: {
-      id: params.courseId,
+      id: props.params.courseId,
     },
     include: {
       chapters: {
@@ -18,8 +24,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     },
   });
 
-  if (!course) {
-    return redirect("/");
+  if (!course || course.chapters.length === 0) {
+    console.log(props.searchParams.callbackUrl, "callbackUrl");
+    return redirect(
+      props.searchParams.callbackUrl
+        ? props.searchParams.callbackUrl
+        : "/browse",
+    );
   }
 
   return redirect(`/courses/${course.id}/chapters/${course.chapters[0].id}`);
