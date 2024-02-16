@@ -15,9 +15,7 @@ import DescriptionForm from "./DescriptionForm";
 import ImageForm from "./ImageForm";
 import CategoryForm from "./CategoryForm";
 import PriceForm from "./PriceForm";
-import AttachmentForm from "./AttachmentForm";
 import ChaptersForm from "./ChapterForm";
-import PlanForm from "./PlanForm";
 import { Banner } from "@/components/Banner";
 import { Actions } from "./Actions";
 import {
@@ -32,6 +30,7 @@ import {
 import { useState } from "react";
 import QuizForm from "./QuizForm";
 import AttachmentsForm from "./AttachmentsForm";
+import CourseAccessForm from "./CourseAccess";
 
 interface PageProps {
   course: Course & {
@@ -47,14 +46,17 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
   const [deleting, setIsDeleting] = useState(false);
   const toggleDeleting = () => setIsDeleting((current) => !current);
 
-  const requiredFields = [
+  let requiredFields = [
     course.title,
     course.description,
-    course.price,
     course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
     gcpData,
   ];
+
+  if (!course.isFree) {
+    requiredFields.push(course.price);
+  }
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -125,15 +127,7 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
               }))}
               isDeleting={deleting}
             />
-            <PlanForm
-              initialData={course}
-              courseId={course.id}
-              options={plans.map((plan) => ({
-                label: plan.name,
-                value: plan.id,
-              }))}
-              isDeleting={deleting}
-            />
+            <CourseAccessForm initialData={course} />
           </div>
           <div className="space-y-6">
             <div>
