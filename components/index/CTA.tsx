@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react";
 const CTA = () => {
   return (
     <section className="bg-secondary py-32">
-      <MaxWidthWrapper className="flex">
+      <MaxWidthWrapper className="flex p-4">
         <div className="basis-1/2">
           <h2 className="text-3xl  uppercase text-pes-red mb-6">
             Are you ready to start learning?
