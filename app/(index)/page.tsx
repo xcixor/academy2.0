@@ -8,7 +8,10 @@ import Intro from "@/components/index/Intro"
 import Description from "@/components/index/Description"
 
 export const metadata: Metadata = {
-  title: "Homepage",
+  title: {
+    default: "PES Academy",
+    template: `%s | PES Academy`
+  },
   description: "PES Academy: Nurturing leaders in private equity. Explore courses, learn from industry experts, and elevate your business acumen. Join us in shaping the future!",
   alternates: {
     canonical: '/',
