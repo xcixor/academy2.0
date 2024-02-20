@@ -1,8 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import MaxWidthWrapper from "./MaxWidthWrapper";
 import {
-  AtSign,
   Contact2,
   Facebook,
   Instagram,
@@ -10,7 +8,6 @@ import {
   MailPlus,
   Phone,
   Twitter,
-  TwitterIcon,
   Youtube,
 } from "lucide-react";
 import Link from "next/link";
