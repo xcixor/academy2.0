@@ -33,7 +33,7 @@ const page = (props: Props) => {
             Meet Emmanuel Mudahemuka
           </h2>
           <Link href="#" className="flex items-center hover:text-zinc-600">
-            <LinkedinIcon className="me-4 h-4 w-4 text-blue-500" />
+            <LinkedinIcon className="me-4 h-4 w-4 text-pes-blue" />
             LinkedIn Profile
             <ChevronRight className="h-4 w-4" />
           </Link>

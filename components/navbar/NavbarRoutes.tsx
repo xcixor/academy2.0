@@ -40,7 +40,7 @@ export default function NavbarRoutes({ user }: Props) {
             <ul className="flex items-center">
               <li className="mr-4">
                 <Link href="/browse">
-                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
+                  <p className="cursor-pointer relative block w-fit after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:bg-pes-red after:transition after:duration-300 after:content-[''] hover:text-pes-red after:hover:scale-x-100">
                     Browse
                   </p>
                 </Link>

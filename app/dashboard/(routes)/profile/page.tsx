@@ -24,7 +24,7 @@ const page = async () => {
   }
   return (
     <div className="p-12">
-      <h1 className="my-4 flex items-center gap-4 text-2xl font-bold">
+      <h1 className="my-4 flex items-center gap-4 text-2xl font-bold text-pes-red">
         Profile Settings
         <Settings className="h-6 w-6 text-primary" />
       </h1>
@@ -57,19 +57,19 @@ const page = async () => {
         </div>
       </div>
       <div>
-        <h1 className="my-4 flex items-center gap-4 text-2xl font-bold">
+        <h1 className="my-4 flex items-center gap-4 text-2xl font-bold text-pes-red">
           Account Settings
           <KeyRound className="h-6 w-6 text-primary" />
         </h1>
         <div>
           <span className="flex  items-center gap-2">
-            <Info className="h-4 w-4 text-sky-500" />
-            <p className="italic text-sky-500">
+            <Info className="h-4 w-4 text-pes-red" />
+            <p className="italic text-pes-blue">
               You will be logged out after changing your email or password.
             </p>
           </span>
           <div>
-            <h2 className="my-4 flex items-center gap-4 text-xl font-bold">
+            <h2 className="my-4 flex items-center gap-4 text-xl font-bold text-pes-red">
               Change email
               <Mail className="h-6 w-6 text-primary" />
             </h2>
@@ -81,7 +81,7 @@ const page = async () => {
             />
           </div>
           <div>
-            <h2 className="my-4 flex items-center gap-4 text-xl font-bold">
+            <h2 className="my-4 flex items-center gap-4 text-xl font-bold text-pes-red">
               Change Password
               <KeyRound className="h-6 w-6 text-primary" />
             </h2>

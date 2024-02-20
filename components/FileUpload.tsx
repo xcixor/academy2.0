@@ -122,7 +122,7 @@ const UploadDropzone = ({
                 description: data.message,
               });
             }
-          } catch (error) {}
+          } catch (error) { }
         } else if (xhr.readyState === 4 && xhr.status != 200) {
           console.log("errred", xhr.status, xhr.responseText);
           setIsError(true);
@@ -176,7 +176,7 @@ const UploadDropzone = ({
               {acceptedFiles && acceptedFiles[0] ? (
                 <div className="flex max-w-xs items-center divide-x divide-zinc-200 overflow-hidden rounded-md bg-white outline outline-[1px] outline-zinc-200">
                   <div className="grid h-full place-items-center px-3 py-2">
-                    <FileIcon className="h-4 w-4 text-blue-500" />
+                    <FileIcon className="h-4 w-4 text-pes-blue" />
                   </div>
                   <div className="h-full truncate px-3 py-2 text-sm">
                     {acceptedFiles[0].name}
