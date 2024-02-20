@@ -32,6 +32,9 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
       id: chapterId,
       courseId: courseId,
     },
+    include: {
+      course: true,
+    },
   });
 
   if (!chapter) {
@@ -72,6 +75,14 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
                 <span className="text-sm text-slate-700">
                   Complete all fields {completionText}
                 </span>
+                <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+                  <p>Required fields include;</p>
+                  <ul className="list-disc pl-4 text-[0.7rem]">
+                    <li>Title</li>
+                    <li>Description</li>
+                    <li>Video</li>
+                  </ul>
+                </span>
               </div>
               <ChapterActions
                 disabled={!isComplete}
@@ -109,6 +120,7 @@ const ChapterIdPageWrapper = async ({ courseId, chapterId }: Props) => {
                 initialData={chapter}
                 courseId={courseId}
                 chapterId={chapterId}
+                isCourseFree={chapter.course.isFree}
               />
             </div>
           </div>

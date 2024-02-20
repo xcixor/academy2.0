@@ -81,6 +81,14 @@ const QuestionIdPageWrapper = async ({
                 <span className="text-sm text-slate-700">
                   Complete all fields {completionText}
                 </span>
+                <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+                  <p>Required fields include;</p>
+                  <ul className="list-disc pl-4 text-[0.7rem]">
+                    <li>Title</li>
+                    <li>Answer (only appears if you have an option)</li>
+                    <li>Atleast two options</li>
+                  </ul>
+                </span>
               </div>
               <QuestionActions
                 disabled={!isComplete}
@@ -108,18 +116,20 @@ const QuestionIdPageWrapper = async ({
               />
             </div>
             <div className="gap-6 md:w-1/2">
-              <AnswerForm
-                initialData={question}
-                courseId={courseId}
-                questionId={questionId}
-                quizId={quizId}
-                options={question.options.map((option) => ({
-                  label: option.title,
-                  value: option.id,
-                  isAnswer: option.isAnswer,
-                }))}
-                isDeleting={false}
-              />
+              {question.options.length >= 1 && (
+                <AnswerForm
+                  initialData={question}
+                  courseId={courseId}
+                  questionId={questionId}
+                  quizId={quizId}
+                  options={question.options.map((option) => ({
+                    label: option.title,
+                    value: option.id,
+                    isAnswer: option.isAnswer,
+                  }))}
+                  isDeleting={false}
+                />
+              )}
             </div>
           </div>
         </div>

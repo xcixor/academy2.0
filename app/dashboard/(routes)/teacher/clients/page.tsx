@@ -12,13 +12,22 @@ const page = async () => {
     where: { coachId: user.id },
   });
   return (
-    <div className="grid-cols-3 p-6 md:grid">
-      {clients.map((client) => (
-        <div key={client.id} className="">
-          <Client client={client} />
+    <>
+      <div className="grid-cols-3 p-6 md:grid">
+        {clients.map((client) => (
+          <div key={client.id} className="">
+            <Client client={client} />
+          </div>
+        ))}
+      </div>
+      {clients.length === 0 && (
+        <div className="flex h-full flex-col items-center justify-center ">
+          <p className="text-sm text-muted-foreground">
+            You do not have any clients at the moment.
+          </p>
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 };
 

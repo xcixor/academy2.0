@@ -118,7 +118,7 @@ export const options = {
         session.user.id = sessionUser?.id!!;
         session.user.firstName = sessionUser?.profile?.firstName as string;
         session.user.lastName = sessionUser?.profile?.lastName as string;
-        // session.user.role = sessionUser.role;
+        session.user.role = sessionUser?.role;
       }
 
       return session;

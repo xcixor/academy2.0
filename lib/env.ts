@@ -11,6 +11,7 @@ const envSchema = zod.object({
   GS_BUCKET_URL: zod.string().min(1, "Please provide GS_BUCKET_URL"),
   GS_CREDENTIALS: zod.string().min(1, "Please provide GS_CREDENTIALS"),
   GS_BUCKET_NAME: zod.string().min(1, "Please provide GS_BUCKET_NAME"),
+  GS_PUBLIC_BUCKET_NAME: zod.string().min(1, "Please provide GS_BUCKET_NAME"),
   GS_LOCATION: zod.string().min(1, "Please provide GS_LOCATION"),
   PAYPAL_CLIENT_ID: zod.string().min(1, "Please provide PAYPAL_CLIENT_ID"),
   PAYPAL_CLIENT_SECRET: zod

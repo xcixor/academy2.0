@@ -1,4 +1,5 @@
 import { PaymentForm } from "@/components/paypal/PaymentForm";
+import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 
 interface Params {
@@ -26,7 +27,11 @@ const getCreds = async () => {
 export default async function page({ params }: Params) {
   const creds = await getCreds();
   const { clientToken, clientID } = creds;
-
+  const course = await db.course.findUnique({
+    where: {
+      id: params.courseId,
+    },
+  });
   return (
     <>
       {creds ? (
@@ -34,11 +39,12 @@ export default async function page({ params }: Params) {
           clientToken={clientToken}
           clientID={clientID}
           courseId={params.courseId}
+          courseTitle={course.title}
+          courseDescription={course.description}
         />
       ) : (
         <p>No creds</p>
       )}
-
     </>
   );
 }

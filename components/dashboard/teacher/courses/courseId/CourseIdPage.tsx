@@ -1,7 +1,9 @@
 "use client";
 import {
+  ArrowLeft,
   CircleDollarSign,
   ClipboardList,
+  Eye,
   File,
   LayoutDashboard,
   ListChecks,
@@ -15,9 +17,7 @@ import DescriptionForm from "./DescriptionForm";
 import ImageForm from "./ImageForm";
 import CategoryForm from "./CategoryForm";
 import PriceForm from "./PriceForm";
-import AttachmentForm from "./AttachmentForm";
 import ChaptersForm from "./ChapterForm";
-import PlanForm from "./PlanForm";
 import { Banner } from "@/components/Banner";
 import { Actions } from "./Actions";
 import {
@@ -32,6 +32,8 @@ import {
 import { useState } from "react";
 import QuizForm from "./QuizForm";
 import AttachmentsForm from "./AttachmentsForm";
+import CourseAccessForm from "./CourseAccess";
+import Link from "next/link";
 
 interface PageProps {
   course: Course & {
@@ -47,14 +49,17 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
   const [deleting, setIsDeleting] = useState(false);
   const toggleDeleting = () => setIsDeleting((current) => !current);
 
-  const requiredFields = [
+  let requiredFields = [
     course.title,
     course.description,
-    course.price,
     course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
     gcpData,
   ];
+
+  if (!course.isFree) {
+    requiredFields.push(course.price);
+  }
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -82,9 +87,36 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
+            <div className="flex justify-between align-middle">
+              <Link
+                href="/dashboard/teacher/courses/"
+                className="flex items-center text-sm transition hover:opacity-75"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to courses
+              </Link>
+              <Link
+                href={`/courses/${course.id}?callbackUrl=/dashboard/teacher/courses/${course.id}`}
+                className="flex items-center text-sm transition hover:opacity-75"
+              >
+                <Eye className="h-8 w-8 text-sky-700" />
+              </Link>
+            </div>
+
             <h1 className="text-2xl font-medium">Course setup</h1>
             <span className="text-sm text-slate-700">
               Complete all fields {completionText}
+            </span>
+            <span className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-700">
+              <p>Required fields include;</p>
+              <ul className="list-disc pl-4 text-[0.7rem]">
+                <li>Title</li>
+                <li>Description</li>
+                <li>Image</li>
+                <li>Category</li>
+                <li>Price if the course is not free</li>
+                <li>At least one published chapter</li>
+              </ul>
             </span>
           </div>
           <Actions
@@ -125,15 +157,7 @@ const CourseIdPage = ({ course, categories, plans, gcpData }: PageProps) => {
               }))}
               isDeleting={deleting}
             />
-            <PlanForm
-              initialData={course}
-              courseId={course.id}
-              options={plans.map((plan) => ({
-                label: plan.name,
-                value: plan.id,
-              }))}
-              isDeleting={deleting}
-            />
+            <CourseAccessForm initialData={course} />
           </div>
           <div className="space-y-6">
             <div>

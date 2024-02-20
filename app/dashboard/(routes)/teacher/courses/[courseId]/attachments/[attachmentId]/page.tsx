@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import AttachmentForm from "@/components/dashboard/teacher/courses/courseId/AttachmentForm";
 import { db } from "@/lib/db";
 import AttachmentTitleForm from "@/components/dashboard/teacher/courses/courseId/attachment/AttachmentTitle";
+import { AttachmentActions } from "@/components/dashboard/teacher/courses/courseId/attachment/AttachmentActions";
 
 export default async function AttachmentIdPage({
   params,
@@ -37,7 +38,14 @@ export default async function AttachmentIdPage({
             </Link>
             <div className="w-full">
               <div className="flex flex-col gap-y-2">
-                <h1 className="text-2xl font-medium">Attachment Setup</h1>
+                <div className="flex justify-between align-middle">
+                  <h1 className="text-2xl font-medium">Attachment Setup</h1>
+                  <AttachmentActions
+                    disabled={false}
+                    courseId={params.courseId}
+                    attachmentId={params.attachmentId}
+                  />
+                </div>
                 <span className="text-sm text-slate-700">
                   Complete all fields
                 </span>

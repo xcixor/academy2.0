@@ -2,13 +2,20 @@
 
 import { useState } from "react";
 import Dropzone from "react-dropzone";
-import { CheckCircle2, Cloud, FileIcon, StopCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  Cloud,
+  FileIcon,
+  Loader2,
+  StopCircle,
+} from "lucide-react";
 import { Progress } from "./ui/progress";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 // import { File } from "buffer";
 import { DropZoneVideoFileTypes } from "@/constants";
 import { cn } from "@/lib/utils";
+import { POST } from "@/app/api/clients/route";
 
 function checkFileType(fileType) {
   const videoFileTypes = Object.keys(DropZoneVideoFileTypes);
@@ -40,14 +47,56 @@ const UploadDropzone = ({
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [isProcessingFile, setIsProcessingFile] = useState<boolean>(false);
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [readable, setReadable] = useState(null);
 
   const startUpload = async function (acceptedFile: File) {
     let fileToUpload = acceptedFile;
-    try {
-      let contentType = acceptedFile.type;
+    // const customFileName = `${bucketFileDirectory}/thumbnails`;
+    // if (isVideo) {
+    //   try {
+    //     const formData = new FormData();
+    //     formData.append("file", fileToUpload);
+    //     formData.append("chapterId", assetId);
+    //     formData.append("videoFolder", customFileName);
+    //     setIsProcessingFile(true);
+    //     const response = await fetch("/api/gcp/asset/thumbnail", {
+    //       method: "PUT",
+    //       body: formData,
+    //     });
 
+    //     const data = await response.json();
+    //     if (response.status === 200) {
+    //       toast({
+    //         title: "Success",
+    //         description: "File processing success.",
+    //         variant: "default",
+    //         className: "bg-green-300 border-0",
+    //       });
+    //     } else {
+    //       toast({
+    //         variant: "destructive",
+    //         title: "Error",
+    //         description: data.message.toString(),
+    //       });
+    //     }
+    //   } catch (error) {
+    //     setIsError(true);
+    //     console.log(error, "#CLIENT ERROR");
+    //     toast({
+    //       variant: "destructive",
+    //       title: "Error",
+    //       description: "Something went wrong!",
+    //     });
+    //   } finally {
+    //     setIsProcessingFile(false);
+    //   }
+    // }
+    try {
+      setIsUploading(true);
+      let contentType = acceptedFile.type;
       const isReadableVideoFileType = checkFileType(contentType);
       if (isVideo) {
         if (!isReadableVideoFileType) {
@@ -91,6 +140,15 @@ const UploadDropzone = ({
 
       xhr.addEventListener("readystatechange", async function () {
         if (xhr.readyState === 4 && xhr.status == 200) {
+          if (isVideo) {
+            await fetch("/api/gcp/asset/thumbnail", {
+              method: "POST",
+              body: JSON.stringify({
+                videoFolder: `${bucketFileDirectory}/thumbnails`,
+                url: downloadUrl,
+              }),
+            });
+          }
           try {
             const response = await fetch("/api/gcp/asset", {
               method: "PUT",
@@ -144,8 +202,6 @@ const UploadDropzone = ({
       multiple={false}
       accept={acceptedFileTypes}
       onDrop={async (acceptedFile) => {
-        setIsUploading(true);
-
         // handle file uploading
         try {
           await startUpload(acceptedFile[0]);
@@ -221,6 +277,15 @@ const UploadDropzone = ({
                   <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
                     <StopCircle className="h-3 w-3 text-red-500" />
                   </div>
+                </div>
+              ) : null}
+
+              {isProcessingFile ? (
+                <div className="mx-auto mt-4 flex w-full max-w-xs justify-center align-middle">
+                  <p className="muted text-sm italic text-green-500">
+                    Processing file...
+                  </p>
+                  <Loader2 className="h-4 w-4 animate-spin text-green-500" />
                 </div>
               ) : null}
 

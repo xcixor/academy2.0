@@ -23,6 +23,8 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { IconBadge } from "@/components/IconBadge";
 import QuizList from "@/components/courses/courseId/quizzes/QuizList";
 import { getCourseOwner } from "@/actions/get-course-owner";
+import Attachment from "./attachment/Attachment";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 const ChapterIdPage = async ({
   params,
@@ -35,6 +37,8 @@ const ChapterIdPage = async ({
   if (!userId) {
     return redirect("/");
   }
+
+  const imageMetaData = await getLatestFileMetaData(params.courseId);
 
   const {
     chapter,
@@ -51,7 +55,7 @@ const ChapterIdPage = async ({
   });
 
   if (!chapter || !course) {
-    return redirect("/");
+    return redirect("/browse");
   }
   const isCourseOwner = await getCourseOwner(userId, params.courseId);
   const isLocked = !chapter.isFree && !purchase && !isCourseOwner;
@@ -71,6 +75,7 @@ const ChapterIdPage = async ({
       <div className="mx-auto flex flex-col items-center justify-center pb-20">
         <div className="w-full p-4">
           <VideoPlayer
+            posterUrl={imageMetaData?.downloadUrl || ""}
             chapterId={params.chapterId}
             title={chapter.title}
             courseId={params.courseId}
@@ -125,15 +130,10 @@ const ChapterIdPage = async ({
                 <AccordionContent>
                   <div className="p-4">
                     {attachments.map((attachment) => (
-                      <a
-                        href={attachment.gcpData.downloadUrl}
-                        target="_blank"
+                      <Attachment
                         key={attachment.id}
-                        className="flex w-full items-center rounded-md border bg-sky-200 p-3 text-sky-700 hover:underline"
-                      >
-                        <File />
-                        <p className="line-clamp-1">{attachment.name}</p>
-                      </a>
+                        attachmentId={attachment.id}
+                      />
                     ))}
                   </div>
                 </AccordionContent>

@@ -12,6 +12,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  env: {
+    FLUENTFFMPEG_COV: false,
+  },
 };
 
 module.exports = nextConfig;

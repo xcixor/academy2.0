@@ -70,15 +70,35 @@ export async function DELETE(
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const deletedCourse = await db.question.delete({
+    const deletedQuestion = await db.question.delete({
       where: {
         id: params.questionId,
       },
     });
 
-    return NextResponse.json(deletedCourse);
+    const quiz = await db.quiz.findUnique({
+      where: {
+        id: params.quizId,
+      },
+      include: {
+        questions: true,
+      }
+    });
+
+    if(quiz.questions.length === 0) {
+      await db.quiz.update({
+        where: {
+          id: params.quizId
+        },
+        data: {
+          isPublished: false
+        }
+      })
+    }
+
+    return NextResponse.json(deletedQuestion);
   } catch (error) {
-    console.log("[COURSE_ID_DELETE]", error);
+    console.log("[QUESTION_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

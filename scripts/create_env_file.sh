@@ -10,6 +10,7 @@ create_env_file() {
     echo "GS_BUCKET_URL=${GS_BUCKET_URL}" >> .env
     echo "GS_CREDENTIALS=${GS_CREDENTIALS}" >> .env
     echo "GS_BUCKET_NAME=${GS_BUCKET_NAME}" >> .env
+    echo "GS_PUBLIC_BUCKET_NAME=${GS_PUBLIC_BUCKET_NAME}" >> .env
     echo "GS_LOCATION=${GS_LOCATION}" >> .env
     echo "PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}" >> .env
     echo "PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}" >> .env

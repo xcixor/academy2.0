@@ -26,7 +26,6 @@ export default function ChapterVideoForm({
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-
   return (
     <div className="mt-6 rounded-md border bg-slate-100 p-4">
       <div className="flex items-center justify-between font-medium">
@@ -58,6 +57,8 @@ export default function ChapterVideoForm({
               title={initialData.title}
               url={fileMetaData.downloadUrl}
               onEnded={null}
+              thumbnailsFileUrl={initialData.vttFileUrl}
+              posterUrl={""}
             />
           </div>
         ))}

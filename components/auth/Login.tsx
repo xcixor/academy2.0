@@ -126,7 +126,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
           &nbsp;to sign up
         </p>
       </div>
-      <div className="flex flex-col items-center">
+      {/* <div className="flex flex-col items-center">
         <p className="text-primary">Or login with your socials</p>
         <div className="flex gap-4 p-2">
           <Button variant="ghost" className="bg-secondary">
@@ -144,7 +144,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
             />
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

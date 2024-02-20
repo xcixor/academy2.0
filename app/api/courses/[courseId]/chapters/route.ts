@@ -43,6 +43,7 @@ export async function POST(
         title,
         courseId: params.courseId,
         position: newPosition,
+        isFree: courseOwner.isFree,
       },
     });
 

@@ -15,14 +15,23 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { toast } from "@/components/ui/use-toast";
 
 type Props = {
   clientID: string;
   clientToken: string;
   courseId: string;
+  courseTitle: string;
+  courseDescription: string;
 };
 
-export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
+export const PaymentForm = ({
+  clientID,
+  clientToken,
+  courseId,
+  courseTitle,
+  courseDescription,
+}: Props) => {
   const [loader, showLoader] = useState(false);
   const [success, showSuccess] = useState(false);
   const [error, showErrorMsg] = useState(false);
@@ -31,10 +40,20 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
+    if (errorMsg && Object.keys(errorMsg).length > 0) {
+      const description = errorMsg.details[0].description;
+
+      toast({
+        title: "Error",
+        description: description,
+        variant: "destructive",
+        className: "bg-red-500 border-0",
+      });
+    }
     if (success) {
       router.push(`/courses/${courseId}/`);
     }
-  }, [courseId, router, success]);
+  }, [courseId, errorMsg, router, success]);
 
   const SubmitPayment = () => {
     // Here declare the variable containing the hostedField instance
@@ -109,16 +128,12 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
               <ArrowLeft /> Back to course
             </Link>
             <h1 className="py-4 text-2xl font-semibold text-pes-red">
-              Course Title
+              {courseTitle}
             </h1>
             <p className="text-3xl font-bold text-pes-red">
               {formatPrice(2500)}
             </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-              itaque perspiciatis, quis vitae atque amet? Asperiores quam
-              temporibus modi explicabo.
-            </p>
+            <p>{courseDescription}</p>
             <div className="mt-6 flex w-full items-center gap-4 text-pes-red">
               <p>&copy; private capital support</p>
               <Link href="#">Terms</Link>
@@ -246,12 +261,6 @@ export const PaymentForm = ({ clientID, clientToken, courseId }: Props) => {
                     </Button>
                   )}
                   {!loader && <SubmitPayment />}
-
-                  {error && (
-                    <p className="text-red-500">
-                      Sorry, there is an error {JSON.stringify(errorMsg)}
-                    </p>
-                  )}
                 </div>
               </section>
             </PayPalHostedFieldsProvider>

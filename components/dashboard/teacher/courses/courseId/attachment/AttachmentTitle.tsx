@@ -50,7 +50,10 @@ export default function AttachmentTitleForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${initialData.courseId}/attachments/${initialData.id}`, values);
+      await axios.patch(
+        `/api/courses/${initialData.courseId}/attachments/${initialData.id}`,
+        values,
+      );
       toast.success("Course updated");
       toggleEdit();
       router.refresh();
@@ -62,7 +65,7 @@ export default function AttachmentTitleForm({
   return (
     <div className="mt-6 rounded-md border bg-slate-100 p-4">
       <div className="flex items-center justify-between font-medium">
-        Course title
+        Attachment title
         {isDeleting ? (
           <Ban className="h-4 w-4" />
         ) : (

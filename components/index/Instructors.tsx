@@ -2,29 +2,21 @@ import Image from "next/image";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { db } from "@/lib/db";
+import { Role } from "@prisma/client";
 
-const instructors = [
-  {
-    id: "434kdfg943",
-    name: "Coach Name",
-    jobTitle: "Job Title",
-    imageUrl: "/index/female_student.jpg",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ex numquam quis hic ratione vero laborum doloribus non ullam dolores. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam eius itaque rem aliquid at abovelit doloribus laborum accusantium esse.",
-  },
-  {
-    id: "434kdfg943",
-    name: "Coach Name",
-    jobTitle: "Job Title",
-    imageUrl: "/index/male_student.jpg",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ex numquam quis hic ratione vero laborum doloribus non ullam dolores. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam eius itaque rem aliquid at abovelit doloribus laborum accusantium esse.",
-  },
-];
-
-const Instructors = () => {
+const Instructors = async () => {
+  const instructors = await db.user.findMany({
+    where: {
+      role: Role.COACH,
+    },
+    include: {
+      profile: true,
+    },
+  });
   return (
     <section className="bg-secondary py-32">
-      <MaxWidthWrapper>
-        <h2 className="my-8 text-center text-5xl font-semibold text-pes-red" data-scroll data-scroll-speed="0.05">Our Coaches</h2>
+      <MaxWidthWrapper><h2 className="my-8 text-center text-5xl font-semibold text-pes-red" data-scroll data-scroll-speed="0.05">Our Coaches</h2>
         <div className="grid-cols-1 gap-4 md:grid md:grid-cols-2">
           {instructors.map((instructor) => (
             <Link key={instructor.id} href={`/instructor/${"instructor.id"}`}>
@@ -34,17 +26,20 @@ const Instructors = () => {
                     <div className="space-y-8 p-8 ">
                       <div className="relative">
                         <h3 className="text-2xl font-semibold text-pes-red">
-                          {instructor.name}
+                          {instructor.profile.firstName}&nbsp;
+                          {instructor.profile.lastName}
                         </h3>
                         <h4 className="text-lg font-semibold text-pes-blue">
-                          {instructor.jobTitle}
+                          {instructor.profile.jobTitle || "No title available"}
                         </h4>
                       </div>
-                      <p className="line-clamp-3 text-pes-blue">{instructor.bio}</p>
+                      <p className="line-clamp-3 text-pes-blue">
+                        {instructor.profile.bio || "No bio available"}
+                      </p>
                       <Link
                         key={instructor.id}
-                        href={`/instructor/${"instructor.id"}`}
-                        className="flex items-center text-pes-red"
+                        href={`/instructor/${instructor.id}`}
+                        className="flex items-center"
                       >
                         More
                         <ChevronRight className="h-4 w-4" />
@@ -53,8 +48,8 @@ const Instructors = () => {
                   </div>
                 </div>
                 <Image
-                  src={instructor.imageUrl}
-                  alt="Male Student"
+                  src={instructor.image || "/index/male_student.jpg"}
+                  alt={instructor.profile.firstName}
                   height={200}
                   width={200}
                   className="h-auto w-full basis-1/3 rounded-sm"

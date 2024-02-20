@@ -17,6 +17,7 @@ interface VideoPlayerProps {
   isLocked: boolean;
   completeOnEnd: boolean;
   title: string;
+  posterUrl: string;
 }
 
 export const VideoPlayer = ({
@@ -27,6 +28,7 @@ export const VideoPlayer = ({
   isLocked,
   completeOnEnd,
   title,
+  posterUrl,
 }: VideoPlayerProps) => {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
@@ -71,7 +73,14 @@ export const VideoPlayer = ({
           <p className="text-sm">This chapter is locked</p>
         </div>
       )}
-      {!isLocked && <Player title={title} url={videoUrl} onEnded={onEnd} />}
+      {!isLocked && (
+        <Player
+          title={title}
+          url={videoUrl}
+          onEnded={onEnd}
+          posterUrl={posterUrl}
+        />
+      )}
     </div>
   );
 };
