@@ -9,13 +9,13 @@ import { signIn } from "next-auth/react";
 const CTA = () => {
   return (
     <section className="bg-secondary py-32">
-      <MaxWidthWrapper className="flex">
+      <MaxWidthWrapper className="flex p-4">
         <div className="basis-1/2">
-          <h2 className="text-2xl  uppercase text-red-800">
+          <h2 className="text-3xl  uppercase text-pes-red mb-6">
             Are you ready to start learning?
           </h2>
           <p>
-          Join us on this transformative educational experience where expertise meets innovation.
+            Join us on this transformative educational experience where expertise meets innovation.
           </p>
         </div>
         <div className="flex basis-1/2 items-center justify-center">
@@ -24,7 +24,7 @@ const CTA = () => {
               onClick={() => signIn()}
               size="sm"
               variant="secondary"
-              className="h-auto bg-red-800 py-2 text-white"
+              className="h-auto bg-pes-red py-2 text-white hover:bg-pes-blue shadow"
             >
               Start Now!
             </Button>

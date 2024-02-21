@@ -48,9 +48,9 @@ const page = async ({ params }: { params: { userId: string } }) => {
           </h2>
           <Link
             href={instructor.profile.linkedIn || "#"}
-            className="flex items-center hover:text-zinc-600"
+            className="flex items-center hover:text-pes-red"
           >
-            <LinkedinIcon className="me-4 h-4 w-4 text-blue-500" />
+            <LinkedinIcon className="me-4 h-4 w-4 text-pes-blue" />
             LinkedIn Profile
             <ChevronRight className="h-4 w-4" />
           </Link>

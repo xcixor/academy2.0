@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 const Signup = () => {
   const router = useRouter();
@@ -131,6 +133,28 @@ const Signup = () => {
             </FormItem>
           )}
         />
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <FormControl>
+            <Checkbox />
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            <FormDescription>
+              I agree to the
+              <Link
+                href="/terms-and-conditions"
+                className="font-semibold text-pes-blue hover:text-pes-red"
+              > &nbsp;Terms &nbsp;
+              </Link> 
+              and
+              <Link
+                href="/privacy-policy"
+                className="font-semibold text-pes-blue hover:text-pes-red"
+              >
+                &nbsp;Privacy Policy.
+              </Link>
+            </FormDescription>
+          </div>
+        </FormItem>
         <Button
           type="submit"
           variant="secondary"

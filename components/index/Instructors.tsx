@@ -16,10 +16,7 @@ const Instructors = async () => {
   });
   return (
     <section className="bg-secondary py-32">
-      <MaxWidthWrapper>
-        <h2 className="my-8 text-center text-3xl font-semibold text-red-800">
-          Our Coaches
-        </h2>
+      <MaxWidthWrapper><h2 className="my-8 text-center text-5xl font-semibold text-pes-red" data-scroll data-scroll-speed="0.05">Our Coaches</h2>
         <div className="grid-cols-1 gap-4 md:grid md:grid-cols-2">
           {instructors.map((instructor) => (
             <Link key={instructor.id} href={`/instructor/${"instructor.id"}`}>
@@ -28,15 +25,15 @@ const Instructors = async () => {
                   <div className="flex">
                     <div className="space-y-8 p-8 ">
                       <div className="relative">
-                        <h3 className="text-2xl font-semibold ">
+                        <h3 className="text-2xl font-semibold text-pes-red">
                           {instructor.profile.firstName}&nbsp;
                           {instructor.profile.lastName}
                         </h3>
-                        <h4 className="text-lg font-semibold text-zinc-500">
+                        <h4 className="text-lg font-semibold text-pes-blue">
                           {instructor.profile.jobTitle || "No title available"}
                         </h4>
                       </div>
-                      <p className="line-clamp-3">
+                      <p className="line-clamp-3 text-pes-blue">
                         {instructor.profile.bio || "No bio available"}
                       </p>
                       <Link
