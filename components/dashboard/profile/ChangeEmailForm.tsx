@@ -82,7 +82,7 @@ const ChangeEmailForm = ({ userId, initialData }: FormProps) => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col justify-start rounded-md border bg-blue-100 p-4">
+    <div className="flex h-full w-full flex-col justify-start rounded-md border bg-pes-light-blue p-4">
       <div className="flex items-center justify-between font-medium">
         Email
         <Button onClick={toggleEdit} variant="ghost">

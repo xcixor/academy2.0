@@ -127,14 +127,14 @@ export const PaymentForm = ({
             >
               <ArrowLeft /> Back to course
             </Link>
-            <h1 className="py-4 text-2xl font-semibold text-red-800">
+            <h1 className="py-4 text-2xl font-semibold text-pes-red">
               {courseTitle}
             </h1>
-            <p className="text-3xl font-bold text-red-800">
+            <p className="text-3xl font-bold text-pes-red">
               {formatPrice(2500)}
             </p>
             <p>{courseDescription}</p>
-            <div className="mt-6 flex w-full items-center gap-4 text-red-800">
+            <div className="mt-6 flex w-full items-center gap-4 text-pes-red">
               <p>&copy; private capital support</p>
               <Link href="#">Terms</Link>
               <Link href="#">Privacy</Link>

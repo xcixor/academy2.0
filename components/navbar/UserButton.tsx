@@ -58,7 +58,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             <LogIn className="mr-2 h-4 w-4" /> LogIn
           </Button>
           <Link href="/auth/signup">
-            <p className="cursor-pointer text-blue-500 hover:text-blue-800">
+            <p className="cursor-pointer text-pes-blue hover:text-pes-red">
               Signup
             </p>
           </Link>

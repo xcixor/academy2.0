@@ -12,7 +12,7 @@ const UserComponent = ({ user }: Props) => {
     <div className="space-y-4 p-6">
       <div className="flex items-center gap-2">
         <h1 className="text-2xl font-bold">Manage User</h1>
-        <Settings className="text-blue-400" />
+        <Settings className="text-pes-blue" />
       </div>
       <div className="space-y-2 md:w-1/2">
         <div className="rounded-md bg-slate-100 p-4">
