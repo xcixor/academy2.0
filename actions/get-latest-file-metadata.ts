@@ -30,7 +30,7 @@ export async function getLatestFileMetaData(assetId: string) {
       currentDate.getDate() + 2,
     ); // Calculate 2 days from now
 
-    if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
+    // if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
       console.log("The target date is 2 days or less from today's date.");
       const uploader = new FileUploader(
         metaData.blobName,
@@ -51,7 +51,7 @@ export async function getLatestFileMetaData(assetId: string) {
         });
         return updatedStorageMetaData;
       }
-    }
+    // }
   }
 
   return metaData;
