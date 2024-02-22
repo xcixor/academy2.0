@@ -1,5 +1,6 @@
+'use client';
+import { useEffect } from 'react';
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SessionProvider from "@/providers/SessionProvider";
 import ToastProvider from "@/components/providers/ToastProvider";
@@ -8,19 +9,23 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: {
-    default: "PES Academy",
-    template: `%s | PES Academy`
-  },
-  description: "Join us on a transformative journey at PES Academy, where innovation meets education, developing the leaders of tomorrow's successful enterprises.",
-};
+
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  useEffect(() => {
+    (
+      async () => {
+        const LocomotiveScroll = (await import('locomotive-scroll')).default
+        const locomotiveScroll = new LocomotiveScroll();
+      }
+    )()
+  }, [])
+
   return (
     <SessionProvider>
       <html lang="en">

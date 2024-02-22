@@ -17,8 +17,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex basis-1/2 flex-col items-center justify-center gap-4 bg-sky-50">
           <Logo />
           <div className="flex items-center gap-2">
-            <UserCog2 className="h-8 w-8" />
-            <h1 className="text-2xl font-bold">Signup</h1>
+            <UserCog2 className="h-8 w-8 text-pes-red" />
+            <h1 className="text-2xl font-bold text-pes-red">Signup</h1>
           </div>
           <p className="text-center">
             Join hundreds of students taking their business <br /> knowledge to

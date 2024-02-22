@@ -21,12 +21,12 @@ const Notifications = ({ userId }: Props) => {
     !unReadNotifications
   ) {
     return (
-      <Bell className="cursor-pointer text-blue-500 hover:text-blue-800" />
+      <Bell className="cursor-pointer text-pes-blue hover:text-pes-red" />
     );
   }
   if (unReadNotifications && unReadNotifications.length > 0) {
     return (
-      <BellDot className="cursor-pointer text-blue-500 hover:text-blue-800" />
+      <BellDot className="cursor-pointer text-pes-blue hover:text-pes-red" />
     );
   }
 };
