@@ -7,7 +7,7 @@ interface CoursesListProps {
 
 export default async function CoursesList({ items }: CoursesListProps) {
   return (
-    <div>
+    <div className="bg-secondary">
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
         {items.map((item) => (
           <CourseCard
@@ -22,7 +22,7 @@ export default async function CoursesList({ items }: CoursesListProps) {
         ))}
       </div>
       {items.length === 0 && (
-        <div className="mt-10 text-center text-sm text-muted-foreground">
+        <div className="mt-10 text-center text-sm text-muted-foreground bg-secondary">
           No courses found
         </div>
       )}

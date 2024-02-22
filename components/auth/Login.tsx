@@ -58,13 +58,13 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
   }
   return (
     <div className="">
-      <h1 className="my-4 text-2xl font-bold text-primary">Login</h1>
+      <h1 className="my-4 text-2xl font-bold text-pes-red">Login</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {!!error && (
             <div className="flex items-center gap-4">
-              <Info className="h-4 w-4 font-bold text-red-500" />
-              <p className="font-bold text-red-500">
+              <Info className="h-4 w-4 font-bold text-pes-red" />
+              <p className="font-bold text-pes-red">
                 Invalid email password combination
               </p>
             </div>
@@ -99,7 +99,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
             type="submit"
             disabled={!isValid || isSubmitting}
             variant="secondary"
-            className="bg-tertiary font-semibold text-primary"
+            className="bg-pes-blue font-semibold text-white hover:bg-pes-red"
           >
             Login
           </Button>
@@ -110,16 +110,16 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
         <p className="text-primary">
           <Link
             href="/auth/send-reset-password-link"
-            className="font-semibold text-[#1676f9] hover:text-[#2362ba]"
+            className="font-semibold text-pes-blue hover:text-pes-red"
           >
             Forgot your password?
           </Link>
         </p>
-        <p className="text-primary">
+        <p className="text-pes-blue">
           If you don&apos;t have an account &nbsp;
           <Link
             href="/auth/signup"
-            className="font-semibold text-[#1676f9] hover:text-[#1676f9]"
+            className="font-semibold text-pes-blue hover:text-pes-red"
           >
             click here
           </Link>

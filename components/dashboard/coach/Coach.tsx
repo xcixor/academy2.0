@@ -52,7 +52,7 @@ const Coach = ({ coach, myCoaches }: Props) => {
         </p>
         <Link
           href={`/instructor/${coach.id}`}
-          className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"
+          className="flex items-center gap-2 text-sm text-pes-blue hover:text-pes-red"
         >
           About
           <ExternalLink className="h-3 w-3" />

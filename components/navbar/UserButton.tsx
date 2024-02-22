@@ -54,11 +54,11 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
         </DropdownMenu>
       ) : (
         <>
-          <Button size="sm" variant="default" onClick={() => signIn()}>
+          <Button className="hover:bg-pes-red" size="sm" variant="default" onClick={() => signIn()}>
             <LogIn className="mr-2 h-4 w-4" /> LogIn
           </Button>
           <Link href="/auth/signup">
-            <p className="cursor-pointer text-blue-500 hover:text-blue-800">
+            <p className="cursor-pointer relative block w-fit after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:bg-pes-red after:transition after:duration-300 after:content-[''] hover:text-pes-red after:hover:scale-x-100">
               Signup
             </p>
           </Link>

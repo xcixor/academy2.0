@@ -78,7 +78,7 @@ const PasswordResetLinkEmailForm = () => {
   }
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <h1 className="my-4 text-2xl font-bold text-primary">
+      <h1 className="my-4 text-2xl font-bold text-pes-red">
         Reset Your Password
       </h1>
       <p className="mb-4 font-semibold text-primary">
@@ -89,8 +89,8 @@ const PasswordResetLinkEmailForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {!!error && (
             <div className="flex items-center gap-4">
-              <Info className="h-4 w-4 font-bold text-red-500" />
-              <p className="font-bold text-red-500">{error}</p>
+              <Info className="h-4 w-4 font-bold text-pes-red" />
+              <p className="font-bold text-pes-red">{error}</p>
             </div>
           )}
           <FormField
@@ -110,7 +110,7 @@ const PasswordResetLinkEmailForm = () => {
             type="submit"
             disabled={!isValid || isSubmitting}
             variant="secondary"
-            className="bg-[#041631] text-white"
+            className="bg-pes-blue text-white hover:bg-pes-red"
           >
             {isSubmitting ? (
               <Loader2 className="h-4 w-4 animate-spin" />
