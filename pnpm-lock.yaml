@@ -14,6 +14,9 @@ dependencies:
   '@google-cloud/storage':
     specifier: ^7.6.0
     version: 7.7.0
+  '@gsap/react':
+    specifier: ^2.1.0
+    version: 2.1.0
   '@hello-pangea/dnd':
     specifier: ^16.3.0
     version: 16.5.0(@types/react-dom@18.2.18)(@types/react@18.2.52)(react-dom@18.2.0)(react@18.2.0)
@@ -125,6 +128,12 @@ dependencies:
   fluent-ffmpeg:
     specifier: ^2.1.2
     version: 2.1.2
+  gsap:
+    specifier: ^3.12.5
+    version: 3.12.5
+  locomotive-scroll:
+    specifier: ^5.0.0-beta.11
+    version: 5.0.0-beta.11
   lucide-react:
     specifier: ^0.286.0
     version: 0.286.0(react@18.2.0)
@@ -410,6 +419,13 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@gsap/react@2.1.0:
+    resolution: {integrity: sha512-pwdFXvOM5IsRZXpWTKkQoEjb3/iUjDCU1BCJDlE6pHgVjG+7Ep/7+sszUgqVZ2Jc0mR8gnhtDWyx5cQAT4kwQw==}
+    dependencies:
+      gsap: 3.12.5
+      react: 18.2.0
     dev: false
 
   /@hello-pangea/dnd@16.5.0(@types/react-dom@18.2.18)(@types/react@18.2.52)(react-dom@18.2.0)(react@18.2.0):
@@ -1949,6 +1965,10 @@ packages:
 
   /@rushstack/eslint-patch@1.7.2:
     resolution: {integrity: sha512-RbhOOTCNoCrbfkRyoXODZp75MlpiHMgbE5MEBZAnnnLyQNgrigEj4p0lzsMDyc1zVsJDLrivB58tgg3emX0eEA==}
+    dev: false
+
+  /@studio-freight/lenis@1.0.29:
+    resolution: {integrity: sha512-z/qS8ato5m2wlxQREYj5iALcxMrhhm06vEiLqYzLI+3HmpPzPscmJ8cXNiay4bj692vOot2hyTA3WP++AQVoKA==}
     dev: false
 
   /@swc/helpers@0.5.2:
@@ -3802,6 +3822,10 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: false
 
+  /gsap@3.12.5:
+    resolution: {integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==}
+    dev: false
+
   /gtoken@7.1.0:
     resolution: {integrity: sha512-pCcEwRi+TKpMlxAQObHDQ56KawURgyAf6jtIY046fJ5tIv3zDe/LEIubckAO8fj6JnAxLdmWkUfNyulQ2iKdEw==}
     engines: {node: '>=14.0.0'}
@@ -4283,6 +4307,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: 5.0.0
+    dev: false
+
+  /locomotive-scroll@5.0.0-beta.11:
+    resolution: {integrity: sha512-FQm0Yjk9X+euXmiaKVRVQNw/WuQXoTBp9eqPyZqsXDSwuiedaoJzzC0SGBM9CZRJ4tKaCHGa3pfp6CFgPyEq6Q==}
+    engines: {node: '>=17'}
+    dependencies:
+      '@studio-freight/lenis': 1.0.29
     dev: false
 
   /lodash.merge@4.6.2:
