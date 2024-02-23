@@ -12,7 +12,7 @@ import ConfirmClient from "./ConfirmClient";
 type Props = {
   client: ClientCoach;
 };
-
+export const dynamic = "force-dynamic";
 const Client = async ({ client }: Props) => {
   const clientProfile = await db.user.findUnique({
     where: { id: client.clientId },
