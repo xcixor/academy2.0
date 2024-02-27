@@ -141,13 +141,13 @@ const Signup = () => {
             <FormDescription>
               I agree to the
               <Link
-                href="/terms-and-conditions"
+                href="/terms"
                 className="font-semibold text-pes-blue hover:text-pes-red"
               > &nbsp;Terms &nbsp;
               </Link> 
               and
               <Link
-                href="/privacy-policy"
+                href="/privacy"
                 className="font-semibold text-pes-blue hover:text-pes-red"
               >
                 &nbsp;Privacy Policy.
