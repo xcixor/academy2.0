@@ -23,7 +23,7 @@ const Footer = () => {
         <div className="grid grid-cols-2 gap-10 mb-3 md:grid-cols-3 lg:grid-cols-12 lg:gap-20">
           <div className="col-span-3">
             <Image
-              src="/../images/pes-academy-logo-white.png"
+              src="/images/pes-academy-logo-white.png"
               height={80}
               width={100}
               alt="PES Logo"

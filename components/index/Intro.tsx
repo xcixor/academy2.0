@@ -33,7 +33,7 @@ export default function Index() {
     <div className="relative w-full flex justify-center pb-80">
       <div className="absolute w-full h-[100vh] md:h-[100vh] filter brightness-75 sm:h-[100vh]" ref={background}>
         <Image
-          src={'/../images/background.jpg'}
+          src={'/images/background.jpg'}
           fill={true}
           style={{ objectFit: "cover" }}
           alt="PES Academy background image"
@@ -43,7 +43,7 @@ export default function Index() {
       <div className="flex justify-center relative mt-[35vh] sm:mt-[20vh]">
         <div ref={introImage} data-scroll data-scroll-speed="0.3" className="filter brightness-70 max-w-full w-[200px] h-[220px] md:w-[500px] md:h-[475px] absolute sm:mt-[-160px]">
           <Image className='mt-[-100px] md:mt-[50px] lg:mt-[160px]'
-            src={'/../images/PES-Academy-logo.png'}
+            src={'/images/PES-Academy-logo.png'}
             alt="PES Academy Logo"
             fill={true}
             priority={true}
