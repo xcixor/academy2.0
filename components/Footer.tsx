@@ -119,7 +119,7 @@ const Footer = () => {
               <li>
                 <Link
                   className="relative block w-fit after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:bg-pes-red after:transition after:duration-300 after:content-[''] hover:text-pes-light-blue after:hover:scale-x-100"
-                  href="#"
+                  href="/privacy"
                 >
                   Privacy
                 </Link>
