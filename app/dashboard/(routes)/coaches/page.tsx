@@ -18,9 +18,9 @@ const page = async () => {
   });
 
   return (
-    <div className="grid-cols-3 p-6 md:grid">
+    <div className="grid-cols-3 gap-4 p-6 md:grid">
       {coaches.map((coach) => (
-        <div key={coach.id} className="">
+        <div key={coach.id}>
           <Coach coach={coach} myCoaches={myCoaches} />
         </div>
       ))}
