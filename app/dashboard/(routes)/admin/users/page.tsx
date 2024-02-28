@@ -15,6 +15,11 @@ const page = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    where: {
+      NOT: {
+        id: userId,
+      },
+    },
   });
 
   return (
