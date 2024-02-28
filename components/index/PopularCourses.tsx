@@ -33,6 +33,7 @@ const PopularCourses = async () => {
               progress={item.progress}
               category={item?.category?.name}
               price={item.price}
+              isFree={item.isFree}
             />
           ))}
         </div>

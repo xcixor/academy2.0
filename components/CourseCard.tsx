@@ -6,6 +6,7 @@ import { IconBadge } from "@/components/IconBadge";
 import { formatPrice } from "@/lib/format";
 import { CourseProgress } from "./CourseProgress";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
+import { Badge } from "@/components/ui/badge";
 
 interface CourseCardProps {
   id: string;
@@ -14,6 +15,7 @@ interface CourseCardProps {
   price: number;
   progress?: number | null;
   category: string;
+  isFree: boolean;
 }
 
 export default async function CourseCard({
@@ -23,6 +25,7 @@ export default async function CourseCard({
   price,
   progress,
   category,
+  isFree,
 }: CourseCardProps) {
   const imageMetaData = await getLatestFileMetaData(id);
 
@@ -43,11 +46,15 @@ export default async function CourseCard({
           </div>
           <p className="text-xs text-muted-foreground">{category}</p>
           <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
-            <div className="flex items-center gap-x-1 text-slate-500">
-              <IconBadge size="sm" icon={BookOpen} />
-              <span>
-                {chaptersLength} {chaptersLength === 1 ? "Chapter" : "Chapters"}
-              </span>
+            <div className="space-y-2">
+              <div className="flex items-center gap-x-1 text-slate-500">
+                <IconBadge size="sm" icon={BookOpen} />
+                <span>
+                  {chaptersLength}{" "}
+                  {chaptersLength === 1 ? "Chapter" : "Chapters"}
+                </span>
+              </div>
+              {isFree && <Badge>Free</Badge>}
             </div>
           </div>
           {progress && progress !== null ? (
@@ -58,7 +65,7 @@ export default async function CourseCard({
             />
           ) : (
             <p className="text-md font-medium text-slate-700 md:text-sm">
-              {formatPrice(price)}
+              {!isFree && formatPrice(price)}
             </p>
           )}
         </div>
