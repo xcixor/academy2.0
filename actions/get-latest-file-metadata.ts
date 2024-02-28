@@ -30,7 +30,7 @@ export async function getLatestFileMetaData(assetId: string) {
       currentDate.getDate() + 2,
     ); // Calculate 2 days from now
 
-    // if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
+    if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
       console.log("The target date is 2 days or less from today's date.");
       const uploader = new FileUploader(
         metaData.blobName,
@@ -49,9 +49,16 @@ export async function getLatestFileMetaData(assetId: string) {
             urlExpiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           },
         });
-        return updatedStorageMetaData;
+        // Set cache-control headers to prevent caching
+        return {
+          ...updatedStorageMetaData,
+          headers: {
+            "Cache-Control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+        };
       }
-    // }
+    }
   }
 
   return metaData;
