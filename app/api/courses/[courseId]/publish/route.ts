@@ -42,6 +42,14 @@ export async function PATCH(
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
+    const hasChaptersForSale = course.chapters.some(
+      (chapter) => !chapter.isFree && chapter.isPublished,
+    );
+    let isFree = false;
+    if (!hasChaptersForSale) {
+      isFree = true;
+    }
+
     const publishedCourse = await db.course.update({
       where: {
         id: params.courseId,
@@ -49,6 +57,7 @@ export async function PATCH(
       },
       data: {
         isPublished: true,
+        isFree,
       },
     });
 
