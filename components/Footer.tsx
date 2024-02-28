@@ -137,7 +137,7 @@ const Footer = () => {
           <div className="col-span-3">
             <p className="mb-3 text-xs font-semibold tracking-wider  uppercase">SUBSCRIBE TO OUR NEWSLETTER</p>
             <form className="mb-2">
-              <div className="relative flex items-center overflow-hidden border border-gray-200 rounded-lg">
+              <div className=" flex items-center overflow-hidden border border-gray-200 rounded-lg">
                 <Input className="w-full px-3 py-2 text-base leading-normal transition duration-150 ease-in-out bg-white text-pes-blue appearance-none focus:outline-none" type="email" placeholder="Enter your email" />
                 <Button className="px-3 py-2 text-xs font-medium text-center text-white no-underline bg-pes-red border-2 border-pes-red hover:bg-pes-blue" type="submit">Subscribe</Button>
               </div>

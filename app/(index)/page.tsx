@@ -6,6 +6,7 @@ import PopularCourses from "@/components/index/PopularCourses";
 import Stats from "@/components/index/Stats";
 import Intro from "@/components/index/Intro"
 import Description from "@/components/index/Description"
+import CookieConsent from "@/components/index/CookieConsent";
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ export default function Index() {
         <Stats />
         <ComingSoon />
         <CTA />
+        <CookieConsent />
       </main>
     </div>
   );
