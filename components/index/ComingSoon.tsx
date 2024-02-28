@@ -6,13 +6,20 @@ import { getComingSoonCourses } from "@/actions/get-coming-soon-courses";
 import { CourseWithProgressWithCategory } from "@/@types/db";
 
 const ComingSoon = async () => {
-  const items =
+  let items =
     (await getComingSoonCourses()) as CourseWithProgressWithCategory[];
+  items = items.slice(0, 4);
 
   return (
     <MaxWidthWrapper className="py-32">
       <div className="flex items-center justify-between">
-        <h2 className="text-center text-5xl font-semibold text-pes-red mb-10" data-scroll data-scroll-speed="0.05">Coming Soon</h2>
+        <h2
+          className="mb-10 text-center text-5xl font-semibold text-pes-red"
+          data-scroll
+          data-scroll-speed="0.05"
+        >
+          Coming Soon
+        </h2>
         <Link href="/browse" className="flex items-center text-pes-red">
           More <ChevronRight className="h-6 w-6" />
         </Link>
@@ -27,6 +34,7 @@ const ComingSoon = async () => {
             progress={item.progress}
             category={item?.category?.name}
             price={item.price}
+            isFree={item.isFree}
           />
         ))}
       </div>

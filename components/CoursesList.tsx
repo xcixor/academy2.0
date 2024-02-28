@@ -18,11 +18,12 @@ export default async function CoursesList({ items }: CoursesListProps) {
             progress={item.progress}
             category={item?.category?.name}
             price={item.price}
+            isFree={item.isFree}
           />
         ))}
       </div>
       {items.length === 0 && (
-        <div className="mt-10 text-center text-sm text-muted-foreground bg-secondary">
+        <div className="mt-10 bg-secondary text-center text-sm text-muted-foreground">
           No courses found
         </div>
       )}

@@ -4,18 +4,18 @@ import ComingSoon from "@/components/index/ComingSoon";
 import Instructors from "@/components/index/Instructors";
 import PopularCourses from "@/components/index/PopularCourses";
 import Stats from "@/components/index/Stats";
-import Intro from "@/components/index/Intro"
-import Description from "@/components/index/Description"
+import CarouselWrapper from "@/components/index/CarouselWrapper";
 import CookieConsent from "@/components/index/CookieConsent";
 
 export const metadata: Metadata = {
   title: {
     default: "PES Academy",
-    template: `%s | PES Academy`
+    template: `%s | PES Academy`,
   },
-  description: "PES Academy: Nurturing leaders in private equity. Explore courses, learn from industry experts, and elevate your business acumen. Join us in shaping the future!",
+  description:
+    "PES Academy: Nurturing leaders in private equity. Explore courses, learn from industry experts, and elevate your business acumen. Join us in shaping the future!",
   alternates: {
-    canonical: '/',
+    canonical: "/",
   },
 };
 
@@ -23,8 +23,7 @@ export default function Index() {
   return (
     <div>
       <main className=" flex flex-col ">
-        <Intro />
-        <Description />
+        <CarouselWrapper />
         <PopularCourses />
         <Instructors />
         <Stats />

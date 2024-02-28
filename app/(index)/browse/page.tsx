@@ -17,9 +17,10 @@ interface SearchPageProps {
 
 export const metadata: Metadata = {
   title: "Browse Courses",
-  description: "Explore, Learn, Succeed. Discover transformative courses at PES Academy – Shaping the Future of Private Equity Education.",
+  description:
+    "Explore, Learn, Succeed. Discover transformative courses at PES Academy – Shaping the Future of Private Equity Education.",
   alternates: {
-    canonical: 'https://academy.privateequity-support.com/browse',
+    canonical: "https://academy.privateequity-support.com/browse",
   },
 };
 
@@ -35,15 +36,10 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
   })) as CourseWithProgressWithCategory[];
 
   return (
-    <>
-      {/* <div className="hidden flex-1 md:mx-12 md:block">
-        <SearchInput />
-      </div> */}
-      <div className="space-y-4 p-6">
-        <Categories items={categories} />
-        <CoursesList items={items} />
-      </div>
-    </>
+    <div className="space-y-4 p-6">
+      <Categories items={categories} />
+      <CoursesList items={items} />
+    </div>
   );
 };
 

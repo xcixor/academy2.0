@@ -6,12 +6,17 @@ import { getPopularCourses } from "@/actions/get-popular-courses";
 import { CourseWithProgressWithCategory } from "@/@types/db";
 
 const PopularCourses = async () => {
-  const items = (await getPopularCourses()) as CourseWithProgressWithCategory[];
+  let items = (await getPopularCourses()) as CourseWithProgressWithCategory[];
+  items = items.slice(0, 4);
   return (
     <section className="py-32">
       <MaxWidthWrapper>
         <div className="flex items-center justify-between">
-          <h2 className="text-center text-5xl font-semibold text-pes-red mb-10" data-scroll data-scroll-speed="0.05">
+          <h2
+            className="mb-10 text-center text-5xl font-semibold text-pes-red"
+            data-scroll
+            data-scroll-speed="0.05"
+          >
             Popular Courses
           </h2>
           <Link href="/browse" className="flex items-center text-pes-red">
@@ -28,6 +33,7 @@ const PopularCourses = async () => {
               progress={item.progress}
               category={item?.category?.name}
               price={item.price}
+              isFree={item.isFree}
             />
           ))}
         </div>
