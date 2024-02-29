@@ -46,8 +46,6 @@ const Signup = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     const res = await fetch("/api/users", {
       method: "POST",
       headers: {
@@ -143,8 +141,10 @@ const Signup = () => {
               <Link
                 href="/terms"
                 className="font-semibold text-pes-blue hover:text-pes-red"
-              > &nbsp;Terms &nbsp;
-              </Link> 
+              >
+                {" "}
+                &nbsp;Terms &nbsp;
+              </Link>
               and
               <Link
                 href="/privacy"

@@ -25,7 +25,6 @@ const CourseIdPage = async (props: Props) => {
   });
 
   if (!course || course.chapters.length === 0) {
-    console.log(props.searchParams.callbackUrl, "callbackUrl");
     return redirect(
       props.searchParams.callbackUrl
         ? props.searchParams.callbackUrl

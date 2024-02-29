@@ -25,7 +25,6 @@ const page = async () => {
     return notFound();
   }
   const imageMetaData = await getLatestFileMetaData(currentUser.id);
-  // console.log(imageMetaData.downloadUrl)
 
   return (
     <div className="p-12">

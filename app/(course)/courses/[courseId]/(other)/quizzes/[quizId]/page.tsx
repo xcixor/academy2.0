@@ -28,7 +28,7 @@ const QuestionPage = ({ params }: Props) => {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin h-8 w-8" />
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="text-zinc-500">Readying...</p>
       </div>
     );
@@ -42,7 +42,6 @@ const QuestionPage = ({ params }: Props) => {
       </div>
     );
   }
-  console.log(quiz.submissions, "*******");
 
   if (quiz.submissions.length > 0) {
     toast.success("You have already taken that quiz");
@@ -50,9 +49,9 @@ const QuestionPage = ({ params }: Props) => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <div className="md:grid grid-cols-2 w-full h-full">
-        <div className="bg-slate-100 flex flex-col justify-center items-center ">
+    <div className="flex h-full flex-col items-center justify-center">
+      <div className="h-full w-full grid-cols-2 md:grid">
+        <div className="flex flex-col items-center justify-center bg-slate-100 ">
           {quiz?.title}
         </div>
         <QuestionList

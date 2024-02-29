@@ -9,13 +9,6 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 const CoursesPage = async () => {
   const user = await getLoggedInUser();
   const userId = user?.id;
-  
-
-  // if (!userId) {
-  //   return redirect("/");
-  // }
-  console.log("🚀 ~ CoursesPage ~ userId:", userId);
-
 
   const courses = await db.course.findMany({
     where: {

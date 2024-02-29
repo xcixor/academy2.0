@@ -8,14 +8,14 @@ const CustomUploader = (props: Props) => {
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-   if (e.target.files) {
-     setFile(e.target.files[0]);
-   }
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
   };
 
-//   const handleUpload = async () => {
-//     // We will fill this out later
-//   };
+  //   const handleUpload = async () => {
+  //     // We will fill this out later
+  //   };
 
   const handleUpload = async () => {
     if (file) {
@@ -30,7 +30,6 @@ const CustomUploader = (props: Props) => {
       });
       const data = await response.json();
       const { url } = data;
-      console.log(contentType, file.name, "*************");
 
       var xhr = new XMLHttpRequest();
       xhr.open("PUT", url, true);
