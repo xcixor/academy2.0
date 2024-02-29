@@ -18,6 +18,8 @@ interface CustomSessionCallbackData {
 type CustomJwtCallbackData = {
   token: JWT;
   user: Session["user"] | null;
+  account: Account | null;
+  profile?: (Profile & { picture?: string }) | undefined;
 };
 
 type CustomNextAuthUser = NextAuthUser & {
@@ -42,6 +44,7 @@ export const options = {
           role: userRole,
           id: profile.sub,
           isVerified: true,
+          registeredUser: false,
         };
       },
       clientId: env.GOOGLE_CLIENT_ID,
@@ -87,10 +90,10 @@ export const options = {
                   data: { role: Role.ADMIN },
                 });
                 const { password, ...userWithoutPassword } = updatedUser;
-                return userWithoutPassword;
+                return { ...userWithoutPassword, registeredUser: true };
               }
               const { password, ...userWithoutPassword } = foundUser;
-              return userWithoutPassword;
+              return { ...userWithoutPassword, registeredUser: true };
             }
           } else {
             return null;
@@ -103,13 +106,20 @@ export const options = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: CustomJwtCallbackData) {
-      if (user) token.isVerified = user.isVerified;
-      if (user) token.role = user.role;
+    async jwt({ token, user, profile, account }: CustomJwtCallbackData) {
+      if (user) {
+        token.isVerified = user.isVerified;
+        token.registeredUser = user.registeredUser;
+        token.role = user.role;
+      }
+      if (profile && account?.provider === "google")
+        token.image = profile?.picture;
       return token;
     },
 
     async session({ session, token }: CustomSessionCallbackData) {
+      session.user.image = token.image;
+      session.user.registeredUser = token.registeredUser;
       if (session?.user) {
         const sessionUser = await db.user.findUnique({
           where: { email: session.user.email!! },
