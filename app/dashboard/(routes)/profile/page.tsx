@@ -9,6 +9,8 @@ import ChangePasswordForm from "@/components/dashboard/profile/ChangePasswordFor
 import { getLoggedInUser } from "@/lib/auth/utils";
 import AvatarForm from "@/components/dashboard/profile/AvatarForm";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
+import BioForm from "@/components/dashboard/profile/BioForm";
+import LinkedUrlForm from "@/components/dashboard/profile/LinkedInUrl";
 
 const page = async () => {
   const user = await getLoggedInUser();
@@ -59,6 +61,22 @@ const page = async () => {
             <LastNameForm
               initialData={{
                 lastName: currentUser.profile?.lastName || "N/A",
+              }}
+              userId={currentUser.id}
+            />
+          </div>
+          <div className="mb-4">
+            <BioForm
+              initialData={{
+                bio: currentUser.profile?.bio || "N/A",
+              }}
+              userId={currentUser.id}
+            />
+          </div>
+          <div className="mb-4">
+            <LinkedUrlForm
+              initialData={{
+                linkedIn: currentUser.profile?.linkedIn || "N/A",
               }}
               userId={currentUser.id}
             />
