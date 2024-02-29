@@ -7,6 +7,8 @@ import { Info, KeyRound, Mail, Settings } from "lucide-react";
 import ChangeEmailForm from "@/components/dashboard/profile/ChangeEmailForm";
 import ChangePasswordForm from "@/components/dashboard/profile/ChangePasswordForm";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import AvatarForm from "@/components/dashboard/profile/AvatarForm";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 const page = async () => {
   const user = await getLoggedInUser();
@@ -22,6 +24,9 @@ const page = async () => {
   if (!currentUser) {
     return notFound();
   }
+  const imageMetaData = await getLatestFileMetaData(currentUser.id);
+  // console.log(imageMetaData.downloadUrl)
+
   return (
     <div className="p-12">
       <h1 className="my-4 flex items-center gap-4 text-2xl font-bold text-pes-red">
@@ -31,6 +36,11 @@ const page = async () => {
       <div className="mb-8 gap-6 md:flex">
         <div className="basis-1/2">
           <div className="mb-4">
+            <AvatarForm
+              userId={currentUser.id}
+              isDeleting={false}
+              gcpData={imageMetaData}
+            />
             <FirstNameForm
               userId={currentUser.id}
               initialData={{
