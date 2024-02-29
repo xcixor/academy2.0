@@ -56,7 +56,7 @@ export const columns: ColumnDef<SessionData>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue("createdAt");
-      console.log(date);
+   
       const formatted = format(date, "yyyy-MM-dd HH:mm:ss");
 
       return <div>{formatted}</div>;

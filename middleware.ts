@@ -17,7 +17,6 @@ export default withAuth(
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
     if (!req.nextauth?.token?.isVerified) {
-      console.log(req.nextauth?.token?.isVerified);
       return NextResponse.rewrite(new URL("/auth/unverified-email", req.url));
     }
   },

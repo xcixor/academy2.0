@@ -38,7 +38,7 @@ function createVideoThumbnails(
     const destination = `${destinationFolder}/${outputPath}`;
     const url = await uploadToGCPCloud(stream, destination);
     const vttfileName = `${destinationFolder}/captions.vtt`;
-    console.log(url)
+
     await generateVTT(startTime, endTime, url, vttfileName);
     resolve(vttfileName);
   });

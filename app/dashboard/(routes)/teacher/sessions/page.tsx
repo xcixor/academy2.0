@@ -25,7 +25,7 @@ const page = async () => {
     const client = await getClient(session.clientId);
     sessionData.push({ ...session, client });
   }
-  console.log(sessionData);
+
   return (
     <div className="p-6">
       <DataTable columns={columns} data={sessionData} />
