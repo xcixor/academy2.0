@@ -5,13 +5,16 @@ import Link from "next/link";
 import React from "react";
 import RequestCoach from "./RequestCoach";
 import { CheckCircle, ExternalLink, Link2, RefreshCcw } from "lucide-react";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
 type Props = {
   coach: User & { profile: Profile };
   myCoaches: ClientCoach[];
 };
 
-const Coach = ({ coach, myCoaches }: Props) => {
+const Coach = async ({ coach, myCoaches }: Props) => {
+  const imageMetaData = await getLatestFileMetaData(coach.id);
+
   const checkIsMyCoach = (id) => {
     return myCoaches.some((coach) => coach.coachId === id && coach.isConfirmed);
   };
@@ -28,7 +31,7 @@ const Coach = ({ coach, myCoaches }: Props) => {
           fill
           className="object-cover"
           alt={coach.profile?.firstName}
-          src={coach?.image || profilePicPlaceholder}
+          src={imageMetaData?.downloadUrl || profilePicPlaceholder}
         />
       </div>
       <div className="flex flex-col pt-2">
@@ -52,6 +55,7 @@ const Coach = ({ coach, myCoaches }: Props) => {
         </p>
         <Link
           href={`/instructor/${coach.id}`}
+          target="_blank"
           className="flex items-center gap-2 text-sm text-pes-blue hover:text-pes-red"
         >
           About
