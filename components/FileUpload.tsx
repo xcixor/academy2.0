@@ -155,7 +155,7 @@ const UploadDropzone = ({
               body: JSON.stringify({
                 fileName: fileToUpload.name,
                 contentType: contentType,
-                blobName: blobName,
+                blobName: customFileName,
                 downloadUrl: downloadUrl,
                 downloadExpiry: downloadExpiry,
                 assetId: assetId,

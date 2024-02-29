@@ -67,7 +67,7 @@ export class FileUploader {
 
         const [url] = await this.storage
           .bucket(this.gsBucketName)
-          .file(this.blobName)
+          .file(this.fileName)
           .getSignedUrl(options);
 
         resolve(url);

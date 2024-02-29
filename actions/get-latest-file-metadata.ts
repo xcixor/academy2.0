@@ -20,6 +20,7 @@ export async function getLatestFileMetaData(assetId: string) {
       assetId: assetId,
     },
   });
+
   if (metaData) {
     const targetDate = metaData.urlExpiryDate; // Replace with your target date
     const urlExpiryDate = getSignedUrlExpiryDate(metaData.downloadUrl);
