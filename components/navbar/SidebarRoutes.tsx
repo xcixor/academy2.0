@@ -12,6 +12,7 @@ import {
   GraduationCap,
   Users,
   Album,
+  FileEditIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -37,6 +38,11 @@ const guestRoutes = [
     icon: Album,
     label: "Sessions",
     href: "/dashboard/sessions",
+  },
+  {
+    icon: FileEditIcon,
+    label: "Document Review",
+    href: "/dashboard/document-review",
   },
   {
     icon: UserCogIcon,

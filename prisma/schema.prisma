@@ -49,8 +49,9 @@ model User {
   forgotPasswordTokenExpiry DateTime?
   verifyToken               String?
   verifyTokenExpiry         DateTime?
-  CoachRequisites           CoachRequisites[]
+  coachRequisites           CoachRequisites[]
   coachSessions             Session[]
+  documentReview            DocumentReview[]
 
   @@map("users")
 }
@@ -336,4 +337,22 @@ model Session {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum DocumentReviewStatus {
+  PENDING
+  APPROVED
+  REVIEWED
+}
+
+model DocumentReview {
+  id      String @id @default(uuid())
+  title   String
+  purpose String
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: SetDefault)
+
+  status  DocumentReviewStatus @default(PENDING)
+  coachId String
 }

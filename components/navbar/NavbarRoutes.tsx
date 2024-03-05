@@ -17,7 +17,6 @@ interface Props {
 
 export default function NavbarRoutes({ user }: Props) {
   const pathname = usePathname();
-  const userId = user?.id;
 
   const isTeacherPage = pathname?.includes("/teacher");
   const isAdminPage = pathname?.includes("/admin");
