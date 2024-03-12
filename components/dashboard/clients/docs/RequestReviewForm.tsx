@@ -28,7 +28,6 @@ type FormProps = {
     coach: string;
     coaches: ComboItem[];
   };
-  userId: string;
 };
 
 const RequestReviewForm = ({ initialData }: FormProps) => {
