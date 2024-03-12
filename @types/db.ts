@@ -5,3 +5,8 @@ export type CourseWithProgressWithCategory = Course & {
   chapters: { id: string }[];
   progress?: number | null;
 };
+
+export type ComboItem = {
+  label: string;
+  value: string;
+};
