@@ -353,6 +353,15 @@ model DocumentReview {
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: SetDefault)
 
-  status  DocumentReviewStatus @default(PENDING)
-  coachId String
+  status    DocumentReviewStatus     @default(PENDING)
+  coachId   String
+  documents DocumentReviewDocument[]
+}
+
+model DocumentReviewDocument {
+  id    String @id @default(uuid())
+  title String
+
+  ownerId String
+  owner   DocumentReview @relation(fields: [ownerId], references: [id], onDelete: SetDefault)
 }
