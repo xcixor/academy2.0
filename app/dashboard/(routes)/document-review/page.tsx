@@ -13,6 +13,7 @@ const page = async () => {
   const documents = await getStudentDocuments(user.id);
   return (
     <div className="gap-4 p-6 ">
+      <h1 className="text-lg font-bold">My Review History</h1>
       <DataTable columns={columns} data={documents} />
     </div>
   );
