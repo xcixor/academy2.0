@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Link href="/dashboard/document-review/create">
+        <Link href="/dashboard/document-review/request">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Request Review
