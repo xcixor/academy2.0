@@ -29,7 +29,6 @@ const page = async (props: Props) => {
           title: "",
           purpose: "",
         }}
-        userId={user.id}
       />
     </div>
   );
