@@ -4,9 +4,10 @@ import { getReview } from "@/actions/get-review";
 import CreateDocumentReviewDocument from "@/components/dashboard/clients/docs/CreateDocumentReviewDocument";
 import DocumentReviewDocumentPreview from "@/components/dashboard/clients/docs/DocumentReviewDocumentPreview";
 import EditReviewForm from "@/components/dashboard/clients/docs/EditReviewDetailsForm";
-import ReviewDocumentForm from "@/components/dashboard/clients/docs/UploadReviewDocumentForm";
 import { getLoggedInUser } from "@/lib/auth/utils";
+import { ArrowLeft, Eye } from "lucide-react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 const page = async ({ params }: { params: { reviewId: string } }) => {
   const user = await getLoggedInUser();
@@ -26,7 +27,17 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
 
   return (
     <div className="p-12">
+      <div className="flex justify-between align-middle">
+        <Link
+          href="/dashboard/document-review"
+          className="flex items-center text-sm transition hover:opacity-75"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Link>
+      </div>
       <h1 className="my-4 text-lg font-bold">Step 2: Upload Documents.</h1>
+
       <EditReviewForm
         initialData={{
           title: review.title,
@@ -38,11 +49,14 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
         reviewingCoach={reviewingCoach[0]}
       />
 
-      {/* <ReviewDocumentForm
+      <CreateDocumentReviewDocument
+        initialData={{
+          title: "",
+        }}
         reviewId={review.id}
         isDeleting={false}
-        attachmentId={review.id}
-      /> */}
+      />
+
       <div>
         {documentReviewDocuments.map((document) => (
           <div key={document.id}>
@@ -54,13 +68,6 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           </div>
         ))}
       </div>
-      <CreateDocumentReviewDocument
-        initialData={{
-          title: "",
-        }}
-        reviewId={review.id}
-        isDeleting={false}
-      />
     </div>
   );
 };
