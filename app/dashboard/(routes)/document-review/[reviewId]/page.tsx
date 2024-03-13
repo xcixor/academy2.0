@@ -4,7 +4,7 @@ import { getReview } from "@/actions/get-review";
 import CreateDocumentReviewDocument from "@/components/dashboard/clients/docs/CreateDocumentReviewDocument";
 import DocumentReviewDocumentPreview from "@/components/dashboard/clients/docs/DocumentReviewDocumentPreview";
 import EditReviewForm from "@/components/dashboard/clients/docs/EditReviewDetailsForm";
-import ReviewDocumentForm from "@/components/dashboard/clients/docs/ReviewDocumentForm";
+import ReviewDocumentForm from "@/components/dashboard/clients/docs/UploadReviewDocumentForm";
 import { getLoggedInUser } from "@/lib/auth/utils";
 import { redirect } from "next/navigation";
 
