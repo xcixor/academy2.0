@@ -109,7 +109,7 @@ export class FileUploader {
   async getGenerationNumber() {
     const [metadata] = await this.storage
       .bucket(this.gsBucketName)
-      .file(this.blobName)
+      .file(this.fileName)
       .getMetadata();
     const generationNumber = metadata.generation;
     return generationNumber;
@@ -123,7 +123,7 @@ export class FileUploader {
 
     const [response] = await this.storage
       .bucket(this.gsBucketName)
-      .file(this.blobName)
+      .file(this.fileName)
       .delete(deleteOptions);
   }
 }

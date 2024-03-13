@@ -25,7 +25,7 @@ const DocumentReviewDocumentPreview = async (props: Props) => {
           )}
           <div className="flex items-center gap-2">
             <Link
-              href={`/dashboard/clients/document-review/docs/${props.assetId}`}
+              href={`/dashboard/document-review/${props.reviewId}/docs/${props.assetId}`}
               className="flex"
             >
               <PenBoxIcon className="h-4 w-4 " />
