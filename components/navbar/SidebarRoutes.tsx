@@ -14,6 +14,7 @@ import {
   Album,
   FileEditIcon,
   File,
+  FileEdit,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -77,6 +78,11 @@ const teacherRoutes = [
     icon: Album,
     label: "Sessions",
     href: "/dashboard/teacher/sessions",
+  },
+  {
+    icon: FileEdit,
+    label: "Document Review",
+    href: "/dashboard/teacher/document-review",
   },
 ];
 
