@@ -7,6 +7,7 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { ArrowLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import ApproveReview from "@/components/dashboard/admin/document-review/ApproveReview";
 
 const page = async ({ params }: { params: { reviewId: string } }) => {
   const user = await getLoggedInUser();
@@ -34,7 +35,10 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Link>
-        <p>Approve</p>
+        <ApproveReview 
+          status={review.status}
+          reviewId={review.id}
+        />
       </div>
       <h1 className="my-4 text-lg font-bold">Step 2: Upload Documents.</h1>
 
