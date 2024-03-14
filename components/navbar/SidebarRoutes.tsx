@@ -13,6 +13,7 @@ import {
   Users,
   Album,
   FileEditIcon,
+  File,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -89,6 +90,11 @@ const adminRoutes = [
     icon: Library,
     label: "Courses",
     href: "/dashboard/admin/courses",
+  },
+  {
+    icon: File,
+    label: "Document Review",
+    href: "/dashboard/admin/document-review",
   },
 ];
 

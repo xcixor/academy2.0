@@ -7,6 +7,7 @@ type Props = {
   assetId: string;
   title: string;
   reviewId: string;
+  isOwnerComponent:boolean
 };
 
 const DocumentReviewDocumentPreview = async (props: Props) => {
@@ -24,13 +25,18 @@ const DocumentReviewDocumentPreview = async (props: Props) => {
             </Link>
           )}
           <div className="flex items-center gap-2">
-            <Link
-              href={`/dashboard/document-review/${props.reviewId}/docs/${props.assetId}`}
-              className="flex"
-            >
-              <PenBoxIcon className="h-4 w-4 " />
-            </Link>
-            <DeleteDocument id={props.assetId} reviewId={props.reviewId} />
+            {props.isOwnerComponent &&
+            (
+              <>
+                <Link
+                  href={`/dashboard/document-review/${props.reviewId}/docs/${props.assetId}`}
+                  className="flex"
+                >
+                  <PenBoxIcon className="h-4 w-4 " />
+                </Link>
+                <DeleteDocument id={props.assetId} reviewId={props.reviewId} />
+              </>
+            )}
           </div>
         </div>
       </div>

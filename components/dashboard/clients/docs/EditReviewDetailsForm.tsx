@@ -31,12 +31,14 @@ type FormProps = {
   };
   reviewId?: string;
   reviewingCoach?: User & { profile: Profile };
+  isOwnerComponent:boolean;
 };
 
 const EditReviewForm = ({
   initialData,
   reviewId,
   reviewingCoach,
+  isOwnerComponent
 }: FormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -97,7 +99,7 @@ const EditReviewForm = ({
 
   return (
     <div className="flex h-full w-full flex-col justify-start rounded-md border bg-pes-light-blue p-4">
-      {reviewId && (
+      {reviewId && isOwnerComponent && (
         <div className="flex items-center justify-between font-medium">
           <h2 className="font-semibold">Review Details</h2>
           <Button onClick={toggleEdit} variant="ghost">
