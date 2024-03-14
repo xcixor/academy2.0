@@ -7,7 +7,7 @@ type Props = {}
 const page = async (props: Props) => {
 
   const reviews = await getDocumentReviews();
-  console.log(reviews)
+
 
   return (
     <div className='p-12'>

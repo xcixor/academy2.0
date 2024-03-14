@@ -51,7 +51,7 @@ export const columns: ColumnDef<
     },
     cell: ({ row }) => {
       const owner = row.getValue("owner") as User & { profile: Profile };
-      console.log(owner, "toy solders")
+    
       return (
         <div>
           {owner.profile.firstName}&nbsp;{owner.profile.lastName}
