@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
+import {  DocumentReview } from "@prisma/client";
 
-export const getReview = async (reviewId: string) => {
+export const getReview = async (reviewId: string):Promise<DocumentReview> => {
   try {
     const review = await db.documentReview.findUnique({
       where: {

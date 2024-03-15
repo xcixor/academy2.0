@@ -31,14 +31,16 @@ type FormProps = {
   };
   reviewId?: string;
   reviewingCoach?: User & { profile: Profile };
-  isOwnerComponent:boolean;
+  isOwnerComponent: boolean;
+  isCoachComponent: boolean;
 };
 
 const EditReviewForm = ({
   initialData,
   reviewId,
   reviewingCoach,
-  isOwnerComponent
+  isOwnerComponent,
+  isCoachComponent,
 }: FormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -178,9 +180,12 @@ const EditReviewForm = ({
             <span className="font-semibold">Purpose:</span>
             {initialData.purpose && <Preview value={initialData.purpose} />}
           </div>
-          <p>
-            <span className="font-semibold">Coach:</span> {reviewingCoach.email}
-          </p>
+          {!isCoachComponent && (
+            <p>
+              <span className="font-semibold">Coach:</span>{" "}
+              {reviewingCoach.email}
+            </p>
+          )}
         </div>
       )}
     </div>

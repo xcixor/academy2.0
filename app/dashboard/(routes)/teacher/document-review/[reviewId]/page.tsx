@@ -7,7 +7,9 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { ArrowLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import ApproveReview from "@/components/dashboard/admin/document-review/ApproveReview";
+import DocumentReviewForm from "@/components/dashboard/teacher/document-review/DocumentReviewForm";
+import { getReviewReviews } from "@/actions/get-review-reviews";
+import PreviousReview from "@/components/dashboard/teacher/document-review/PreviousReview";
 
 const page = async ({ params }: { params: { reviewId: string } }) => {
   const user = await getLoggedInUser();
@@ -25,6 +27,9 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
     params.reviewId,
   );
 
+  const previousReviews = await getReviewReviews(review.id);
+  const hasReviews = previousReviews.length > 1;
+
   return (
     <div className="p-12">
       <div className="flex justify-between align-middle">
@@ -35,12 +40,7 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Link>
-        <ApproveReview 
-          status={review.status}
-          reviewId={review.id}
-        />
       </div>
-      <h1 className="my-4 text-lg font-bold">Step 2: Upload Documents.</h1>
 
       <EditReviewForm
         initialData={{
@@ -52,6 +52,7 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
         reviewId={params.reviewId}
         reviewingCoach={reviewingCoach[0]}
         isOwnerComponent={false}
+        isCoachComponent={true}
       />
 
       <div>
@@ -66,6 +67,25 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           </div>
         ))}
       </div>
+
+      {hasReviews ? (
+        <>
+          <h2 className="font-semibold">Previous Reviews</h2>
+          {previousReviews.map((review) => (
+            <PreviousReview review={review} key={review.id} />
+          ))}
+        </>
+      ) : (
+        <p>You have not submitted any reviews yet.</p>
+      )}
+
+      <DocumentReviewForm
+        documentReviewId={params.reviewId}
+        initialData={{
+          review: "",
+        }}
+        hasReviews={hasReviews}
+      />
     </div>
   );
 };

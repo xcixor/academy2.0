@@ -7,7 +7,7 @@ type Props = {
   assetId: string;
   title: string;
   reviewId: string;
-  isOwnerComponent:boolean
+  isOwnerComponent:boolean;
 };
 
 const DocumentReviewDocumentPreview = async (props: Props) => {
