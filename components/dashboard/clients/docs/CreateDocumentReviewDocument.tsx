@@ -68,7 +68,7 @@ export default function CreateDocumentReviewDocument({
         toast.success("Success");
         toggleEdit();
         router.push(
-          `/dashboard/clients/document-review/${reviewId}/docs/${data.documentId}/`,
+          `/dashboard/document-review/${reviewId}/docs/${data.documentId}/`,
         );
       }
     } catch {

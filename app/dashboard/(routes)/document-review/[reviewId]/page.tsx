@@ -48,6 +48,7 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
         reviewId={params.reviewId}
         reviewingCoach={reviewingCoach[0]}
         isOwnerComponent={true}
+        isCoachComponent={false}
       />
 
       <CreateDocumentReviewDocument
