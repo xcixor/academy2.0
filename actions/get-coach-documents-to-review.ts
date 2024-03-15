@@ -1,9 +1,10 @@
 import { db } from "@/lib/db"
-export const getCoachDocumentsToReview = async (coachId:string) => {
+import { DocumentReviewStatus } from "@prisma/client";
+export const getCoachDocumentsToReview = async (coachId:string, status=null) => {
     try {
         const reviews = await db.documentReview.findMany({
             where:{
-                coachId 
+                coachId, status 
             }, include:{
                 owner:{
                     include: {
