@@ -34,7 +34,7 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
     <div className="p-12">
       <div className="flex justify-between align-middle">
         <Link
-          href="/dashboard/admin/document-review"
+          href="/dashboard/teacher/document-review"
           className="flex items-center text-sm transition hover:opacity-75"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
