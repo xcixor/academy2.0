@@ -356,6 +356,7 @@ model DocumentReview {
   status    DocumentReviewStatus     @default(PENDING)
   coachId   String
   documents DocumentReviewDocument[]
+  reviews CoachReview[]
 }
 
 model DocumentReviewDocument {
@@ -364,4 +365,15 @@ model DocumentReviewDocument {
 
   ownerId String
   owner   DocumentReview @relation(fields: [ownerId], references: [id], onDelete: SetDefault)
+}
+
+model CoachReview {
+    id      String @id @default(uuid())
+
+    review String
+    comment String?
+
+    
+    documentReviewId String
+    documentReview DocumentReview @relation(fields: [documentReviewId], references: [id], onDelete: SetDefault)
 }
