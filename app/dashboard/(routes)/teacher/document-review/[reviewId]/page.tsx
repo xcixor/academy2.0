@@ -10,6 +10,7 @@ import Link from "next/link";
 import DocumentReviewForm from "@/components/dashboard/teacher/document-review/DocumentReviewForm";
 import { getReviewReviews } from "@/actions/get-review-reviews";
 import PreviousReview from "@/components/dashboard/teacher/document-review/PreviousReview";
+import CommentForm from "@/components/dashboard/teacher/document-review/Comment";
 
 const page = async ({ params }: { params: { reviewId: string } }) => {
   const user = await getLoggedInUser();
@@ -85,6 +86,13 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           review: "",
         }}
         hasReviews={hasReviews}
+      />
+      <CommentForm
+        initialData={{
+          comment: "",
+        }}
+        reviewId={review.id}
+        isDeleting={false}
       />
     </div>
   );
