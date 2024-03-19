@@ -8,6 +8,8 @@ import { getLoggedInUser } from "@/lib/auth/utils";
 import { ArrowLeft, Eye } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import PreviousReview from "@/components/dashboard/teacher/document-review/PreviousReview";
+import { getReviewReviews } from "@/actions/get-review-reviews";
 
 const page = async ({ params }: { params: { reviewId: string } }) => {
   const user = await getLoggedInUser();
@@ -24,6 +26,9 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
   const documentReviewDocuments = await getDocumentReviewDocuments(
     params.reviewId,
   );
+
+  const previousReviews = await getReviewReviews(review.id);
+  const hasReviews = previousReviews.length >= 1;
 
   return (
     <div className="p-12">
@@ -71,6 +76,24 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
           </div>
         ))}
       </div>
+
+      {hasReviews ? (
+        <div className="my-4 rounded-md border bg-slate-100 p-4">
+          <h2 className="font-semibold">Previous Reviews</h2>
+          {previousReviews.map((review) => (
+            <div
+              key={review.id}
+              className="my-4 rounded-md border bg-slate-200 p-4"
+            >
+              <PreviousReview review={review} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="my-4 rounded-md border bg-slate-100 p-4">
+          No reviews yet.
+        </p>
+      )}
     </div>
   );
 };
