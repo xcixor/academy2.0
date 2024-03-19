@@ -91,7 +91,7 @@ const CarouselWrapper = () => {
             style={{ objectFit: "cover" }}
           />
           <div className="carousel-text-wrapper absolute bottom-0 h-full w-full text-white">
-            <div className="flex h-full flex-col items-center justify-center">
+            <div className="flex h-full flex-col items-center justify-center-">
               <div className="w-1/2">
                 <h2 className="animate-fadeIn text-4xl font-bold mb-5">
                   {image.title}

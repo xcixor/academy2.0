@@ -29,7 +29,7 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
   );
 
   const previousReviews = await getReviewReviews(review.id);
-  const hasReviews = previousReviews.length > 1;
+  const hasReviews = previousReviews.length >= 1;
 
   return (
     <div className="p-12">
@@ -70,14 +70,21 @@ const page = async ({ params }: { params: { reviewId: string } }) => {
       </div>
 
       {hasReviews ? (
-        <>
+        <div className="my-4 rounded-md border bg-slate-100 p-4">
           <h2 className="font-semibold">Previous Reviews</h2>
           {previousReviews.map((review) => (
-            <PreviousReview review={review} key={review.id} />
+            <div
+              key={review.id}
+              className="my-4 rounded-md border bg-slate-200 p-4"
+            >
+              <PreviousReview review={review} />
+            </div>
           ))}
-        </>
+        </div>
       ) : (
-        <p>You have not submitted any reviews yet.</p>
+        <p className="my-4 rounded-md border bg-slate-100 p-4">
+          You have not submitted any reviews yet.
+        </p>
       )}
 
       <DocumentReviewForm
